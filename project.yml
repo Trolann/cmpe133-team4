@@ -1,13 +1,18 @@
 parameters: {}
 environment: {}
 packages:
-    - name: sample
+    - name: auth
       shared: false
-      environment: {}
+      environment:
+        SUPABASE_URL: "${SUPABASE_URL}"
+        SUPABASE_KEY: "${SUPABASE_KEY}"
+        SUPABASE_SECRET_KEY: "${SUPABASE_SECRET_KEY}"
+        UTILITY_ACCT: "${UTILITY_ACCT}"
+        UTILITY_PASS: "${UTILITY_PASS}"
       parameters: {}
       annotations: {}
       functions:
-        - name: hello
+        - name: supabase_main
           binary: false
           main: ""
           runtime: python:default
