@@ -35,8 +35,7 @@ def sign_in_by_email(email, password):
         exit(1)
     return response
     
-
-if __name__ == "__main__":
+def main():
     supabase: Client = create_client(url, key)
 
     try:
@@ -52,4 +51,7 @@ if __name__ == "__main__":
     print(supabase.table("user_settings").select("*").execute())
 
     supabase.auth.sign_out()
+
+if __name__ == "__main__":
+    main()
 
