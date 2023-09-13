@@ -14,7 +14,7 @@ packages:
       functions:
         - name: supabase_main
           binary: false
-          main: ""
+          main: "main"
           runtime: python:default
           web: true
           webSecure: false
