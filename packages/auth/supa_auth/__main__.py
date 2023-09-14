@@ -48,10 +48,11 @@ def main(args: list = None):
     print(supabase.table("user_settings").select("*").execute())
     #setup_new_user_in_db(session) # TODO: Trying to get this to work as called when signing up
 
-
+    response = supabase.table("user_settings").select("*").execute()
     print(supabase.table("user_settings").select("*").execute())
 
     supabase.auth.sign_out()
+    return response
 
 if __name__ == "__main__":
     main()
