@@ -12,5 +12,5 @@ packages:
       parameters: {}
       annotations: {}
       functions:
-        - name: supabase_main
+        - name: main
           runtime: python:default
