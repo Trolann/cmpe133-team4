@@ -7,11 +7,12 @@ load_dotenv()
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_KEY")
 
+sb_client = None
 
 def new_user_by_email(email, password):
     try:
-        response = supabase.auth.sign_up({"email": email, "password": password})
-        supabase.postgrest.auth(response.session.access_token)
+        response = sb_client.auth.sign_up({"email": email, "password": password})
+        sb_client.postgrest.auth(response.session.access_token)
         setup_new_user_in_db(response)
     except Exception as e:
         if "Password should be at least 10 characters" in str(e):
@@ -26,8 +27,8 @@ def new_user_by_email(email, password):
 
 def sign_in_by_email(email, password):
     try:
-        response = supabase.auth.sign_in_with_password({"email": email, "password": password})
-        supabase.postgrest.auth(response.session.access_token)
+        response = sb_client.auth.sign_in_with_password({"email": email, "password": password})
+        sb_client.postgrest.auth(response.session.access_token)
 
     except Exception as e:
         print(f'todo: handle other errors: {e}')
@@ -35,7 +36,7 @@ def sign_in_by_email(email, password):
         exit(1)
     return response
     
-def main():
+def main(args: list = None):
     supabase: Client = create_client(url, key)
 
     try:
