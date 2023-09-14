@@ -12,5 +12,5 @@ packages:
       parameters: {}
       annotations: {}
       functions:
-        - name: main
+        - name: supa_auth
           runtime: python:default
