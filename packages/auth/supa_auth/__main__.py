@@ -1,9 +1,9 @@
 import os
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 from supabase import create_client, Client
 from supabase_backend import setup_new_user_in_db
 
-load_dotenv()
+# load_dotenv()
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_KEY")
 sb_client: Client = create_client(url, key)
