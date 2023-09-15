@@ -38,7 +38,7 @@ def sign_in_by_email(email, password):
     
 def main(args: list = None):
     supabase: Client = create_client(url, key)
-
+    # asdf
     try:
         session = new_user_by_email(email=os.getenv("UTILITY_ACCT"), password=os.getenv("UTILITY_PASS"))
     except Exception as e:
