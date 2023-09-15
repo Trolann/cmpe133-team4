@@ -3,4 +3,4 @@
 set -e
 
 virtualenv --without-pip virtualenv
-pip install supabase python-doten 
+pip install supabase python-dotenv
