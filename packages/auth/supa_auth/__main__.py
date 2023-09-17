@@ -58,7 +58,7 @@ def main(args: list = None):
     return {"statusCode": 200,
             "body": {
                 'response_type': 'in_channel',
-                'text': str(response)
+                'text': 'blah' + str(response)
                 }
             }
 
