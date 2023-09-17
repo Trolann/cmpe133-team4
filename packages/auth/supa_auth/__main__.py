@@ -1,7 +1,8 @@
 import os
-#from dotenv import load_dotenv
+from dotenv import load_dotenv
 from supabase import create_client, Client
 from supabase_backend import setup_new_user_in_db
+import json
 
 # load_dotenv()
 url: str = os.environ.get("SUPABASE_URL")
@@ -53,7 +54,13 @@ def main(args: list = None):
     print(sb_client.table("user_settings").select("*").execute())
 
     sb_client.auth.sign_out()
-    return response
+    # return a dict of the response
+    return {"statusCode": 200,
+            "body": {
+                'response_type': 'in_channel',
+                'text': str(response)
+                }
+            }
 
 if __name__ == "__main__":
     main()
