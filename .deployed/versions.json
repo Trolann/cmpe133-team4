@@ -1,0 +1,14 @@
+[
+  {
+    "apihost": "https://faas-sfo3-7872a1dd.doserverless.co",
+    "namespace": "fn-08e1e9bb-6c28-49dc-ab50-0b63fac3c390",
+    "packageVersions": {},
+    "actionVersions": {
+      "auth/supa_auth": {
+        "digest": "b1ae0237a76ddd10205c439c541a6aca9565d582971935fc6a3310d228d16947",
+        "version": "0.0.28"
+      }
+    },
+    "webHashes": {}
+  }
+]
