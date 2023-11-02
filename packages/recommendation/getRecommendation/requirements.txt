@@ -1,0 +1,4 @@
+python-dotenv^=1.0.0  # Required for local testing
+supabase^=1.0.4  # Required for Supabase
+supafunc^=0.2.3  # Required for Supabase
+# Add additional optional dependencies here
