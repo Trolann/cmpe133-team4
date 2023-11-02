@@ -8,7 +8,6 @@ load_dotenv()  # .env file for local use, not remote testing (production env's i
 # Get environment variables. Ensure they are added in DO console.
 url: str = environ.get("SUPABASE_URL")
 
-
 first_settings = {
     "nickname": None,
     "language": "en",
@@ -37,20 +36,21 @@ def main(args: list = None) -> dict:
     sb_client: Client = create_client(url, key)
 
     try:
-        response = sb_client.auth.sign_up({"email": email, "password": password})
+        response = sb_client.auth.sign_up({"email": args["email"], "password": args["password"]})
         sb_client.postgrest.auth(response.session.access_token)
         setup_new_user_in_db(response.user.id)
     except Exception as e:
         if "Password should be at least 10 characters" in str(e):
-            print('todo: error handling for small password')
+            text = "Password should be at least 10 characters"
         else:
-            print(f'todo: handle other errors: {e}')
-            # Raise custom error
-            raise "Error creating user"
-        response = None # TODO: handle error here and above
+            text = "Unable to create user."
+        return {"statusCode": 400,  # Status code not required by DO, required by convention.
+                "body": {  # Required key
+                    'text': text
+                }
+            }
     return {"statusCode": 200,  # Status code not required by DO, required by convention.
             "body": {  # Required key
-                'text': 'response'
                 }
             }
 
