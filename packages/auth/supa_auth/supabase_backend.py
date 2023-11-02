@@ -4,10 +4,10 @@ from supabase import create_client, Client
 
 first_settings = {
     "nickname": None,
-    "dark_mode": True,
     "language": "en",
     "vegan": False,
-    "friends": []
+    "active_sessions": [],
+    "restaurants": []
 }
 
 load_dotenv()

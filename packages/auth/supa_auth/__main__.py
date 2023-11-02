@@ -42,7 +42,7 @@ def new_user_by_email(email, password):
     try:
         response = sb_client.auth.sign_up({"email": email, "password": password})
         sb_client.postgrest.auth(response.session.access_token)
-        setup_new_user_in_db(response)
+        setup_new_user_in_db(response.user.id)
     except Exception as e:
         if "Password should be at least 10 characters" in str(e):
             print('todo: error handling for small password')
