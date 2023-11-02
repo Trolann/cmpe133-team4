@@ -52,8 +52,9 @@ def main(args: list = None) -> dict:
                     'text': 'Unable to sign in.'
                     }
                 }
-    user = response[0][1]
-    session = response[1][1]
+    user, session = response
+    user = user[1]
+    session = session[1]
 
     auth_object = BingeAuthResponse(
         id=user.id,
