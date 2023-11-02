@@ -33,6 +33,7 @@ class BingeAuthResponse:
         d = asdict(self)
         d['last_sign_in_at'] = self.last_sign_in_at.isoformat()
         d['updated_at'] = self.updated_at.isoformat()
+        d['status_code'] = 200
         return d
 
 # must have main() function with args: list = None.
@@ -69,11 +70,7 @@ def main(args: list = None) -> dict:
         data=sb_client.table("user_settings").select("*").execute().model_dump()["data"][0]
     )
 
-    return {"statusCode": 200,  # Status code not required by DO, required by convention.
-            "body": {  # Required key
-                auth_object.to_dict()
-                }
-            }
+    return auth_object.to_dict()
 
 # If doing any local testing, include this.
 if __name__ == "__main__":
