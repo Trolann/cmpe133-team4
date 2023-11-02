@@ -8,15 +8,14 @@ load_dotenv()  # .env file for local use, not remote testing (production env's i
 # Get environment variables. Ensure they are added in DO console.
 url: str = environ.get("SUPABASE_URL")
 
-first_settings = {
-    "nickname": None,
-    "language": "en",
-    "vegan": False,
-    "active_sessions": [],
-    "restaurants": []
-}
-
 def setup_new_user_in_db(user_id):
+    first_settings = {
+        "nickname": None,
+        "language": "en",
+        "vegan": False,
+        "active_sessions": [],
+        "restaurants": []
+    }
     secret_key: str = environ.get("SUPABASE_SECRET_KEY")
     supa_backend: Client = create_client(url, secret_key)
     try:
