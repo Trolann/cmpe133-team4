@@ -14,3 +14,5 @@ packages:
       functions:
         - name: supa_auth
           runtime: python:default
+        - name: newUser
+          runtime: python:default
