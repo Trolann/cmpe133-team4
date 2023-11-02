@@ -16,3 +16,5 @@ packages:
           runtime: python:default
         - name: newUser
           runtime: python:default
+        - name: signIn
+          runtime: python:default
