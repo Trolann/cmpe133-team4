@@ -7,14 +7,22 @@ packages:
       shared: false
       environment:
         SUPABASE_SECRET_KEY: "${SUPABASE_SECRET_KEY}"
-        UTILITY_ACCT: "${UTILITY_ACCT}"
-        UTILITY_PASS: "${UTILITY_PASS}"
       parameters: {}
       annotations: {}
       functions:
-        - name: supa_auth
-          runtime: python:default
         - name: newUser
           runtime: python:default
         - name: signIn
+          runtime: python:default
+    - name: user
+      shared: false
+      environment: {}
+      parameters: {}
+      annotations: {}
+      functions:
+        - name: getSettings
+          runtime: python:default
+        - name: updateSettings
+          runtime: python:default
+        - name: uploadPicture
           runtime: python:default
