@@ -17,6 +17,7 @@ def main(args: list = None) -> dict:
     user_id = args['user_id']
     access_token = args['access_token']
     sb_client = supabase.create_client(url, key)
+    sb_client.postgrest.auth(access_token)
 
 
     return {"statusCode": 200,  # Status code not required by DO, required by convention.
