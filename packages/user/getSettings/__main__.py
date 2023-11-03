@@ -19,12 +19,18 @@ def main(args: list = None) -> dict:
     sb_client = supabase.create_client(url, key)
     sb_client.postgrest.auth(access_token)
 
-
-    return {"statusCode": 200,  # Status code not required by DO, required by convention.
-            "body": {  # Required key
-                'text': sb_client.table("user_settings").select("*").eq("id", user_id).execute().model_dump()["data"][0]
+    try:
+        return {"statusCode": 200,  # Status code not required by DO, required by convention.
+                "body": {  # Required key
+                    'text': sb_client.table("user_settings").select("*").eq("id", user_id).execute().model_dump()["data"][0]
+                    }
                 }
-            }
+    except Exception as e:
+        return {"statusCode": 401,  # Status code not required by DO, required by convention.
+                "body": {  # Required key
+                    'text': 'Unable to get user settings.'
+                    }
+                }
 
 # If doing any local testing, include this.
 if __name__ == "__main__":
