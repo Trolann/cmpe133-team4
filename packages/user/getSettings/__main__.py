@@ -16,12 +16,12 @@ def main(args: list = None) -> dict:
 
     user_id = args['user_id']
     access_token = args['access_token']
-    sb_client = supabase.create_client(url, access_token)
+    sb_client = supabase.create_client(url, key)
 
 
     return {"statusCode": 200,  # Status code not required by DO, required by convention.
             "body": {  # Required key
-                'text': sb_client.table("user_settings").select("*").execute().model_dump()["data"][0]
+                'text': sb_client.table("user_settings").select("*").eq("id", user_id).execute().model_dump()["data"][0]
                 }
             }
 
