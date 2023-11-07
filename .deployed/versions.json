@@ -4,9 +4,45 @@
     "namespace": "fn-08e1e9bb-6c28-49dc-ab50-0b63fac3c390",
     "packageVersions": {},
     "actionVersions": {
-      "auth/supa_auth": {
-        "digest": "b1ae0237a76ddd10205c439c541a6aca9565d582971935fc6a3310d228d16947",
-        "version": "0.0.28"
+      "auth/newUser": {
+        "digest": "ffd4b955ecc6871d2605577198bc5310ab04a7a8268f02261ca91047919da13c",
+        "version": "0.0.11"
+      },
+      "auth/signIn": {
+        "digest": "2ede27c896659699fa4765ce9f0990fd184e0da1649cf248948247176ec48cfb",
+        "version": "0.0.9"
+      },
+      "recommendation/getRecommendation": {
+        "digest": "1ae6cce08ed184451626c7fb0f4c3efe4d790626593c714d5d4b0002d6972fa9",
+        "version": "0.0.5"
+      },
+      "recommendation/likeRestaurant": {
+        "digest": "9d0e50b51c10a152bce85d316562f5b5ba7ab2e3a64e7136c480237334ff6629",
+        "version": "0.0.5"
+      },
+      "session/getSessionInfo": {
+        "digest": "e8bad1a3203983dde76b9b4d809ff4f932eb7e85fb1697012ca6fbe5ee842419",
+        "version": "0.0.5"
+      },
+      "session/joinSession": {
+        "digest": "5fe42d04feb78508cf4426bf9db52060386432c58896f6db3c1b7afcd6c24f3d",
+        "version": "0.0.5"
+      },
+      "session/newSession": {
+        "digest": "ead97c698935d37b2d12603003ec6a913702a7a0c9762148e019d083c9307dba",
+        "version": "0.0.5"
+      },
+      "user/getSettings": {
+        "digest": "96e42a1577e4b2ac28acff1f05880e65ca0c9dcfa1782aa9cb2720ae5fea5709",
+        "version": "0.0.5"
+      },
+      "user/updateSettings": {
+        "digest": "6b0c0c3b879163b8ce9bb844a5864b7b5954e2fda777dea7b8c41e6385f57a7f",
+        "version": "0.0.5"
+      },
+      "user/uploadPicture": {
+        "digest": "e73672ea4cbd70b16c78db65e27880c764d16a6b8d5a189779ed7b3e3fe8be10",
+        "version": "0.0.5"
       }
     },
     "webHashes": {}

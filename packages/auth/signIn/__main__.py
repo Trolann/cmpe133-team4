@@ -27,6 +27,7 @@ class BingeAuthResponse:
     expires_at_epoch = field(type=float, validator=validators.instance_of(float), converter=float)
     # data dict field with a validator to make sure it's json serializable
     data = field(type=dict, validator=is_json_serializable, converter=dict)
+    response_code = field(type=int, validator=validators.instance_of(int), default=200)
 
 
     def to_dict(self):
