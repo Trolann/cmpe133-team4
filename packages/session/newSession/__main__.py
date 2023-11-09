@@ -13,7 +13,6 @@ def is_int_or_float(inst, attribute, value):
         raise TypeError(f"The {attribute.name} attribute must be int or float")
 
 def enter_restaraunt_list(result, url):
-
     secret_key: str = environ.get("SUPABASE_SECRET_KEY")
     supa_backend: Client = create_client(url, secret_key)
     try:
@@ -29,12 +28,12 @@ class RestaurantResult:
     formatted_address = field(type=str, validator=validators.instance_of(str))
     icon = field(type=str, validator=validators.instance_of(str))
     opening_hours = field(type=dict, validator=validators.instance_of(dict))
-    #price_level = field(type=int, validator=validators.instance_of(int))
     rating = field(validator=is_int_or_float)
     photos = field(type=list, validator=validators.instance_of(list))
 
     def to_dict(self):
         d = asdict(self)
+        return d
 
 
 # must have main() function with args: list = None.
@@ -73,17 +72,17 @@ def main(args: list = None) -> dict:
     results = []
     for result in google_result:
         #print(f'{result["price_level"]} level')
-        results.append(RestaurantResult(
+        new_result = RestaurantResult(
             name=result["name"],
             formatted_address=result["formatted_address"],
             icon=result["icon"],
             opening_hours=result["opening_hours"],
-            #price_level=result["price_level"],
             rating=result["rating"],
-            photos=result["photos"],
-        ))
+            photos=result["photos"]
+        )
+        results.append(new_result.to_dict())
 
-    enter_restaraunt_list(result, url)
+    enter_restaraunt_list(results, url)
 
     return {"statusCode": 200,  # Status code not required by DO, required by convention.
             "body": {  # Required key
