@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from os import environ
 import supabase
 import googlemaps
+from supabase import create_client, Client
 from attrs import define, field, asdict, validators
 
 load_dotenv()  # .env file for local use, not remote testing (production env's in DO console)
@@ -10,6 +11,17 @@ load_dotenv()  # .env file for local use, not remote testing (production env's i
 def is_int_or_float(inst, attribute, value):
     if not isinstance(value, (int, float)):
         raise TypeError(f"The {attribute.name} attribute must be int or float")
+
+def enter_restaraunt_list(result, url):
+
+    secret_key: str = environ.get("SUPABASE_SECRET_KEY")
+    supa_backend: Client = create_client(url, secret_key)
+    try:
+        return supa_backend.table("sessions").insert({
+            "data": result}).execute()
+    except Exception as e:
+        print(f'todo: handle other errors: {e}')
+        return
 
 @define
 class RestaurantResult:
@@ -50,6 +62,8 @@ def main(args: list = None) -> dict:
             open_now=True,
         )["results"]
 
+    print(google_result)
+
     current_restaurants = sb_client.table("user_settings").select("*").eq("id", user_id).execute().model_dump()["data"][0]["settings"]["restaurants"]
 
     print(current_restaurants)
@@ -66,9 +80,7 @@ def main(args: list = None) -> dict:
             photos=result["photos"],
         ))
 
-    for result in results:
-        print(result)
-
+    enter_restaraunt_list(result, url)
 
     return {"statusCode": 200,  # Status code not required by DO, required by convention.
             "body": {  # Required key
