@@ -34,6 +34,14 @@
       "eas": {
         "projectId": "7e01f9b7-e48e-41d0-99c5-2f91413a7c6b"
       }
-    }
+      
+    },
+    "fonts": [
+      {
+        "name": "Lato",
+        "asset": "./assets/fonts/Lato.ttf"
+      }
+    ]
+    
   }
 }

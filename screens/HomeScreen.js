@@ -1,31 +1,40 @@
-import { StyleSheet, Text, View, Image, Button } from 'react-native'
-import React from 'react'
+import React from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Font } from 'expo-font';
+import { useFonts } from 'expo-font';
 
 const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('C:/Users/minston/expoprojects/FirebaseAuth/BingeLogo.png')}
+        source={require('C:/Users/minston/expoprojects/FirebaseAuth/UpdatedBingeLogo.png')}
         style={styles.logo}
         resizeMode="contain"
       />
+      <Text style={styles.title}>Swipe. Share. Savor.</Text>
+
       <View style={styles.buttonContainer}>
-        <Button
-          title="Login"
+        <TouchableOpacity
+          style={styles.button}
           onPress={() => navigation.navigate('Login')}
+        >
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
           style={styles.button}
-        />
-        <Button
-          title="Create Account"
           onPress={() => navigation.navigate('CreateAccount')}
-          style={styles.button}
-        />
+        >
+          <Text style={styles.buttonText}>Create Account</Text>
+        </TouchableOpacity>
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
+  latoText: {
+    fontFamily: 'Lato', // Use the font family name that matches your file name
+  },
   container: {
     flex: 1,
     backgroundColor: 'white',
@@ -37,14 +46,31 @@ const styles = StyleSheet.create({
     height: 85,
     marginBottom: 20,
   },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginVertical: 20,
+    color: '#FF0000',
+  },
   buttonContainer: {
-    width: '80%', // Adjust the width as needed
+    width: '80%',
+    flexDirection: 'row', // Make buttons horizontal
     justifyContent: 'space-between',
     marginTop: 20,
   },
   button: {
-    width: '100%', // Make buttons take up the entire width
+    width: '45%', // Adjust button width as needed
+    height: 60, // Increase button height
+    backgroundColor: '#FF0000',
+    borderRadius: 30, // Make buttons oval
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-})
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+});
 
-export default HomeScreen
+export default HomeScreen;

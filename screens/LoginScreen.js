@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, KeyboardAvoidingView } from 'react-native';
-import { GoogleSignin, GoogleSigninButton, statusCodes } from 'expo-google-app-auth';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView } from 'react-native';
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -33,7 +32,12 @@ const LoginScreen = () => {
           onChangeText={(text) => setPassword(text)}
           secureTextEntry
         />
-        <Button title="Log In" onPress={handleSignIn} color="#fe2a4d" />
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleSignIn}
+        >
+          <Text style={styles.buttonText}>Let's Binge!</Text>
+        </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );
@@ -44,12 +48,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: 'white', // Change the background color to match the home page
   },
   card: {
     width: '80%',
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -58,16 +62,28 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28, // Increase font size to match the home page
     fontWeight: 'bold',
     marginBottom: 20,
+    color: '#FF0000', // Match the theme color
   },
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
-    padding: 12,
-    marginBottom: 16,
-    borderRadius: 6,
+    padding: 16, // Increase padding
+    marginBottom: 20, // Increase margin
+    borderRadius: 10, // Make input fields more rounded
+  },
+  button: {
+    backgroundColor: '#FF0000',
+    padding: 16,
+    borderRadius: 30, // Make the button oval
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 
