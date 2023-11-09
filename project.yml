@@ -3,6 +3,7 @@ environment:
   SUPABASE_URL: "${SUPABASE_URL}"
   SUPABASE_KEY: "${SUPABASE_KEY}"
   SUPABASE_SECRET_KEY: "${SUPABASE_SECRET_KEY}"
+  GOOGLE_MAPS_KEY: "${GOOGLE_MAPS_KEY}"
 packages:
     - name: auth
       shared: false
