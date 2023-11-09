@@ -1,0 +1,29 @@
+parameters: {}
+environment:
+  SUPABASE_URL: "${SUPABASE_URL}"
+  SUPABASE_KEY: "${SUPABASE_KEY}"
+  SUPABASE_SECRET_KEY: "${SUPABASE_SECRET_KEY}"
+  GOOGLE_MAPS_KEY: "${GOOGLE_MAPS_KEY}"
+packages:
+    - name: auth
+      shared: false
+      environment: {}
+      parameters: {}
+      annotations: {}
+      functions:
+        - name: newUser
+          runtime: python:default
+        - name: signIn
+          runtime: python:default
+    - name: user
+      shared: false
+      environment: {}
+      parameters: {}
+      annotations: {}
+      functions:
+        - name: getSettings
+          runtime: python:default
+        - name: updateSettings
+          runtime: python:default
+        - name: uploadPicture
+          runtime: python:default

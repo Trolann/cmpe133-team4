@@ -1,0 +1,50 @@
+[
+  {
+    "apihost": "https://faas-sfo3-7872a1dd.doserverless.co",
+    "namespace": "fn-08e1e9bb-6c28-49dc-ab50-0b63fac3c390",
+    "packageVersions": {},
+    "actionVersions": {
+      "auth/newUser": {
+        "digest": "6556cebfa64344117b16acd580c30befa730ec595cc82cdf28b5eb3924a71cfe",
+        "version": "0.0.12"
+      },
+      "auth/signIn": {
+        "digest": "d0580b093389ff7a9cc81039ce9c3fff18fab8273ab972fef6a329c1fabe5b40",
+        "version": "0.0.10"
+      },
+      "recommendation/getRecommendation": {
+        "digest": "94ef56275bb32a0895fb7ae2b6b2be68106c10b74970e2930d67869e76963df2",
+        "version": "0.0.6"
+      },
+      "recommendation/likeRestaurant": {
+        "digest": "54921f81d8461ebed1f9b585485e2ab81bf7ac84d2b5097d0ac77598a435f89e",
+        "version": "0.0.6"
+      },
+      "session/getSessionInfo": {
+        "digest": "d784b7949afa307e0bdd8d385cd3bf7f3da9d9fb960fcd063900b2d97f72b76c",
+        "version": "0.0.6"
+      },
+      "session/joinSession": {
+        "digest": "ecc8193829ffb9394a28faa89f82b38a9b41a2e872cc10ce395cefab424297fe",
+        "version": "0.0.6"
+      },
+      "session/newSession": {
+        "digest": "9bbab220187af026128e079d92db0656f99e66e2999fb29a81bba344e4b30c4a",
+        "version": "0.0.6"
+      },
+      "user/getSettings": {
+        "digest": "03ae1c5edcfa070234331ff4c10e84d21241ef2a26f03d8e8c74e4b88ad7b088",
+        "version": "0.0.6"
+      },
+      "user/updateSettings": {
+        "digest": "208d0fdbfc1f0320563d31e275cd48bbc117859df3dd1e526ab06b6d3d4b0269",
+        "version": "0.0.6"
+      },
+      "user/uploadPicture": {
+        "digest": "948819deba4c558a6e2307f8b6da7f6d871d489b0f43d94bde21ed0c20d55e62",
+        "version": "0.0.6"
+      }
+    },
+    "webHashes": {}
+  }
+]
