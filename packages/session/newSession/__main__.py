@@ -33,6 +33,9 @@ class RestaurantResult:
     rating = field(validator=is_int_or_float)
     photos = field(type=list, validator=validators.instance_of(list))
 
+    def to_dict(self):
+        d = asdict(self)
+
 
 # must have main() function with args: list = None.
 # Must return a JSON serializable object (dict, json.dumps, etc)
