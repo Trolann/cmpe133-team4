@@ -1,25 +1,71 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import Swiper from 'react-native-swiper';
+import React, { useState, useEffect, useRef } from 'react';
+import { StyleSheet, View, Alert, ImageBackground } from 'react-native';
+import TopBar from '../components/TopBar';
+import Swipes from '../components/Swipes';
+import BottomBar from '../components/BottomBar';
+import axios from 'axios';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const MainSwiping = () => {
-  const cards = ['Card 1', 'Card 2', 'Card 3', 'Card 4', 'Card 5'];
+  const [users, setUsers] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const swipesRef = useRef(null);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const { data } = await axios.get('https://randomuser.me/api/?gender=male&results=50');
+        setUsers(data.results);
+      } catch (error) {
+        console.log(error);
+        Alert.alert('Error getting users', '', [{ text: 'Retry', onPress: fetchUsers }]);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  const handleLike = () => {
+    console.log('like');
+    nextUser();
+  };
+
+  const handlePass = () => {
+    console.log('pass');
+    nextUser();
+  };
+
+  const nextUser = () => {
+    const nextIndex = currentIndex === users.length - 1 ? 0 : currentIndex + 1;
+    setCurrentIndex(nextIndex);
+  };
+
+  const handleLikePress = () => {
+    swipesRef.current.openLeft();
+  };
+
+  const handlePassPress = () => {
+    swipesRef.current.openRight();
+  };
 
   return (
-    <View style={styles.container}>
-      <Swiper
-        cards={cards}
-        renderCard={(card) => (
-          <View style={styles.card}>
-            <Text>{card}</Text>
-          </View>
-        )}
-        onSwiped={(cardIndex) => console.log('Swiped card index:', cardIndex)}
-        onSwipedAll={() => console.log('All cards have been swiped')}
-        cardIndex={0}
-        backgroundColor="transparent"
-      />
-    </View>
+    <GestureHandlerRootView style={styles.container}>
+      <View style={styles.container}>
+        <TopBar />
+        <View style={styles.swipes}>
+          {users.length > 0 && (
+            <Swipes
+              ref={swipesRef}
+              currentIndex={currentIndex}
+              users={users}
+              handleLike={handleLike}
+              handlePass={handlePass}
+            />
+          )}
+        </View>
+        <BottomBar handleLikePress={handleLikePress} handlePassPress={handlePassPress} />
+      </View>
+    </GestureHandlerRootView>
   );
 };
 
@@ -27,14 +73,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-  },
-  card: {
-    flex: 1,
+    padding: 16,
     borderRadius: 10,
-    borderWidth: 2,
-    borderColor: '#E8E8E8',
-    justifyContent: 'center',
-    backgroundColor: 'white',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 4,
+  },
+  swipes: {
+    flex: 1,
+    padding: 10,
+    paddingTop: 8,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
   },
 });
 

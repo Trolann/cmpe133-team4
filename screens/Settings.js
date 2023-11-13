@@ -1,9 +1,19 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Switch, TouchableOpacity } from 'react-native';
+import Slider from '@react-native-community/slider';
 
+<Slider
+  style={{width: 200, height: 40}}
+  minimumValue={0}
+  maximumValue={1}
+  minimumTrackTintColor="#FFFFFF"
+  maximumTrackTintColor="#000000"
+/>
 const SettingsScreen = ({ navigation }) => {
   const [notifications, setNotifications] = useState(true);
   const [location, setLocationPreference] = useState(false);
+
+  const [distance, setDistance] = useState(50); // Initial distance value
 
   const toggleNotifications = () => {
     setNotifications(!notifications);
@@ -15,6 +25,7 @@ const SettingsScreen = ({ navigation }) => {
 
   const saveSettings = () => {
     // Implement your logic to save the settings here
+    navigation.navigate('Swiping')
   };
 
   return (
@@ -67,6 +78,18 @@ const SettingsScreen = ({ navigation }) => {
           <Text style={styles.settingText}>Enable Location</Text>
           <Switch value={location} onValueChange={toggleLocation} />
         </TouchableOpacity>
+
+        <View style={styles.setting}>
+          <Text style={styles.settingText}>Distance: {distance} miles</Text>
+          <Slider
+            style={{ width: '60%' }}
+            minimumValue={0}
+            maximumValue={100}
+            step={1}
+            value={distance}
+            onValueChange={(value) => setDistance(value)}
+          />
+        </View>
       </View>
 
       <TouchableOpacity
@@ -116,10 +139,10 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     backgroundColor: '#FF0000',
-    padding: 15,
+    padding: 5,
     borderRadius: 8,
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 5,
   },
   saveButtonText: {
     color: 'white',

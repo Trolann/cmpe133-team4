@@ -12,6 +12,7 @@ const LoginScreen = ({ navigation }) => {
       console.log('Email:', email);
       console.log('Password:', password);
       // You can add code to authenticate the user here
+      navigation.navigate('Swiping');
     }
   };
 
