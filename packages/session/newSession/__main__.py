@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from os import environ
 import supabase
 import googlemaps
+from supabase import create_client, Client
 from attrs import define, field, asdict, validators
 
 load_dotenv()  # .env file for local use, not remote testing (production env's in DO console)
@@ -11,15 +12,28 @@ def is_int_or_float(inst, attribute, value):
     if not isinstance(value, (int, float)):
         raise TypeError(f"The {attribute.name} attribute must be int or float")
 
+def enter_restaraunt_list(result, url):
+    secret_key: str = environ.get("SUPABASE_SECRET_KEY")
+    supa_backend: Client = create_client(url, secret_key)
+    try:
+        return supa_backend.table("sessions").insert({
+            "data": result}).execute()
+    except Exception as e:
+        print(f'todo: handle other errors: {e}')
+        return
+
 @define
 class RestaurantResult:
     name = field(type=str, validator=validators.instance_of(str))
     formatted_address = field(type=str, validator=validators.instance_of(str))
     icon = field(type=str, validator=validators.instance_of(str))
     opening_hours = field(type=dict, validator=validators.instance_of(dict))
-    #price_level = field(type=int, validator=validators.instance_of(int))
     rating = field(validator=is_int_or_float)
     photos = field(type=list, validator=validators.instance_of(list))
+
+    def to_dict(self):
+        d = asdict(self)
+        return d
 
 
 # must have main() function with args: list = None.
@@ -50,25 +64,25 @@ def main(args: list = None) -> dict:
             open_now=True,
         )["results"]
 
+    print(google_result)
+
     current_restaurants = sb_client.table("user_settings").select("*").eq("id", user_id).execute().model_dump()["data"][0]["settings"]["restaurants"]
 
     print(current_restaurants)
     results = []
     for result in google_result:
         #print(f'{result["price_level"]} level')
-        results.append(RestaurantResult(
+        new_result = RestaurantResult(
             name=result["name"],
             formatted_address=result["formatted_address"],
             icon=result["icon"],
             opening_hours=result["opening_hours"],
-            #price_level=result["price_level"],
             rating=result["rating"],
-            photos=result["photos"],
-        ))
+            photos=result["photos"]
+        )
+        results.append(new_result.to_dict())
 
-    for result in results:
-        print(result)
-
+    enter_restaraunt_list(results, url)
 
     return {"statusCode": 200,  # Status code not required by DO, required by convention.
             "body": {  # Required key
