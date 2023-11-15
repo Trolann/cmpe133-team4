@@ -28,6 +28,7 @@ class RestaurantResult:
     formatted_address = field(type=str, validator=validators.instance_of(str))
     icon = field(type=str, validator=validators.instance_of(str))
     opening_hours = field(type=dict, validator=validators.instance_of(dict))
+    #price_level = field(type=int, validator=validators.instance_of(int))
     rating = field(validator=is_int_or_float)
     photos = field(type=list, validator=validators.instance_of(list))
 
