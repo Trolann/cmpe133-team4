@@ -7,20 +7,23 @@ load_dotenv()  # .env file for local use, not remote testing (production env's i
 def get_results(session_id, url):
     secret_key: str = environ.get("SUPABASE_SECRET_KEY")
     supa_backend: Client = create_client(url, secret_key)
-
     try:
-        return supa_backend.table("sessions").select("*").eq("id", session_id).execute().model_dump()["data"][0]
+        session_data = supa_backend.table("sessions").select("*").eq("id", session_id).execute().model_dump()["data"][0]
+        session_data["data"] = sorted(session_data["data"], key=lambda x: x['rating'], reverse=True)
+        return session_data
     except Exception as e:
         print(f'todo: handle other errors: {e}')
         return
     
 
-def get_user(user_id, url):
-    secret_key: str = environ.get("SUPABASE_SECRET_KEY")
-    supa_backend: Client = create_client(url, secret_key)
+def get_user(user_id, url, access_token):
+    url: str = environ.get("SUPABASE_URL")
+    key: str = environ.get("SUPABASE_KEY")
+    sb_client = create_client(url, key)
+    sb_client.postgrest.auth(access_token)
 
     try:
-        return supa_backend.table("user_settings").select("*").eq("id", user_id).execute().model_dump()["data"][0]["settings"]["restaurants"]
+        return sb_client.table("user_settings").select("*").eq("id", user_id).execute().model_dump()["data"][0]["settings"]["restaurants"]
     except Exception as e:
         print(f'todo: handle other errors: {e}')
         return
@@ -38,23 +41,12 @@ def main(args: list = None) -> dict:
     access_token = args['access_token']
     session_id = args['session_id']
 
-    results = get_results(session_id, url)
-    user_results = get_user(user_id, url)
+    session_data = get_results(session_id, url)
+    user_results = get_user(user_id, url, access_token)
 
-    available = list()
+    session_data["data"].sort(key=lambda x: user_results.get(x["name"], float('inf')))
 
-    for result in user_results:
-        if result in results:
-            available.append(result)
-
-    ranked_list = list()
-
-    while ranked_list:
-        max_obj = max(ranked_list, key=lambda x: x.value)
-
-
-
-
+    print(session_data["data"])
 
     return {"statusCode": 200,  # Status code not required by DO, required by convention.
             "body": {  # Required key
@@ -66,5 +58,12 @@ def main(args: list = None) -> dict:
 
 # If doing any local testing, include this.
 if __name__ == "__main__":
-    main()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--user_id", help="User ID", required=True)
+    parser.add_argument("--access_token", help="Access Token", required=True)
+    parsed_args = parser.parse_args()
+    args = vars(parsed_args)
+    args["session_id"] = 11
+    main(args)
 
