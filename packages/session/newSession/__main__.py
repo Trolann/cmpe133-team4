@@ -85,7 +85,7 @@ def main(args: list = None) -> dict:
 
     final_results_dict = {"restaurants": results}
     final_results_dict["session_id"] = ''
-    final_results_dict["timer"] = ''
+    final_results_dict["timer"] = 0
 
     enter_restaraunt_list(final_results_dict, url)
 
