@@ -70,8 +70,11 @@ def main(args: list = None) -> dict:
         token_type=session.token_type,
         data=sb_client.table("user_settings").select("*").execute().model_dump()["data"][0]
     )
-
-    return auth_object.to_dict()
+    return {"statusCode": 200,  # Status code not required by DO, required by convention.
+            "body": {  # Required key
+                'text': auth_object.to_dict()
+                }
+            }
 
 # If doing any local testing, include this.
 if __name__ == "__main__":

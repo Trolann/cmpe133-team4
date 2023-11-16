@@ -5,44 +5,44 @@
     "packageVersions": {},
     "actionVersions": {
       "auth/newUser": {
-        "digest": "679a20eed1f3101d218d72efbce9d6eff22cea25e55c10eb7303702701860f5e",
-        "version": "0.0.15"
+        "digest": "ed91a7a68bfc75174098d45dc39a710e91667953ed5bad9c9d48d2987c4759b3",
+        "version": "0.0.17"
       },
       "auth/signIn": {
-        "digest": "cc2315e7fc2e59ddc33ffd6072474e07d2a7d111184af8831016bbc7a882a9dc",
-        "version": "0.0.13"
+        "digest": "97830662a0b93310242669d9785968972ad926386d8b21c960b3b8b43b0e6818",
+        "version": "0.0.15"
       },
       "recommendation/getRecommendation": {
-        "digest": "0a3886b60a4caf8d34c38eaaf0d5666611452372b238f7727b4da68515d5bcb5",
-        "version": "0.0.9"
+        "digest": "3707fab5cf390f3a23e31c4bde758171cda6ab625c2cfef9642f91d82820ce19",
+        "version": "0.0.11"
       },
       "recommendation/likeRestaurant": {
-        "digest": "6944a4fa8b8b9fd539d9fd4f51010bd97740b7b622a897c25972fe4095081ece",
-        "version": "0.0.9"
+        "digest": "1873c50d4c75b228d0e12f5b4fdb1ce737954cf4c8e66b8f32c77e8bf27e7e8f",
+        "version": "0.0.11"
       },
       "session/getSessionInfo": {
-        "digest": "c4d22ad39706526ca312fc7be9ed615103f481f7d43fbb4334543671f296f10e",
-        "version": "0.0.9"
+        "digest": "83d5e2bc60cbb678e7c4adfc55e2d919c561c36181b14d1f8769fd1af11b589c",
+        "version": "0.0.11"
       },
       "session/joinSession": {
-        "digest": "568eec98e9ddbdeb4c46fa6a9c704549df1e71beee183c744118594195dfc363",
-        "version": "0.0.9"
+        "digest": "da35cbd547ed94e1fb1d4c1fe9382fa3a97de7346ee07b7e902da6ead62a2941",
+        "version": "0.0.11"
       },
       "session/newSession": {
-        "digest": "97cd02fcdbe728402909196687685d95291f950f97902220e7c5094a21cfc300",
-        "version": "0.0.9"
+        "digest": "56f377cac80f2ab2350e081248bf16b887dfcc79ae9c8a7a59eb8e6451deb7d2",
+        "version": "0.0.11"
       },
       "user/getSettings": {
-        "digest": "1037b15cae585ce53811bb7da988b626887a2cffc9e28b890962960dde086572",
-        "version": "0.0.9"
+        "digest": "487b0d5d8a586682fd422912a3e317551a949a30f59ae467279e079a3a197397",
+        "version": "0.0.11"
       },
       "user/updateSettings": {
-        "digest": "0e4d1edb8b03db0477ecacf4ff82991a6db285c9d30adbe42d9e23ec0f3f7568",
-        "version": "0.0.9"
+        "digest": "d2b58dc22eeb50a2a7f307e9b6b38e2a3bd4448dbf34561c3fc69a00c17aa2ad",
+        "version": "0.0.11"
       },
       "user/uploadPicture": {
-        "digest": "f5d17a711a2a80a16263307a272813ed39d84af19483b3d66e10785101dccb63",
-        "version": "0.0.9"
+        "digest": "1dfeea01d93dce469be42e5a5c91d0134aafa3f422bf61a86e656b97319c8791",
+        "version": "0.0.11"
       }
     },
     "webHashes": {}
