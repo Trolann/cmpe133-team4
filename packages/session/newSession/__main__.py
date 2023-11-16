@@ -83,7 +83,11 @@ def main(args: list = None) -> dict:
         )
         results.append(new_result.to_dict())
 
-    enter_restaraunt_list(results, url)
+    final_results_dict = {"restaurants": results}
+    final_results_dict["session_id"] = ''
+    final_results_dict["timer"] = ''
+
+    enter_restaraunt_list(final_results_dict, url)
 
     return {"statusCode": 200,  # Status code not required by DO, required by convention.
             "body": {  # Required key

@@ -9,7 +9,7 @@ def get_results(session_id, url):
     supa_backend: Client = create_client(url, secret_key)
     try:
         session_data = supa_backend.table("sessions").select("*").eq("id", session_id).execute().model_dump()["data"][0]
-        session_data["data"] = sorted(session_data["data"], key=lambda x: x['rating'], reverse=True)
+        session_data["data"]["restaurants"] = sorted(session_data["data"]["restaurants"], key=lambda x: x['rating'], reverse=True)
         return session_data
     except Exception as e:
         print(f'todo: handle other errors: {e}')
@@ -44,14 +44,12 @@ def main(args: list = None) -> dict:
     session_data = get_results(session_id, url)
     user_results = get_user(user_id, url, access_token)
 
-    session_data["data"].sort(key=lambda x: user_results.get(x["name"], float('inf')))
+    session_data["data"]["restaurants"].sort(key=lambda x: user_results.get(x["name"], float('inf')))
 
     print(session_data["data"])
 
     return {"statusCode": 200,  # Status code not required by DO, required by convention.
-            "body": {  # Required key
-                'text': 'response'
-                }
+            "body": session_data["data"]
 
                  # Return Dictionary of 2 keys: List of Sorted Rest., + Timer (Float)
             }
@@ -64,6 +62,6 @@ if __name__ == "__main__":
     parser.add_argument("--access_token", help="Access Token", required=True)
     parsed_args = parser.parse_args()
     args = vars(parsed_args)
-    args["session_id"] = 11
+    args["session_id"] = 13
     main(args)
 
