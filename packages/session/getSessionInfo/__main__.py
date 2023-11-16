@@ -47,8 +47,9 @@ def main(args: list = None) -> dict:
     session_data["data"]["restaurants"].sort(key=lambda x: user_results.get(x["name"], float('inf')))
 
     return {"statusCode": 200,  # Status code not required by DO, required by convention.
-            "body": session_data["data"]
-
+            "body": {
+                'text': session_data["data"]
+                }
                  # Return Dictionary of 2 keys: List of Sorted Rest., + Timer (Float)
             }
 
