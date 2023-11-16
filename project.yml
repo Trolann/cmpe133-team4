@@ -27,3 +27,23 @@ packages:
           runtime: python:default
         - name: uploadPicture
           runtime: python:default
+    - name: session
+      shared: false
+      environment: {}
+      parameters: {}
+      annotations: {}
+      functions:
+        - name: getSessionInfo
+          runtime: python:default
+        - name: joinSession
+          runtime: python:default
+        - name: newSession
+          runtime: python:default
+    - name: recommendation
+      shared: false
+      environment: {}
+      parameters: {}
+      annotations: {}
+      functions:
+        - name: likeRestaurant
+          runtime: python:default
