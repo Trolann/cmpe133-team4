@@ -46,8 +46,6 @@ def main(args: list = None) -> dict:
 
     session_data["data"]["restaurants"].sort(key=lambda x: user_results.get(x["name"], float('inf')))
 
-    print(session_data["data"])
-
     return {"statusCode": 200,  # Status code not required by DO, required by convention.
             "body": session_data["data"]
 
