@@ -5,14 +5,14 @@ import supabase
 from time import time
 load_dotenv()  # .env file for local use, not remote testing (production env's in DO console)
 
-def update_db(user_id, new_settings):
+def update_db(session_id, new_session_data):
     url: str = environ.get("SUPABASE_URL")
     secret_key: str = environ.get("SUPABASE_SECRET_KEY")
     supa_backend: supabase.Client = supabase.create_client(url, secret_key)
     try:
-        return (supa_backend.table("user_settings")
-                .update({"settings": new_settings})
-                .eq("id", user_id).execute())
+        return (supa_backend.table("sessions")
+                .update({"data": new_session_data})
+                .eq("id", session_id).execute())
     except Exception as e:
         print(f'todo: handle other errors: {e}')
         return
@@ -33,14 +33,14 @@ def main(args: list = None) -> dict:
     secret_key: str = environ.get("SUPABASE_SECRET_KEY")
     supa_backend: supabase.Client = supabase.create_client(url, secret_key)
     current_session_info = supa_backend.table("sessions").select("*").eq("id", session_id).execute().model_dump()["data"][0]
-    #if not float(current_session_info["timer"]) > 0:
-    #    #current epoch time
-    #    current_session_info["timer"] = time()
+    if not float(current_session_info["timer"]) > 0:
+        #current epoch time
+        current_session_info["timer"] = time()
 
     print(current_session_info["data"]["timer"])
     try:
         # Update the database with the new settings
-        update_db(user_id, current_session_info["settings"])
+        update_db(session_id, current_session_info["data"])
         return {"statusCode": 200,  # Status code not required by DO, required by convention.
                 "body": {  # Required key
                     'text': 'User settings updated.'
