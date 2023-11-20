@@ -55,6 +55,8 @@ def main(args: list = None) -> dict:
         if "Password should be at least 10 characters" or "User already registered" in str(e):
             if "User already registered" in str(e):
                 code = 401
+            else:
+                code = 411
             text = str(e)
         else:
             text = "Unable to create user."
