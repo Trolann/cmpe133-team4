@@ -45,7 +45,7 @@ def main(args: list = None) -> dict:
         return {"statusCode": 200,  # Status code not required by DO, required by convention.
                 "body": {  # Required key
                     'text': 'User settings updated.'
-                }
+                    }
                 }
     except Exception as e:
                 return {"statusCode": 401,  # Status code not required by DO, required by convention.

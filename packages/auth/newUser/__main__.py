@@ -9,6 +9,12 @@ load_dotenv()  # .env file for local use, not remote testing (production env's i
 url: str = environ.get("SUPABASE_URL")
 
 def setup_new_user_in_db(user_id):
+    """
+    This function sets up the user's settings in the database using the SECRET_KEY.
+
+    :param user_id:
+    :return:
+    """
     first_settings = {
         "nickname": None,
         "language": "en",
@@ -31,6 +37,11 @@ def setup_new_user_in_db(user_id):
 # Must return a JSON serializable object (dict, json.dumps, etc)
 # Additional functions can be added/imported, but must be called from main()
 def main(args: list = None) -> dict:
+    """
+
+    :param args:
+    :return:
+    """
     key: str = environ.get("SUPABASE_KEY")
     sb_client: Client = create_client(url, key)
 
@@ -39,8 +50,9 @@ def main(args: list = None) -> dict:
         sb_client.postgrest.auth(response.session.access_token)
         setup_new_user_in_db(response.user.id)
     except Exception as e:
-        if "Password should be at least 10 characters" in str(e):
-            text = "Password should be at least 10 characters"
+        #print(e)
+        if "Password should be at least 10 characters" or "User already registered" in str(e):
+            text = str(e)
         else:
             text = "Unable to create user."
         return {"statusCode": 400,  # Status code not required by DO, required by convention.
@@ -55,5 +67,13 @@ def main(args: list = None) -> dict:
 
 # If doing any local testing, include this.
 if __name__ == "__main__":
-    main()
-
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--user_id", help="User ID", required=True)
+    parser.add_argument("--access_token", help="Access Token", required=True)
+    parsed_args = parser.parse_args()
+    args = vars(parsed_args)
+    args['email'] = "trevor@binge.app"
+    args['password'] = "password123456789"
+    # pass args to main()
+    print(main(args))
