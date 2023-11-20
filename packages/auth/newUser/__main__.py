@@ -50,12 +50,15 @@ def main(args: list = None) -> dict:
         sb_client.postgrest.auth(response.session.access_token)
         setup_new_user_in_db(response.user.id)
     except Exception as e:
+        code = 400
         #print(e)
         if "Password should be at least 10 characters" or "User already registered" in str(e):
+            if "User already registered" in str(e):
+                code = 401
             text = str(e)
         else:
             text = "Unable to create user."
-        return {"statusCode": 400,  # Status code not required by DO, required by convention.
+        return {"statusCode": code,  # Status code not required by DO, required by convention.
                 "body": {  # Required key
                     'text': text
                 }
