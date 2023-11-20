@@ -8,6 +8,10 @@ import HomeScreen from './screens/HomeScreen';
 import CreateAccountScreen from './screens/CreateAccountScreen';
 import Settings from './screens/Settings';
 import MainSwiping from './screens/MainSwiping';
+import ChooseLocation from './screens/ChooseLocation';
+import ChangeProfilePicture from './screens/ChangeProfilePicture';
+import ChangeName from './screens/ChangeName';
+import ChangePassword from './screens/ChangePassword';
 import TopBar from './components/TopBar';
 
 const Stack = createNativeStackNavigator();
@@ -22,6 +26,10 @@ export default function App() {
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Settings" component={Settings} />
           <Stack.Screen name="Swiping" component={MainSwiping} />
+          <Stack.Screen name="ChooseLocation" component={ChooseLocation} />
+          <Stack.Screen name="ChangeProfilePicture" component={ChangeProfilePicture} />
+          <Stack.Screen name="ChangeName" component={ChangeName} />
+          <Stack.Screen name="ChangePassword" component={ChangePassword} />
         </Stack.Navigator>
       </NavigationContainer>
     

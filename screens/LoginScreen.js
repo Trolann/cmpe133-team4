@@ -1,18 +1,29 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { signIn } from '../services/api';
+//"email": "newemail@binge.app",
+//"password": "ExtraLongPassword"
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSignIn = () => {
-    // Implement your sign-in logic here
+  const handleSignIn = async() => {
+    try {
+      const result = await signIn(email, password);
+      console.log('Login successful', result);
+      navigation.navigate('Swiping');
+    } catch (error) {
+      console.error('Login failed', error.message);
+      // handling errors
+    }
+    
     if (email && password) {
-      // Perform authentication
+      
       console.log('Email:', email);
       console.log('Password:', password);
-      // You can add code to authenticate the user here
-      navigation.navigate('Swiping');
+      
+      
     }
   };
 

@@ -1,4 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
+import ChooseLocation from './screens/ChooseLocation';
+
 
 const Stack = createStackNavigator();
 
@@ -11,7 +13,10 @@ const Navigation = () => {
       <Stack.Screen name="Settings" component={Settings} />
       <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
       <Stack.Screen name="Swiping" component={MainSwiping} />
-      
+      <Stack.Screen name="ChooseLocation" component={ChooseLocation} />
+      <Stack.Screen name="ChooseProfilePicture" component={ChooseProfilePicture} />
+      <Stack.Screen name="ChangeName" component={ChangeName} />
+      <Stack.Screen name="ChangePassword" component={ChangePassword} />
     </Stack.Navigator>
   );
 }

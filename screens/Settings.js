@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Switch, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
 
+
 <Slider
   style={{width: 200, height: 40}}
   minimumValue={0}
@@ -21,11 +22,17 @@ const SettingsScreen = ({ navigation }) => {
 
   const toggleLocation = () => {
     setLocationPreference(!location);
+    
+    if (!location) {
+      // If location is toggled to true, navigate to the ChooseLocation screen
+      navigation.navigate('ChooseLocation', { distance: distance });
+    }
   };
 
   const saveSettings = () => {
     // Implement your logic to save the settings here
     navigation.navigate('Swiping')
+    setDistance(distance);
   };
 
   return (
