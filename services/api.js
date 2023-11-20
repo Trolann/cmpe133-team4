@@ -25,7 +25,7 @@ export const signIn = async (email, password) => {
 
 export const createAccount = async (email, password) => {
     try {
-      const response = await api.post('/auth/signUp', {
+      const response = await api.post('/auth/newUser', {
         email,
         password,
       });

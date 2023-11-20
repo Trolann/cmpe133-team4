@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { createAccount } from '../services/api';
-import api from '../services/api';
 
 const CreateAccountScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -10,21 +9,20 @@ const CreateAccountScreen = ({ navigation }) => {
 
   const handleCreateAccount = async () => {
     if (email && password && password === confirmPassword) {
-      // Implement your account creation logic here
-      try {
-        const { user, error } = await createAccount(email, password);
-        navigation.navigate('Swiping');
+      if (password.length < 10) {
+        // Password is too short, show an alert to the user
+        Alert.alert('Password Error', 'Password must be at least 10 characters long');
+        return;
       }
-      catch (error) {
+
+      try {
+        const result = await createAccount(email, password);
+        console.log('Login successful', result);
+        navigation.navigate('Swiping');
+      } catch (error) {
         console.error('Login failed', error.message);
         // handling errors
       }
-      console.log('Account created:');
-      console.log('Email:', email);
-      console.log('Password:', password);
-
-      // Navigate to another screen, e.g., HomeScreen
-      
     } else {
       // Handle invalid input or password mismatch
       console.log('Invalid input or password mismatch');
