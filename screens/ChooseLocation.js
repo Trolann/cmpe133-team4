@@ -54,7 +54,7 @@ const ChooseLocationScreen = ({ navigation, route }) => {
   const handleSaveLocation = () => {
     console.log('Selected Location:', selectedLocation);
     // Implement logic to save the selectedLocation
-    navigation.navigate('Settings');
+    navigation.navigate('Sessions');
   };
 
   const mapRef = React.createRef();

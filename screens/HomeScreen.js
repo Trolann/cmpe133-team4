@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Font } from 'expo-font';
 import { useFonts } from 'expo-font';
-
+import { Montserrat } from '@expo-google-fonts/montserrat'; // Import Montserrat font
 const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   title: {
+    fontFamily: Montserrat,
     fontSize: 28,
     fontWeight: 'bold',
     marginVertical: 20,

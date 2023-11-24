@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import ChooseLocation from './screens/ChooseLocation';
+
 
 
 const Stack = createStackNavigator();
@@ -17,6 +17,7 @@ const Navigation = () => {
       <Stack.Screen name="ChooseProfilePicture" component={ChooseProfilePicture} />
       <Stack.Screen name="ChangeName" component={ChangeName} />
       <Stack.Screen name="ChangePassword" component={ChangePassword} />
+      <Stack.Screen name="Sessions" component={Sessions} />
     </Stack.Navigator>
   );
 }

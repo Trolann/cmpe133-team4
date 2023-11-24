@@ -1,31 +1,24 @@
-import React, { useState } from 'react';
-import { View, Image, StyleSheet, TouchableOpacity, Modal, Text, FlatList } from 'react-native';
+import React from 'react';
+import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { useFonts, Montserrat_400Regular, FontAwesome5_Regular } from '@expo-google-fonts/montserrat';
 
 const TopBar = () => {
   const navigation = useNavigation();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedSession, setSelectedSession] = useState(null);
-
-  const sessions = [
-    { id: 'solo', name: 'Solo Session' },
-    { id: 'group', name: 'Group Session' },
-    // Add more sessions as needed
-  ];
 
   const handleSettingsPress = () => {
     navigation.navigate('Settings');
   };
 
-  const handleSessionSelect = (session) => {
-    setSelectedSession(session);
-    setModalVisible(!modalVisible);
+  const handleUserIconPress = () => {
+    // Navigate to the "Sessions" screen when the user icon is pressed
+    navigation.navigate('Sessions');
   };
-
+  
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => setModalVisible(true)}>
+      <TouchableOpacity onPress={handleUserIconPress}>
         <FontAwesome5 name="users" size={23} color="black" />
       </TouchableOpacity>
 
@@ -38,27 +31,6 @@ const TopBar = () => {
       <TouchableOpacity onPress={handleSettingsPress}>
         <MaterialIcons name="settings" size={23} color="black" />
       </TouchableOpacity>
-
-      <Modal
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalContainer}>
-          <FlatList
-            data={sessions}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={styles.sessionItem}
-                onPress={() => handleSessionSelect(item)}
-              >
-                <Text style={styles.sessionText}>{item.name}</Text>
-              </TouchableOpacity>
-            )}
-          />
-        </View>
-      </Modal>
     </View>
   );
 };
@@ -82,29 +54,6 @@ const styles = StyleSheet.create({
   logo: {
     width: 220,
     height: 52,
-  },
-  modalContainer: {
-    position: 'absolute',
-    top: 120, // Adjust the top value as needed
-    left: 60, // Adjust the left value as needed
-    backgroundColor: 'white',
-    maxHeight: 200, // Adjust the max height as needed
-    borderWidth: 1,
-    borderColor: '#ccc',
-  },
-  sessionItem: {
-    padding: 5,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
-  sessionText: {
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
-  textShadow: {
-    textShadowColor: 'rgba(0, 0, 0, 0.80)',
-    textShadowOffset: { width: -1, height: 1 },
-    textShadowRadius: 10,
   },
 });
 

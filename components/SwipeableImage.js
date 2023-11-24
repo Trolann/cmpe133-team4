@@ -1,24 +1,34 @@
 import React from 'react'
 import { View, Image, StyleSheet, Text } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
+import { useFonts, Montserrat_400Regular } from '@expo-google-fonts/montserrat';
 
 export default function SwipeableImage({ user, willLike, willPass }) {
+  let [fontsLoaded] = useFonts({
+    Montserrat_400Regular,
+  });
+
+  if (!fontsLoaded) {
+    return null; // You might want to render a loading indicator here
+  }
   return (
     <View>
       <Image source={{ uri: user.picture.large }} style={styles.photo} />
       {willLike && (
         <View style={styles.likeBox}>
-          <Text style={{ ...styles.textPrimary, color: '#64EDCC' }}>LIKE</Text>
+          <Text style={{ ...styles.textPrimary, color: '#64EDCC', fontFamily: 'Montserrat_400Regular' }}>LIKE</Text>
         </View>
       )}
       {willPass && (
         <View style={styles.passBox}>
-          <Text style={{ ...styles.textPrimary, color: '#F06795' }}>NOPE</Text>
+          <Text style={{ ...styles.textPrimary, color: '#F06795', fontFamily: 'Montserrat_400Regular' }}>NOPE</Text>
         </View>
       )}
       <View style={styles.textContainer}>
         <View style={styles.textRow}>
-          <Text style={[styles.textPrimary, styles.textShadow]}>{user.name.first}</Text>
+        <Text style={[styles.textPrimary, styles.textShadow, { fontFamily: 'Montserrat_400Regular' }]}>
+            {user.name.first}
+        </Text>
           <Text style={[styles.textSecondary, styles.textShadow]}>{user.dob.age}</Text>
         </View>
         <View style={styles.textRow}>
