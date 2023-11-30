@@ -22,9 +22,10 @@ const SessionPage = ({ navigation }) => {
     try {
       var access_token = AccessToken;
       
-      const  session  = await newSession(access_token, lat, long, filter_distance);
+      const session = await newSession(access_token, lat, long, filter_distance);
+      console.log(session);
       if (session) {
-        navigation.navigate('MainSwiping', { AccessToken: AccessToken })
+        navigation.navigate('Swiping', { AccessToken: AccessToken })
       }
     }
     catch (error) {

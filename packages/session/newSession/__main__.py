@@ -91,7 +91,7 @@ def main(args: list = None) -> dict:
 
     return {"statusCode": 200,  # Status code not required by DO, required by convention.
             "body": {  # Required key
-                'text': 'response'
+                'text': 'Session started!'
                 }
             }
 
