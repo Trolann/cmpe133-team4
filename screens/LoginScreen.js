@@ -12,7 +12,7 @@ const LoginScreen = ({ navigation }) => {
     try {
       const result = await signIn(email, password);
       console.log('Login successful', result);
-      navigation.navigate('Swiping', {AccessToken: result.access_token, result});
+      navigation.navigate('Sessions', {AccessToken: result.access_token});
     } catch (error) {
       console.error('Login failed', error.message);
       // handling errors
