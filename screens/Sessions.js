@@ -95,12 +95,6 @@ const SessionPage = ({ navigation }) => {
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionHeader}>Create Session</Text>
 
-          {/* Session Name Input */}
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Session Name</Text>
-            <TextInput style={styles.input} placeholder="Enter session name" />
-          </View>
-
           {/* Select Location Button */}
           <TouchableOpacity
             style={styles.selectLocationButton}
@@ -108,17 +102,6 @@ const SessionPage = ({ navigation }) => {
           >
             <Text style={styles.buttonText}>Select Location</Text>
           </TouchableOpacity>
-
-          {/* Invite Friends Input */}
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Invite Friends</Text>
-            <View style={styles.inviteFriendsContainer}>
-              <TextInput style={styles.inviteInput} placeholder="Enter friend's Binge tag" />
-              <TouchableOpacity style={styles.addButton}>
-                <Text style={styles.buttonText}>Add</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
 
           {/* Create Session Button */}
           <TouchableOpacity style={styles.createButton} onPress={handleCreateNewSession}>
