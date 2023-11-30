@@ -3,26 +3,35 @@ import { View, Text, TouchableOpacity, TextInput, ScrollView, StyleSheet, FlatLi
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useRoute } from '@react-navigation/native';
+import { newSession } from '../services/api';
 
 const SessionPage = ({ navigation }) => {
 
   const route = useRoute();
-  const { AccessToken, Location } = route.params;
+  const { AccessToken, Location, user_id } = route.params;
   var lat = -48.876667;
   var long = -123.393333
+  var filter_distance = 10000;
 
   if(Location){
     lat = Location.latitude;
     long = Location.longitude;
   }
 
-  const handleCreateNewSession = () => {
+  const handleCreateNewSession = async() => {
     // Implement logic to createNewSession
-    var access_token = AccessToken;
-    var filter_distance = 10000;
-    const { session } = axios.post(access_token, lat, long, filter_distance);
-    if (session) {
-      navigation.navigate('MainSwiping', { AccessToken: AccessToken })
+    try {
+      var access_token = AccessToken;
+      
+      const session = await newSession(user_id, access_token, lat, long, filter_distance);
+      console.log(session);
+      if (session) {
+        navigation.navigate('Swiping', { AccessToken: AccessToken })
+      }
+    }
+    catch (error) {
+      console.error('Create new session failed', error.message);
+      // handling errors
     }
   }
   // Navigate to the desired screen after creating a new session
@@ -123,7 +132,7 @@ const SessionPage = ({ navigation }) => {
 
           {/* Search Bar */}
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Search</Text>
+            
             <TextInput style={styles.input} placeholder="Search sessions" />
           </View>
 
