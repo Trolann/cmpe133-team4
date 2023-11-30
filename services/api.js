@@ -36,5 +36,20 @@ export const createAccount = async (email, password) => {
     }
   };
 
+  export const newSession = async (access_token, lat, long, filter_distance ) => {
+    try{
+      const response = await api.post('/session/newSession', {
+        access_token,
+        lat,
+        long,
+        filter_distance
+      });
+      return response.data;
+    } catch (error){
+      console.error('Failed to create new session', error);
+      throw error;
+    }
+  };
+
 
 export default api;

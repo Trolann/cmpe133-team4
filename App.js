@@ -31,7 +31,7 @@ export default function App() {
           <Stack.Screen name="ChangeProfilePicture" component={ChangeProfilePicture} />
           <Stack.Screen name="ChangeName" component={ChangeName} />
           <Stack.Screen name="ChangePassword" component={ChangePassword} />
-          <Stack.Screen name="Sessions" component={Sessions} />
+          <Stack.Screen name="Sessions/:AccessToken" component={Sessions} />
         </Stack.Navigator>
       </NavigationContainer>
     

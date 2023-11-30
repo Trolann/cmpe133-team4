@@ -1,11 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useParams } from 'react';
 import { View, Text, TouchableOpacity, TextInput, ScrollView, StyleSheet, FlatList } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { useRoute } from '@react-navigation/native';
+
+const route = useRoute();
+const {AccessToken, Location} = route.params;
+const lat = Location.latitude;
+const long = Location.longitude;
+
 
 const SessionPage = ({ navigation }) => {
   const handleCreateNewSession = () => {
     // Implement logic to createNewSession
+    var access_token = AccessToken;
+    var filter_distance = 10000;
+    const {session} = axios.post(access_token, lat, long, filter_distance );
+    if(session){
+      navigation.navigate('MainSwiping', { AccessToken: AccessToken})}
+    }
     // Navigate to the desired screen after creating a new session
   };
 
@@ -89,23 +102,23 @@ const SessionPage = ({ navigation }) => {
           {/* Select Location Button */}
           <TouchableOpacity
             style={styles.selectLocationButton}
-            onPress={() => navigation.navigate('ChooseLocation', { sessionId: 5 })}
+            onPress={() => navigation.navigate('ChooseLocation', { AccessToken: AccessToken, radius: 5})} // sessionId?
           >
             <Text style={styles.buttonText}>Select Location</Text>
           </TouchableOpacity>
 
-          {/* Invite Friends Input */}
+          {/* Invite Friends Input */} 
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Invite Friends</Text>
             <View style={styles.inviteFriendsContainer}>
-              <TextInput style={styles.inviteInput} placeholder="Enter friend's Binge tag" />
+              <TextInput style={styles.inviteInput} placeholder="Enter friend's Binge tag" /> 
               <TouchableOpacity style={styles.addButton}>
-                <Text style={styles.buttonText}>Add</Text>
+                <Text style={styles.buttonText}>Add</Text> 
               </TouchableOpacity>
             </View>
           </View>
 
-          {/* Create Session Button */}
+          {/* Create Session Button */} 
           <TouchableOpacity style={styles.createButton} onPress={handleCreateNewSession}>
             <Text style={styles.buttonText}>Create Session</Text>
           </TouchableOpacity>
@@ -174,7 +187,6 @@ const SessionPage = ({ navigation }) => {
       </ScrollView>
     </GestureHandlerRootView>
   );
-};
 
 const styles = StyleSheet.create({
   container: {

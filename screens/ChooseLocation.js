@@ -4,9 +4,10 @@ import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 
 const ChooseLocationScreen = ({ navigation, route }) => {
+  const {AccessToken, radius} = route.params;
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
-  const [circleRadius, setCircleRadius] = useState(null);
+  const circleRadius = radius;
 
   useEffect(() => {
     
@@ -54,7 +55,7 @@ const ChooseLocationScreen = ({ navigation, route }) => {
   const handleSaveLocation = () => {
     console.log('Selected Location:', selectedLocation);
     // Implement logic to save the selectedLocation
-    navigation.navigate('Sessions');
+    navigation.navigate('Sessions', {AccessToken: AccessToken, Location: selectedLocation});
   };
 
   const mapRef = React.createRef();
