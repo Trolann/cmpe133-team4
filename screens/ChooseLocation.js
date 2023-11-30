@@ -4,13 +4,13 @@ import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 
 const ChooseLocationScreen = ({ navigation, route }) => {
-  const {AccessToken, radius} = route.params;
+  const { AccessToken, radius } = route.params;
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
   const circleRadius = 10000; // Dummy value  change later
 
   useEffect(() => {
-    
+
     // Fetch the user's current location when the component mounts
     getCurrentLocation();
   }, []);
@@ -55,7 +55,7 @@ const ChooseLocationScreen = ({ navigation, route }) => {
   const handleSaveLocation = () => {
     console.log('Selected Location:', selectedLocation);
     // Implement logic to save the selectedLocation
-    navigation.navigate('Sessions', {AccessToken: AccessToken, Location: selectedLocation});
+    navigation.navigate('Sessions', { AccessToken: AccessToken, Location: selectedLocation });
   };
 
   const mapRef = React.createRef();
@@ -82,17 +82,8 @@ const ChooseLocationScreen = ({ navigation, route }) => {
 
         {selectedLocation && (
           <React.Fragment>
-          <Marker coordinate={selectedLocation} title="Selected Location" />
-          {circleRadius && (
-            <Circle
-              center={selectedLocation}
-              radius= {circleRadius}
-              fillColor="rgba(255, 0, 0, 0.3)"
-              strokeColor="rgba(255, 0, 0, 0.5)"
-              strokeWidth={300}
-            />
-          )}
-        </React.Fragment>
+            <Marker coordinate={selectedLocation} title="Selected Location" />
+          </React.Fragment>
         )}
       </MapView>
 
