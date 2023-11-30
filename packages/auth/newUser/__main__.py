@@ -20,7 +20,8 @@ def setup_new_user_in_db(user_id):
         "language": "en",
         "vegan": False,
         "active_sessions": [],
-        "restaurants": {}
+        "restaurants": {},
+        "filter_distance": 10000
     }
     secret_key: str = environ.get("SUPABASE_SECRET_KEY")
     supa_backend: Client = create_client(url, secret_key)

@@ -25,7 +25,7 @@ def main(args: list = None) -> dict:
     url: str = environ.get("SUPABASE_URL")
     key: str = environ.get("SUPABASE_KEY")
     print(args)
-    user_id = args['user_id']
+    #user_id = args['user_id']
     access_token = args['access_token']
     session_id = args['session_id']
     sb_client = supabase.create_client(url, key)
