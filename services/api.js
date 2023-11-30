@@ -36,9 +36,10 @@ export const createAccount = async (email, password) => {
   }
 };
 
-export const newSession = async (access_token, lat, long, filter_distance) => {
+export const newSession = async (user_id, access_token, lat, long, filter_distance) => {
   try {
     const response = await api.post('/session/newSession', {
+      user_id,
       access_token,
       lat,
       long,

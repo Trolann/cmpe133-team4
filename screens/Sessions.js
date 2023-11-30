@@ -8,10 +8,11 @@ import { newSession } from '../services/api';
 const SessionPage = ({ navigation }) => {
 
   const route = useRoute();
-  const { AccessToken, Location } = route.params;
+  const { AccessToken, Location, user_id } = route.params;
   var lat = -48.876667;
   var long = -123.393333
   var filter_distance = 10000;
+
   if(Location){
     lat = Location.latitude;
     long = Location.longitude;
@@ -22,7 +23,7 @@ const SessionPage = ({ navigation }) => {
     try {
       var access_token = AccessToken;
       
-      const session = await newSession(access_token, lat, long, filter_distance);
+      const session = await newSession(user_id, access_token, lat, long, filter_distance);
       console.log(session);
       if (session) {
         navigation.navigate('Swiping', { AccessToken: AccessToken })
