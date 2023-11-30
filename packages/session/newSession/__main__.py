@@ -46,7 +46,7 @@ def main(args: list = None) -> dict:
     key: str = environ.get("SUPABASE_KEY")
     gmaps_key: str = environ.get("GOOGLE_MAPS_KEY")
 
-    user_id = args['user_id']
+    #user_id = args['user_id']
     access_token = args['access_token']
     lat = args['lat']
     long = args['long']
@@ -67,9 +67,9 @@ def main(args: list = None) -> dict:
 
     print(google_result)
 
-    current_restaurants = sb_client.table("user_settings").select("*").eq("id", user_id).execute().model_dump()["data"][0]["settings"]["restaurants"]
+    #current_restaurants = sb_client.table("user_settings").select("*").eq("id", user_id).execute().model_dump()["data"][0]["settings"]["restaurants"]
 
-    print(current_restaurants)
+    #print(current_restaurants)
     results = []
     for result in google_result:
         #print(f'{result["price_level"]} level')
