@@ -8,7 +8,7 @@ const ChooseLocationScreen = ({ navigation, route }) => {
   const {AccessToken, radius} = route.params;
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
-  const circleRadius = radius;
+  const circleRadius = 10000; // Dummy value  change later
 
   useEffect(() => {
     
@@ -87,7 +87,7 @@ const ChooseLocationScreen = ({ navigation, route }) => {
           {circleRadius && (
             <Circle
               center={selectedLocation}
-              radius={circleRadius}
+              radius= {100000}
               fillColor="rgba(255, 0, 0, 0.3)"
               strokeColor="rgba(255, 0, 0, 0.5)"
               strokeWidth={300}

@@ -4,23 +4,29 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useRoute } from '@react-navigation/native';
 
-const route = useRoute();
-const {AccessToken, Location} = route.params;
-const lat = Location.latitude;
-const long = Location.longitude;
-
-
 const SessionPage = ({ navigation }) => {
+
+  const route = useRoute();
+  const { AccessToken, Location } = route.params;
+  const [lat, setLat] = useState(''); 
+  const [long, setLong] = useState('');
+
+  if(Location){
+    setLat(Location.latitude);
+    setLong(Location.longitude);
+  }
+
   const handleCreateNewSession = () => {
     // Implement logic to createNewSession
     var access_token = AccessToken;
     var filter_distance = 10000;
-    const {session} = axios.post(access_token, lat, long, filter_distance );
-    if(session){
-      navigation.navigate('MainSwiping', { AccessToken: AccessToken})}
+    const { session } = axios.post(access_token, lat, long, filter_distance);
+    if (session) {
+      navigation.navigate('MainSwiping', { AccessToken: AccessToken })
     }
-    // Navigate to the desired screen after creating a new session
-  };
+  }
+  // Navigate to the desired screen after creating a new session
+
 
   const [sessionDetails, setSessionDetails] = useState({
     timer: 60,
@@ -86,6 +92,7 @@ const SessionPage = ({ navigation }) => {
     };
   }, [timerInterval]);
 
+
   return (
     <GestureHandlerRootView style={styles.container}>
       <ScrollView>
@@ -93,32 +100,15 @@ const SessionPage = ({ navigation }) => {
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionHeader}>Create Session</Text>
 
-          {/* Session Name Input */}
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Session Name</Text>
-            <TextInput style={styles.input} placeholder="Enter session name" />
-          </View>
-
           {/* Select Location Button */}
           <TouchableOpacity
             style={styles.selectLocationButton}
-            onPress={() => navigation.navigate('ChooseLocation', { AccessToken: AccessToken, radius: 5})} // sessionId?
+            onPress={() => navigation.navigate('ChooseLocation', { AccessToken: AccessToken, radius: 5 })} // sessionId?
           >
             <Text style={styles.buttonText}>Select Location</Text>
           </TouchableOpacity>
 
-          {/* Invite Friends Input */} 
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Invite Friends</Text>
-            <View style={styles.inviteFriendsContainer}>
-              <TextInput style={styles.inviteInput} placeholder="Enter friend's Binge tag" /> 
-              <TouchableOpacity style={styles.addButton}>
-                <Text style={styles.buttonText}>Add</Text> 
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          {/* Create Session Button */} 
+          {/* Create Session Button */}
           <TouchableOpacity style={styles.createButton} onPress={handleCreateNewSession}>
             <Text style={styles.buttonText}>Create Session</Text>
           </TouchableOpacity>
@@ -187,6 +177,7 @@ const SessionPage = ({ navigation }) => {
       </ScrollView>
     </GestureHandlerRootView>
   );
+};
 
 const styles = StyleSheet.create({
   container: {
