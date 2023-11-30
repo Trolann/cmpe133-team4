@@ -7,7 +7,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('C:/Users/minston/expoprojects/FirebaseAuth/UpdatedBingeLogo.png')}
+        source={require('./UpdatedBingeLogo.png')}
         style={styles.logo}
         resizeMode="contain"
       />
