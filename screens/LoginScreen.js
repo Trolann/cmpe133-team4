@@ -12,6 +12,7 @@ const LoginScreen = ({ navigation }) => {
     try {
       const result = await signIn(email, password);
       console.log('Login successful', result);
+      console.log('Access token', result.access_token);
       navigation.navigate('Sessions', {AccessToken: result.access_token});
     } catch (error) {
       console.error('Login failed', error.message);

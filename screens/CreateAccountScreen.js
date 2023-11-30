@@ -18,7 +18,7 @@ const CreateAccountScreen = ({ navigation }) => {
       try {
         const result = await createAccount(email, password);
         console.log('Login successful', result);
-        navigation.navigate('Swiping');
+        navigation.navigate('Sessions', {AccessToken: result.AccessToken});
       } catch (error) {
         console.error('Login failed', error.message);
         // handling errors

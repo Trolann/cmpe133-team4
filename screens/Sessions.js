@@ -11,7 +11,7 @@ const SessionPage = ({ navigation }) => {
   const { AccessToken, Location } = route.params;
   var lat = -48.876667;
   var long = -123.393333
-
+  var filter_distance = 10000;
   if(Location){
     lat = Location.latitude;
     long = Location.longitude;
@@ -21,7 +21,7 @@ const SessionPage = ({ navigation }) => {
     // Implement logic to createNewSession
     try {
       var access_token = AccessToken;
-      var filter_distance = 10000;
+      
       const  session  = await newSession(access_token, lat, long, filter_distance);
       if (session) {
         navigation.navigate('MainSwiping', { AccessToken: AccessToken })
@@ -130,7 +130,7 @@ const SessionPage = ({ navigation }) => {
 
           {/* Search Bar */}
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Search</Text>
+            
             <TextInput style={styles.input} placeholder="Search sessions" />
           </View>
 
