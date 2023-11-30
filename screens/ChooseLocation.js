@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
-import Svg, { Circle, Rect } from 'react-native-svg';
 
 const ChooseLocationScreen = ({ navigation, route }) => {
   const {AccessToken, radius} = route.params;
