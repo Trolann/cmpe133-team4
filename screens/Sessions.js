@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, TextInput, ScrollView, StyleSheet, FlatLi
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useRoute } from '@react-navigation/native';
+import { newSession } from '../services/api';
 
 const SessionPage = ({ navigation }) => {
 
@@ -16,13 +17,19 @@ const SessionPage = ({ navigation }) => {
     long = Location.longitude;
   }
 
-  const handleCreateNewSession = () => {
+  const handleCreateNewSession = async() => {
     // Implement logic to createNewSession
-    var access_token = AccessToken;
-    var filter_distance = 10000;
-    const { session } = axios.post(access_token, lat, long, filter_distance);
-    if (session) {
-      navigation.navigate('MainSwiping', { AccessToken: AccessToken })
+    try {
+      var access_token = AccessToken;
+      var filter_distance = 10000;
+      const  session  = await newSession(access_token, lat, long, filter_distance);
+      if (session) {
+        navigation.navigate('MainSwiping', { AccessToken: AccessToken })
+      }
+    }
+    catch (error) {
+      console.error('Create new session failed', error.message);
+      // handling errors
     }
   }
   // Navigate to the desired screen after creating a new session

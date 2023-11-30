@@ -23,7 +23,7 @@ const TopBar = () => {
       </TouchableOpacity>
 
       <Image
-        source={require('./UpdatedBingeLogo.png')}
+        source={require('../UpdatedBingeLogo.png')}
         style={styles.logo}
         resizeMode="contain"
       />
