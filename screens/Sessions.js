@@ -8,8 +8,20 @@ const SessionPage = ({ navigation }) => {
 
   const route = useRoute();
   const { AccessToken, Location } = route.params;
-  const lat = Location.latitude;
-  const long = Location.longitude;
+
+
+
+
+  const [lat, setLat] = useState(''); 
+  const [long, setLong] = useState('');Location.longitude;
+
+  if(Location.lat){
+    setLat(Location.latitude);
+  }
+
+  if(Location.longitude){
+    setLong(Location.longitude);
+  }
 
   const handleCreateNewSession = () => {
     // Implement logic to createNewSession
