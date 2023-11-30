@@ -8,18 +8,11 @@ const SessionPage = ({ navigation }) => {
 
   const route = useRoute();
   const { AccessToken, Location } = route.params;
-
-
-
-
   const [lat, setLat] = useState(''); 
-  const [long, setLong] = useState('');Location.longitude;
+  const [long, setLong] = useState('');
 
-  if(Location.lat){
+  if(Location){
     setLat(Location.latitude);
-  }
-
-  if(Location.longitude){
     setLong(Location.longitude);
   }
 
