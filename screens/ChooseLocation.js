@@ -86,7 +86,7 @@ const ChooseLocationScreen = ({ navigation, route }) => {
           {circleRadius && (
             <Circle
               center={selectedLocation}
-              radius={circleRadius}
+              radius= {100000}
               fillColor="rgba(255, 0, 0, 0.3)"
               strokeColor="rgba(255, 0, 0, 0.5)"
               strokeWidth={300}
