@@ -23,7 +23,7 @@ const TopBar = () => {
       </TouchableOpacity>
 
       <Image
-        source={require('C:/Users/minston/expoprojects/FirebaseAuth/UpdatedBingeLogo.png')}
+        source={require('./UpdatedBingeLogo.png')}
         style={styles.logo}
         resizeMode="contain"
       />
