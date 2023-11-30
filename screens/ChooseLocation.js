@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import Svg, {Circle} from 'react-native-svg'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
-import Svg, { Circle, Rect } from 'react-native-svg';
 
 const ChooseLocationScreen = ({ navigation, route }) => {
   const {AccessToken, radius} = route.params;
@@ -87,7 +87,7 @@ const ChooseLocationScreen = ({ navigation, route }) => {
           {circleRadius && (
             <Circle
               center={selectedLocation}
-              radius= {100000}
+              radius= {circleRadius}
               fillColor="rgba(255, 0, 0, 0.3)"
               strokeColor="rgba(255, 0, 0, 0.5)"
               strokeWidth={300}
