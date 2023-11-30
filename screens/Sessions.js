@@ -4,13 +4,13 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useRoute } from '@react-navigation/native';
 
-const route = useRoute();
-const { AccessToken, Location } = route.params;
-const lat = Location.latitude;
-const long = Location.longitude;
-
-
 const SessionPage = ({ navigation }) => {
+
+  const route = useRoute();
+  const { AccessToken, Location } = route.params;
+  const lat = Location.latitude;
+  const long = Location.longitude;
+
   const handleCreateNewSession = () => {
     // Implement logic to createNewSession
     var access_token = AccessToken;
