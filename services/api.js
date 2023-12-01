@@ -1,7 +1,8 @@
 
 import axios from 'axios';
 
-const BASE_URL = 'https://sea-lion-app-s86sj.ondigitalocean.app';
+//const BASE_URL = 'https://sea-lion-app-s86sj.ondigitalocean.app';
+const BASE_URL = 'https://faas-sfo3-7872a1dd.doserverless.co/api/v1/web/fn-08e1e9bb-6c28-49dc-ab50-0b63fac3c390/'
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -45,8 +46,7 @@ export const newSession = async (user_id, access_token, lat, long, filter_distan
       long,
       filter_distance
     });
-    console.log('reached: ', response.data);
-    return response.data;
+    return response.data.text;
   } catch (error) {
     console.error('Failed to create new session', error);
     throw error;

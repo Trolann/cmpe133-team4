@@ -20,6 +20,7 @@ const SessionPage = ({ navigation }) => {
 
   const handleCreateNewSession = async() => {
     // Implement logic to createNewSession
+    
     try {
       var access_token = AccessToken;
       console.log('Id: ', user_id);
