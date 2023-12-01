@@ -55,7 +55,7 @@ class RestaurantResult:
         d = asdict(self)
         return d
 
-def fetch_photo(photo_ref, identifier, result_queue, gmaps, max_width=900):
+def fetch_photo(photo_ref, identifier, result_queue, gmaps, max_width=500):
     #gmaps_key: str = environ.get("GOOGLE_MAPS_KEY")
     #gmaps = googlemaps.Client(key=gmaps_key)
     try:
