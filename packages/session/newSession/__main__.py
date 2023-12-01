@@ -5,6 +5,8 @@ import supabase
 import googlemaps
 from supabase import create_client, Client
 from attrs import define, field, asdict, validators
+from threading import Thread
+import queue
 
 load_dotenv()  # .env file for local use, not remote testing (production env's in DO console)
 base_url = "https://ffaxepgzfbuyaccrtzqm.supabase.co/storage/v1/object/public/avatar/"
@@ -53,6 +55,15 @@ class RestaurantResult:
         d = asdict(self)
         return d
 
+def fetch_photo(photo_ref, identifier, result_queue, gmaps, max_width=900):
+    #gmaps_key: str = environ.get("GOOGLE_MAPS_KEY")
+    #gmaps = googlemaps.Client(key=gmaps_key)
+    try:
+        photo = list(gmaps.places_photo(photo_ref, max_width=max_width))
+        result_queue.put((identifier, photo))
+    except Exception as e:
+        print(f"Error fetching photo: {e}")
+        result_queue.put([])
 
 # must have main() function with args: list = None.
 # Must return a JSON serializable object (dict, json.dumps, etc)
@@ -86,19 +97,40 @@ def main(args) -> dict:
 
     print(f"Got {len(google_result)} restaurants from Google")
 
+
+    photo_threads = []
+    photo_queue = queue.Queue()
+    photo_results = {}
+
+    for index, result in enumerate(google_result):
+        photo_ref = result["photos"][0]["photo_reference"]
+        thread = Thread(target=fetch_photo, args=(photo_ref, index, photo_queue, gmaps))
+        photo_threads.append(thread)
+        thread.start()
+
+    for thread in photo_threads:
+        thread.join()
+
+    while not photo_queue.empty():
+        identifier, photo = photo_queue.get()
+        photo_results[identifier] = photo
+
+    # Now construct RestaurantResult objects
     results = []
-    for result in google_result:
-        #print(f'{result["price_level"]} level')
+    for index, result in enumerate(google_result):
+        photo = photo_results.get(index, [])  # Retrieve the photo using the index
         new_result = RestaurantResult(
             name=result["name"],
             formatted_address=result["formatted_address"],
             icon=result["icon"],
             opening_hours=result["opening_hours"],
             rating=result["rating"],
-            photos=list(gmaps.places_photo(result["photos"][0]["photo_reference"], max_width=900))
+            photos=photo
         )
         results.append(new_result.to_dict())
 
+    filenames = []
+    photo_threads.clear()
     for restaurant in results:
         stripped_name = ''.join(e for e in restaurant['name'] if e.isalnum())
         stripped_addy = ''.join(e for e in restaurant['formatted_address'] if e.isalnum())
@@ -109,14 +141,19 @@ def main(args) -> dict:
             if chunk:
                 f.write(chunk)
         f.close()
-        try:
-            _url = upload(filename)
-        except Exception as e:
-            _url = f'{base_url}{filename}'
-            print(f'failed to upload image: {e}')
-        print(f'url: {_url}')
-        restaurant['photos'] = [_url]
+        restaurant['photos'] = [f'{base_url}{filename}']
         # remove the file
+        filenames.append(filename)
+
+    for filename in filenames:
+        thread = Thread(target=upload, args=(filename,))
+        photo_threads.append(thread)
+        thread.start()
+
+    for thread in photo_threads:
+        thread.join()
+
+    for filename in filenames:
         remove(filename)
 
     final_results_dict = {
