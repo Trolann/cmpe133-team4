@@ -128,30 +128,16 @@ const SessionPage = ({ navigation }) => {
 
         {/* Join Previous Sessions Section */}
         <View style={styles.sectionContainer}>
-          <Text style={styles.sectionHeader}>Join Previous Sessions</Text>
+          <Text style={styles.sectionHeader}>Join Session</Text>
 
           {/* Search Bar */}
           <View style={styles.inputContainer}>
             
-            <TextInput style={styles.input} placeholder="Search sessions" />
+            <TextInput style={styles.input} placeholder="Session ID" />
           </View>
 
           {/* Session List */}
-          <ScrollView style={styles.sessionList}>
-            {sessionDetails.previousSessions.map((session) => (
-              <TouchableOpacity
-                key={session.id}
-                style={[
-                  styles.sessionItem,
-                  selectedSessions.includes(session.id) && styles.selectedSessionItem,
-                ]}
-                onPress={() => handleSessionClick(session.id)}
-              >
-                <Text>{session.name}</Text>
-              </TouchableOpacity>
-              // Display other session details or actions
-            ))}
-          </ScrollView>
+          
 
           {/* Join Session Button */}
           <TouchableOpacity style={styles.joinButton} onPress={handleJoinSession}>
