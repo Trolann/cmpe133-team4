@@ -25,9 +25,9 @@ def main(args: list = None) -> dict:
     url: str = environ.get("SUPABASE_URL")
     key: str = environ.get("SUPABASE_KEY")
     print(args)
-    #user_id = args['user_id']
+    user_id = args['user_id']
     access_token = args['access_token']
-    session_id = args['session_id']
+    session_id = int(args['session_id'])
     sb_client = supabase.create_client(url, key)
     sb_client.postgrest.auth(access_token)
     secret_key: str = environ.get("SUPABASE_SECRET_KEY")
@@ -55,14 +55,14 @@ def main(args: list = None) -> dict:
 
 # If doing any local testing, include this.
 if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--user_id", help="User ID", required=True)
-    parser.add_argument("--access_token", help="Access Token", required=True)
-    parsed_args = parser.parse_args()
-    args = vars(parsed_args)
-    args['session_id'] = 13
-    # pass args to main()
-    main(args)
+    from get_auth import get_access_token
+    args = {
+        'user_id': '71f87b7c-55bf-488d-a562-7cd8e120495d',
+        "access_token": get_access_token(),
+        "session_id": "62"
+
+    }
+    print(main(args))
+
 
 
