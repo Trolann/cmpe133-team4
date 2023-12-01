@@ -72,21 +72,11 @@ const SessionPage = ({ navigation }) => {
     setTimerInterval(null);
   };
 
-  const handleSessionClick = (sessionId) => {
-    // Toggle the selection of the session
-    setSelectedSessions((prevSelected) => {
-      if (prevSelected.includes(sessionId)) {
-        // Deselect the session
-        return prevSelected.filter((id) => id !== sessionId);
-      } else {
-        // Select the session
-        return [...prevSelected, sessionId];
-      }
-    });
-  };
+
 
   const handleJoinSession = () => {
     // Handle joining the selected sessions
+    
     if (selectedSessions.length > 0) {
       // Implement logic to join the selected sessions
       console.log(`Joining sessions: ${selectedSessions.join(', ')}`);

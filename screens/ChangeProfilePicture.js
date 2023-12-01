@@ -1,17 +1,25 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { uploadPicture } from '../services/api';
+import { api } from '../services/api';
 
 const ChangeProfilePicture = ({ navigation }) => {
   const [profilePicture, setProfilePicture] = useState(null);
 
   const handleUpload = async () => {
-    // Implement logic to upload the image to your backend
-    // You can use libraries like axios for making HTTP requests
-
-    // Placeholder logic for demonstration
-    console.log('Uploading image:', profilePicture);
-  };
+    const formData = new FormData();
+    formData.append('image_encoded', profilePicture);
+    formData.append('user_id', 'your_user_id');
+    formData.append('access_token', 'your_access_token');
+    
+    try {
+      const response = await uploadPicture('your_user_id', 'your_access_token', profilePicture);
+      console.log('Image uploaded successfully:', response.data);
+    } catch (error) {
+      console.error('Image upload failed:', error);
+    }
+   };
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -20,11 +28,11 @@ const ChangeProfilePicture = ({ navigation }) => {
       aspect: [1, 1],
       quality: 1,
     });
-
+   
     if (!result.canceled) {
-      setProfilePicture(result.assets);
+      setProfilePicture(result.assets[0].uri);
     }
-  };
+   };
 
   return (
     <View style={styles.container}>

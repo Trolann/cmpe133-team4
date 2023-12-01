@@ -53,5 +53,21 @@ export const newSession = async (user_id, access_token, lat, long, filter_distan
   }
 };
 
+export const uploadPicture = async (user_id, access_token, image) => {
+  try {
+    const formData = new FormData();
+    formData.append('image_encoded', image);
+    formData.append('user_id', user_id);
+    formData.append('access_token', access_token);
+ 
+    const response = await api.post('/user/uploadPicture', formData);
+    console.log('Picture uploaded successfully:', response.data);
+    return response;
+  } catch (error) {
+    console.error('Failed to upload picture', error);
+    throw error;
+  }
+ };
+ 
 
 export default api;
