@@ -22,11 +22,11 @@ const SessionPage = ({ navigation }) => {
     // Implement logic to createNewSession
     try {
       var access_token = AccessToken;
-      
+      console.log('Id: ', user_id);
       const session = await newSession(user_id, access_token, lat, long, filter_distance);
       console.log(session);
       if (session) {
-        navigation.navigate('Swiping', { AccessToken: AccessToken })
+        navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: session })
       }
     }
     catch (error) {
@@ -102,7 +102,7 @@ const SessionPage = ({ navigation }) => {
           {/* Select Location Button */}
           <TouchableOpacity
             style={styles.selectLocationButton}
-            onPress={() => navigation.navigate('ChooseLocation', { AccessToken: AccessToken, radius: 5 })} // sessionId?
+            onPress={() => navigation.navigate('ChooseLocation', { AccessToken: AccessToken, radius: 5, user_id: user_id })} // sessionId?
           >
             <Text style={styles.buttonText}>Select Location</Text>
           </TouchableOpacity>

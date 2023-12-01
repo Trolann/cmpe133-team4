@@ -45,8 +45,8 @@ export const newSession = async (user_id, access_token, lat, long, filter_distan
       long,
       filter_distance
     });
-    console.log('reached');
-    return response;
+    console.log('reached: ', response.data);
+    return response.data;
   } catch (error) {
     console.error('Failed to create new session', error);
     throw error;

@@ -128,6 +128,7 @@ def main(args) -> dict:
     session_id = enter_restaraunt_list(final_results_dict, url).data[0]["id"]
     from pprint import pprint
     #print(final_results_dict)
+    print(session_id)
 
     return {"statusCode": 200,  # Status code not required by DO, required by convention.
             "body": {  # Required key
