@@ -68,7 +68,7 @@ def fetch_photo(photo_ref, identifier, result_queue, gmaps, max_width=500):
 # must have main() function with args: list = None.
 # Must return a JSON serializable object (dict, json.dumps, etc)
 # Additional functions can be added/imported, but must be called from main()
-def main(args) -> dict:
+def main(args: list = None) -> dict:
     # Get environment variables. Ensure they are added in DO console.
     url: str = environ.get("SUPABASE_URL")
     key: str = environ.get("SUPABASE_KEY")
