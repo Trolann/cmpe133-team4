@@ -3,7 +3,10 @@
     "name": "FirebaseAuth",
     "slug": "FirebaseAuth",
     "version": "1.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -20,12 +23,11 @@
       "bundleIdentifier": "com.minston.FirebaseAuth"
     },
     "android": {
-      
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
-      
+      },
+      "package": "com.minston.FirebaseAuth"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -34,7 +36,6 @@
       "eas": {
         "projectId": "7e01f9b7-e48e-41d0-99c5-2f91413a7c6b"
       }
-      
     },
     "fonts": [
       {
@@ -42,6 +43,5 @@
         "asset": "./assets/fonts/Lato.ttf"
       }
     ]
-    
   }
 }
