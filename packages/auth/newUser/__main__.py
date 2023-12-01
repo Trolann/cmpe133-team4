@@ -38,6 +38,7 @@ def setup_new_user_in_db(user_id):
 # Must return a JSON serializable object (dict, json.dumps, etc)
 # Additional functions can be added/imported, but must be called from main()
 def main(args: list = None) -> dict:
+    print(args)
     """
 
     :param args:
