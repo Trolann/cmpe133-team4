@@ -119,18 +119,19 @@ def main(args) -> dict:
         # remove the file
         remove(filename)
 
-    final_results_dict = {"google_results": results,
-                          "users": [user_id],
-                          "final_results": []
+    final_results_dict = {
+                            "google_results": results,
+                            "users": [user_id],
+                            "final_results": [],
+                            "timer": 0
                           }
-    final_results_dict["session_id"] = enter_restaraunt_list(final_results_dict, url).data[0]["id"]
-    final_results_dict["timer"] = 0
+    session_id = enter_restaraunt_list(final_results_dict, url).data[0]["id"]
     from pprint import pprint
     #print(final_results_dict)
 
     return {"statusCode": 200,  # Status code not required by DO, required by convention.
             "body": {  # Required key
-                'text': final_results_dict["session_id"]
+                'text': session_id
                 }
             }
 

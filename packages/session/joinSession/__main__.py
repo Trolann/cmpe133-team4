@@ -24,20 +24,24 @@ def main(args: list = None) -> dict:
     # Get environment variables. Ensure they are added in DO console.
     url: str = environ.get("SUPABASE_URL")
     key: str = environ.get("SUPABASE_KEY")
-    print(args)
     user_id = args['user_id']
     access_token = args['access_token']
     session_id = int(args['session_id'])
     sb_client = supabase.create_client(url, key)
     sb_client.postgrest.auth(access_token)
+    sb_client.table("user_settings").select("*").eq("id", user_id).execute().model_dump()["data"][0]["settings"]["restaurants"]
     secret_key: str = environ.get("SUPABASE_SECRET_KEY")
     supa_backend: supabase.Client = supabase.create_client(url, secret_key)
     current_session_info = supa_backend.table("sessions").select("*").eq("id", session_id).execute().model_dump()["data"][0]
+
     if not float(current_session_info["data"]["timer"]) > 0:
         #current epoch time
+        print('starting timer')
         current_session_info["data"]["timer"] = time()
 
-    print(current_session_info["data"]["timer"])
+    if user_id not in current_session_info["data"]["users"]:
+        current_session_info["data"]["users"].append(user_id)
+
     try:
         # Update the database with the new settings
         update_db(session_id, current_session_info["data"])
