@@ -4,11 +4,13 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useRoute } from '@react-navigation/native';
 import { newSession } from '../services/api';
+import { joinSession } from '../services/api';
 
 const SessionPage = ({ navigation }) => {
 
   const route = useRoute();
   const { AccessToken, Location, user_id } = route.params;
+  const [sessionID, setSessionID] = useState(global.session);
   var lat = -48.876667;
   var long = -123.393333
   var filter_distance = 10000;
@@ -19,14 +21,17 @@ const SessionPage = ({ navigation }) => {
   }
 
   const handleCreateNewSession = async() => {
-    // Implement logic to createNewSession
+    
+    
     try {
-      var access_token = AccessToken;
-      console.log('Id: ', user_id);
+      global.access_token = AccessToken;
+      console.log('User Id: ', user_id);
       const session = await newSession(user_id, access_token, lat, long, filter_distance);
-      console.log(session);
+      global.sessionID = session;
+      console.log('Global Session ID: ', session);
       if (session) {
-        navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: session })
+        navigation.navigate('Swiping', { user_id: user_id, AccessToken: AccessToken, session_id: session })
+        setSessionID(session);
       }
     }
     catch (error) {
@@ -35,6 +40,24 @@ const SessionPage = ({ navigation }) => {
     }
   }
   // Navigate to the desired screen after creating a new session
+
+  const handleJoinSession = async() => {
+    try {
+      global.access_token = AccessToken;
+      console.log('User Id: ', user_id);
+      const session = await joinSession(user_id, access_token, sessionID);
+      global.sessionID = session;
+      console.log('Global Session ID: ', session);
+      if (session) {
+        navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: session })
+        setSessionID(session);
+      }
+    }
+    catch (error) {
+      console.error('Join session failed', error.message);
+      // handling errors
+    }
+   };
 
 
   const [sessionDetails, setSessionDetails] = useState({
@@ -74,15 +97,7 @@ const SessionPage = ({ navigation }) => {
 
 
 
-  const handleJoinSession = () => {
-    // Handle joining the selected sessions
-    
-    if (selectedSessions.length > 0) {
-      // Implement logic to join the selected sessions
-      console.log(`Joining sessions: ${selectedSessions.join(', ')}`);
-    }
-  };
-
+  
   useEffect(() => {
     return () => {
       if (timerInterval) {
@@ -119,14 +134,19 @@ const SessionPage = ({ navigation }) => {
         {/* Join Previous Sessions Section */}
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionHeader}>Join Session</Text>
-
-          {/* Search Bar */}
-          <View style={styles.inputContainer}>
+          <Text style={styles.label}>Session ID</Text>
+          
             
-            <TextInput style={styles.input} placeholder="Session ID" />
-          </View>
+          <TextInput
+            style={styles.input}
+            placeholder="Session ID"
+            defaultValue={String(sessionID) === 'undefined' ? 'Enter SessionID Number' : String(sessionID)}
+            
+          />
 
-          {/* Session List */}
+          
+
+          
           
 
           {/* Join Session Button */}

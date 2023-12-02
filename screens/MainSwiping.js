@@ -3,18 +3,24 @@ import { StyleSheet, View, Alert, ImageBackground } from 'react-native';
 import TopBar from '../components/TopBar';
 import Swipes from '../components/Swipes';
 import BottomBar from '../components/BottomBar';
+import { useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { getResults } from '../services/api';
 
 const MainSwiping = () => {
   const [users, setUsers] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const swipesRef = useRef(null);
 
+  const route = useRoute();
+  const { AccessToken, Location, user_id, session_id } = route.params;
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const { data } = await axios.get('https://randomuser.me/api/?gender=male&results=50');
+        var access_token = AccessToken;
+        const { data } = await getResults(user_id, access_token, session_id);
         setUsers(data.results);
       } catch (error) {
         console.log(error);

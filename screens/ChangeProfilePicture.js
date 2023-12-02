@@ -10,14 +10,19 @@ const ChangeProfilePicture = ({ navigation }) => {
   const handleUpload = async () => {
     const formData = new FormData();
     formData.append('image_encoded', profilePicture);
-    formData.append('user_id', 'your_user_id');
-    formData.append('access_token', 'your_access_token');
+    formData.append('user_id', global.globalUserID);
+    formData.append('access_token', global.globalAccessToken);
     
     try {
-      const response = await uploadPicture('your_user_id', 'your_access_token', profilePicture);
+      const response = await uploadPicture(global.globalUserID, global.globalAccessToken, profilePicture, {
+        headers: {
+          'Content-Type': 'message/http',
+        },
+      });
       console.log('Image uploaded successfully:', response.data);
     } catch (error) {
       console.error('Image upload failed:', error);
+    
     }
    };
 
