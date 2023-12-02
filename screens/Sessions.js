@@ -9,6 +9,7 @@ const SessionPage = ({ navigation }) => {
 
   const route = useRoute();
   const { AccessToken, Location, user_id } = route.params;
+  const [sessionID, setSessionID] = useState(global.session);
   var lat = -48.876667;
   var long = -123.393333
   var filter_distance = 10000;
@@ -19,15 +20,17 @@ const SessionPage = ({ navigation }) => {
   }
 
   const handleCreateNewSession = async() => {
-    // Implement logic to createNewSession
+    
     
     try {
-      var access_token = AccessToken;
-      console.log('Id: ', user_id);
+      global.access_token = AccessToken;
+      console.log('User Id: ', user_id);
       const session = await newSession(user_id, access_token, lat, long, filter_distance);
-      console.log(session);
+      global.sessionID = session;
+      console.log('Global Session ID: ', session);
       if (session) {
         navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: session })
+        setSessionID(session);
       }
     }
     catch (error) {
@@ -120,14 +123,18 @@ const SessionPage = ({ navigation }) => {
         {/* Join Previous Sessions Section */}
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionHeader}>Join Session</Text>
-
-          {/* Search Bar */}
-          <View style={styles.inputContainer}>
+          <Text style={styles.label}>Session ID</Text>
+          
             
-            <TextInput style={styles.input} placeholder="Session ID" />
-          </View>
+          <TextInput
+            style={styles.input}
+            placeholder="Session ID"
+            value={String(sessionID)}
+          />
 
-          {/* Session List */}
+          
+
+          
           
 
           {/* Join Session Button */}

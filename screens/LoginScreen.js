@@ -11,10 +11,13 @@ const LoginScreen = ({ navigation }) => {
   const handleSignIn = async() => {
     try {
       const result = await signIn(email, password);
+      global.globalUserID = result.text.data.id; //global User ID
+      global.globalAccessToken = result.text.access_token;
       console.log('Login successful');
       //console.log('Result', result);
-      //console.log('Access token', result.text.access_token);
-      console.log("ID: ", result.text.data.id);
+      
+      console.log("ID: ", globalUserID);
+      console.log("AccessToken: ", globalAccessToken);
       navigation.navigate('Sessions', {AccessToken: result.text.access_token, user_id: result.text.data.id});
     } catch (error) {
       console.error('Login failed', error.message);

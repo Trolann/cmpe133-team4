@@ -13,8 +13,9 @@ const TopBar = () => {
 
   const handleUserIconPress = () => {
     // Navigate to the "Sessions" screen when the user icon is pressed
-    navigation.navigate('Sessions');
-  };
+    navigation.navigate('Sessions', { AccessToken: global.globalAccessToken, user_id: global.globalUserID });
+   
+   };
   
   return (
     <View style={styles.container}>
