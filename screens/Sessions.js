@@ -4,6 +4,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useRoute } from '@react-navigation/native';
 import { newSession } from '../services/api';
+import { joinSession } from '../services/api';
 
 const SessionPage = ({ navigation }) => {
 
@@ -39,6 +40,24 @@ const SessionPage = ({ navigation }) => {
     }
   }
   // Navigate to the desired screen after creating a new session
+
+  const handleJoinSession = async() => {
+    try {
+      global.access_token = AccessToken;
+      console.log('User Id: ', user_id);
+      const session = await joinSession(user_id, access_token, sessionID);
+      global.sessionID = session;
+      console.log('Global Session ID: ', session);
+      if (session) {
+        navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: session })
+        setSessionID(session);
+      }
+    }
+    catch (error) {
+      console.error('Join session failed', error.message);
+      // handling errors
+    }
+   };
 
 
   const [sessionDetails, setSessionDetails] = useState({
@@ -78,15 +97,7 @@ const SessionPage = ({ navigation }) => {
 
 
 
-  const handleJoinSession = () => {
-    // Handle joining the selected sessions
-    
-    if (selectedSessions.length > 0) {
-      // Implement logic to join the selected sessions
-      console.log(`Joining sessions: ${selectedSessions.join(', ')}`);
-    }
-  };
-
+  
   useEffect(() => {
     return () => {
       if (timerInterval) {
@@ -129,7 +140,8 @@ const SessionPage = ({ navigation }) => {
           <TextInput
             style={styles.input}
             placeholder="Session ID"
-            value={String(sessionID)}
+            defaultValue={String(sessionID) === 'undefined' ? 'Enter SessionID Number' : String(sessionID)}
+            
           />
 
           

@@ -53,6 +53,20 @@ export const newSession = async (user_id, access_token, lat, long, filter_distan
   }
 };
 
+export const joinSession = async (user_id, access_token, session_id) => {
+  try {
+    const response = await api.post('/session/joinSession', {
+      user_id,
+      access_token,
+      session_id
+    });
+    return response.data.text;
+  } catch (error) {
+    console.error('Failed to join session', error);
+    throw error;
+  }
+ };
+ 
 export const uploadPicture = async (user_id, access_token, image) => {
   try {
     const formData = new FormData();
@@ -61,7 +75,7 @@ export const uploadPicture = async (user_id, access_token, image) => {
     formData.append('access_token', access_token);
  
     const response = await api.post('/user/uploadPicture', formData);
-    console.log('Picture uploaded successfully:', response.data);
+    console.log('Picture uploaded successfully in api:', response.data);
     return response;
   } catch (error) {
     console.error('Failed to upload picture', error);
