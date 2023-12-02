@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 //const BASE_URL = 'https://sea-lion-app-s86sj.ondigitalocean.app';
-const BASE_URL = 'https://faas-sfo3-7872a1dd.doserverless.co/api/v1/web/fn-08e1e9bb-6c28-49dc-ab50-0b63fac3c390/'
+const BASE_URL = 'https://faas-sfo3-7872a1dd.doserverless.co/api/v1/web/fn-08e1e9bb-6c28-49dc-ab50-0b63fac3c390/';
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -39,6 +39,12 @@ export const createAccount = async (email, password) => {
 
 export const newSession = async (user_id, access_token, lat, long, filter_distance) => {
   try {
+    console.log(
+      "ID: " , user_id, "\n",
+      "AT: " , access_token,  "\n",
+      "Lat: " , lat,  "\n",
+      "Long: " , long, "\n",
+      "Dist: " , filter_distance);
     const response = await api.post('/session/newSession', {
       user_id,
       access_token,
@@ -66,6 +72,27 @@ export const joinSession = async (user_id, access_token, session_id) => {
     throw error;
   }
  };
+
+ export const getResults = async (user_id, access_token, session_id) => {
+  try {
+    console.log(
+      "Getting Data: \n",
+      "ID: ", user_id, "\n",
+      "AT: ", access_token, "\n",
+      "Session: ", session_id
+    )
+    const response = await api.get('/session/getSessionInfo', {
+      user_id,
+      access_token,
+      session_id
+    });
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.error('Failed to get results', error);
+    throw error;
+  }
+};
  
 export const uploadPicture = async (user_id, access_token, image) => {
   try {

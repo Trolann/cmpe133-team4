@@ -30,7 +30,7 @@ const SessionPage = ({ navigation }) => {
       global.sessionID = session;
       console.log('Global Session ID: ', session);
       if (session) {
-        navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: session })
+        navigation.navigate('Swiping', { user_id: user_id, AccessToken: AccessToken, session_id: session })
         setSessionID(session);
       }
     }
