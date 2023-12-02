@@ -8,8 +8,9 @@ def get_results(session_id, url):
     secret_key: str = environ.get("SUPABASE_SECRET_KEY")
     supa_backend: Client = create_client(url, secret_key)
     try:
+        print(supa_backend.table("sessions").select("*").eq("id", session_id).execute().model_dump()["data"][0])
         session_data = supa_backend.table("sessions").select("*").eq("id", session_id).execute().model_dump()["data"][0]
-        session_data["data"]["restaurants"] = sorted(session_data["data"]["restaurants"], key=lambda x: x['rating'], reverse=True)
+        session_data["data"]["google_results"] = sorted(session_data["data"]["google_results"], key=lambda x: x['rating'], reverse=True)
         return session_data
     except Exception as e:
         print(f'todo: handle other errors: {e}')
@@ -39,12 +40,13 @@ def main(args: list = None) -> dict:
 
     user_id = args['user_id']
     access_token = args['access_token']
-    session_id = args['session_id']
+    session_id = int(args['session_id'])
 
     session_data = get_results(session_id, url)
     user_results = get_user(user_id, url, access_token)
 
-    session_data["data"]["restaurants"].sort(key=lambda x: user_results.get(x["name"], float('inf')))
+    print(session_data)
+    session_data["data"]["google_results"].sort(key=lambda x: user_results.get(x["name"], float('inf')))
 
     return {"statusCode": 200,  # Status code not required by DO, required by convention.
             "body": {
@@ -55,12 +57,11 @@ def main(args: list = None) -> dict:
 
 # If doing any local testing, include this.
 if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--user_id", help="User ID", required=True)
-    parser.add_argument("--access_token", help="Access Token", required=True)
-    parsed_args = parser.parse_args()
-    args = vars(parsed_args)
-    args["session_id"] = 13
-    main(args)
+    from get_auth import get_access_token
+    args = {
+        'user_id': '71f87b7c-55bf-488d-a562-7cd8e120495d',
+        "access_token": get_access_token(),
+        "session_id": "88"
+    }
+    print(main(args))
 
