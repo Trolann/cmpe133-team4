@@ -94,6 +94,33 @@ export const joinSession = async (user_id, access_token, session_id) => {
   }
 };
  
+export const getSettings = async (user_id, access_token) => {
+  try {
+    const response = await api.post('/user/getSettings', {
+      user_id,
+      access_token,
+    });
+    return response.data.text;
+  } catch (error) {
+    console.error('Failed to get user settings', error);
+    throw error;
+  }
+};
+
+export const updateSettings = async (user_id, access_token, new_settings) => {
+  try {
+    const response = await api.post('/user/updateSettings', {
+      user_id,
+      access_token,
+      settings: new_settings,
+    });
+    return response.data.text;
+  } catch (error) {
+    console.error('Failed to update user settings', error);
+    throw error;
+  }
+};
+
 export const uploadPicture = async (user_id, access_token, image) => {
   try {
     const formData = new FormData();
@@ -110,5 +137,6 @@ export const uploadPicture = async (user_id, access_token, image) => {
   }
  };
  
+
 
 export default api;

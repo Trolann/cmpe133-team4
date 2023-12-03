@@ -22,8 +22,17 @@ const CreateAccountScreen = ({ navigation }) => {
         navigation.navigate('Sessions', {AccessToken: result.AccessToken});
       } catch (error) {
         console.error('Login failed', error.message);
-        // handling errors
-      }
+        Alert.alert(
+         "Account Creation Failed",
+         error.message,
+         [
+           {
+             text: "OK",
+             onPress: () => console.log("OK Pressed"),
+           },
+         ]
+        );
+       }
     } else {
       // Handle invalid input or password mismatch
       console.log('Invalid input or password mismatch');

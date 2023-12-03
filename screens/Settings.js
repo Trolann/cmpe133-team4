@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Switch, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
-
+import { getSettings, updateSettings } from '../services/api';
 
 <Slider
   style={{width: 200, height: 40}}
@@ -29,11 +29,41 @@ const SettingsScreen = ({ navigation }) => {
     }
   };
 
-  const saveSettings = () => {
-    // Implement your logic to save the settings here
-    navigation.navigate('Swiping')
-    setDistance(distance);
-  };
+  const saveSettings = async () => {
+    try {
+      // Assuming you have user_id and access_token, modify as needed
+      const user_id = global.user_id; // Replace with actual user_id
+      const access_token = global.access_token; // Replace with actual access_token
+
+      // Construct the settings object based on your requirements
+      const newSettings = {
+        notifications,
+        location,
+        distance,
+        // Add other settings as needed
+      };
+
+      // Use the updateSettings function from api.js to update the settings
+      await updateSettings(user_id, access_token, newSettings);
+
+      // Navigate to the desired screen after successful update
+      navigation.navigate('Swiping');
+
+    } catch (error) {
+      console.error('Failed to save settings', error);
+      // Handle error, show alert or log as needed
+      Alert.alert(
+        "Settings Update Failed",
+        "Unable to save settings. Please try again.",
+        [
+          {
+            text: "OK",
+            onPress: () => console.log("OK Pressed"),
+          },
+        ]
+      );
+    }
+  }
 
   return (
     <View style={styles.container}>

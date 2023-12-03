@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { signIn } from '../services/api';
+import { Alert } from 'react-native';
 //"email": "newemail@binge.app",
 //"password": "ExtraLongPassword"
 
@@ -21,8 +22,17 @@ const LoginScreen = ({ navigation }) => {
       navigation.navigate('Sessions', {AccessToken: result.text.access_token, user_id: result.text.data.id});
     } catch (error) {
       console.error('Login failed', error.message);
-      // handling errors
-    }
+      Alert.alert(
+        "Login Failed",
+        "Your email or password is incorrect. Please try again.",
+        [
+          {
+            text: "OK",
+            onPress: () => console.log("OK Pressed"),
+          },
+        ]
+      );
+     }
     
     if (email && password) {
       

@@ -5,6 +5,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useRoute } from '@react-navigation/native';
 import { newSession } from '../services/api';
 import { joinSession } from '../services/api';
+import { Alert } from 'react-native';
 
 const SessionPage = ({ navigation }) => {
 
@@ -30,7 +31,7 @@ const SessionPage = ({ navigation }) => {
       global.sessionID = session;
       console.log('Global Session ID: ', session);
       if (session) {
-        navigation.navigate('Swiping', { user_id: user_id, AccessToken: AccessToken, session_id: session })
+        navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: session })
         setSessionID(session);
       }
     }
@@ -44,10 +45,9 @@ const SessionPage = ({ navigation }) => {
   const handleJoinSession = async() => {
     try {
       global.access_token = AccessToken;
-      console.log('User Id: ', user_id);
       const session = await joinSession(user_id, access_token, sessionID);
       global.sessionID = session;
-      console.log('Global Session ID: ', session);
+      
       if (session) {
         navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: session })
         setSessionID(session);
@@ -55,8 +55,17 @@ const SessionPage = ({ navigation }) => {
     }
     catch (error) {
       console.error('Join session failed', error.message);
-      // handling errors
-    }
+      Alert.alert(
+      "Join Session Failed",
+      error.message,
+      [
+        {
+          text: "OK",
+          onPress: () => console.log("OK Pressed"),
+        },
+      ]
+      );
+     }
    };
 
 
