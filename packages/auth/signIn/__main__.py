@@ -15,6 +15,7 @@ class Logger:
         self.url = f"{base_url}auth/log"
         self.headers = {"Content-Type": "application/json"}
         self.function_name = function_name
+        self._log(function_name, 'Logger initialized', None, 'INFO')
 
     def error(self, message, function_name=None, given_args=None):
         function_name = function_name if function_name else self.function_name
