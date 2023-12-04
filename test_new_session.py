@@ -1,10 +1,17 @@
 import requests
-from get_auth import get_access_token
-url = "https://sea-lion-app-s86sj.ondigitalocean.app/session/getSessionInfo"
+from dotenv import load_dotenv
+from os import environ
+
+load_dotenv()
+
+#url = "https://sea-lion-app-s86sj.ondigitalocean.app/session/getSessionInfo"
+url = "https://faas-sfo3-7872a1dd.doserverless.co/api/v1/web/fn-08e1e9bb-6c28-49dc-ab50-0b63fac3c390/auth/log"
 args = {
-    'user_id': '71f87b7c-55bf-488d-a562-7cd8e120495d',
-    "access_token": get_access_token(),
-    "session_id": "88"
+    'access_token': environ.get("SUPABASE_KEY"),
+    'function_name': 'test_function',
+    #'given_args': {'arg1': 'value1', 'arg2': 'value2'},
+    'message': 'Test log message',
+    'level': 'INFO'
 }
 headers = {
     "Content-Type": "application/json"

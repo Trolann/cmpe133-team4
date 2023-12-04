@@ -5,6 +5,9 @@ from supabase import create_client, Client
 from attrs import define, field, asdict, validators
 from datetime import datetime
 from json import dumps as json_dumps
+from binge_log import Logger
+
+
 load_dotenv()  # .env file for local use, not remote testing (production env's in DO console)
 
 
@@ -41,14 +44,20 @@ class BingeAuthResponse:
 # Must return a JSON serializable object (dict, json.dumps, etc)
 # Additional functions can be added/imported, but must be called from main()
 def main(args: list = None) -> dict:
+    logger = Logger('signIn')
     url: str = environ.get("SUPABASE_URL")
     key: str = environ.get("SUPABASE_KEY")
     sb_client: Client = create_client(url, key)
+    logger.debug(f'Supabase client created with url: {url}', given_args=sb_client)
 
     try:
+        logger.debug(f"Attempting to sign in with email: {args['email']}")
         response = sb_client.auth.sign_in_with_password({"email": args["email"], "password": args["password"]})
+        logger.debug(f"Sign in response: {response}")
         sb_client.postgrest.auth(response.session.access_token)
+        logger.info(f"Authenticated for user {args['email']}")
     except Exception as e:
+        logger.error(f"Error signing in user {args['email']}: {e}")
         return {"statusCode": 400,  # Status code not required by DO, required by convention.
                 "body": {  # Required key
                     'text': 'Unable to sign in.'
