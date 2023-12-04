@@ -12,8 +12,8 @@ def get_access_token():
     }
     response = requests.get(url, json=payload, headers=headers)
     args = loads(response.text)
-    #return args["text"]["access_token"]
-    return response.text
+    return args['text']['access_token']
+    #return response.text
 
 if __name__ == '__main__':
     print(get_access_token())

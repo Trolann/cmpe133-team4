@@ -1,6 +1,7 @@
 import requests
 from dotenv import load_dotenv
 from os import environ
+from json import dumps as json_dumps
 
 # Load environment variables
 load_dotenv()
@@ -32,6 +33,13 @@ class Logger:
 
     def _log(self, function_name, message, given_args=None, level=None):
         log_level = level if level else self.default_log_level
+
+        try:
+            json_dumps(given_args)
+        except TypeError:
+            # make it serializable as a string representation
+            given_args = str(given_args)
+
         args = {
             'access_token': self.secret_key,
             'function_name': function_name,
