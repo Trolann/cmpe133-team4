@@ -64,27 +64,36 @@ def main(args) -> dict:
                     'text': 'Unable to sign in.'
                     }
                 }
-    user, session = response
-    user = user[1]
-    session = session[1]
 
-    auth_object = BingeAuthResponse(
-        id=user.id,
-        email=user.email,
-        last_sign_in_at=user.last_sign_in_at,
-        role=user.role,
-        updated_at=user.updated_at,
-        access_token=session.access_token,
-        refresh_token=session.refresh_token,
-        expires_at_epoch=session.expires_at,
-        token_type=session.token_type,
-        data=sb_client.table("user_settings").select("*").execute().model_dump()["data"][0]
-    )
-    return {"statusCode": 200,  # Status code not required by DO, required by convention.
-            "body": {  # Required key
-                'text': auth_object.to_dict()
+    try:
+        user, session = response
+        user = user[1]
+        session = session[1]
+
+        auth_object = BingeAuthResponse(
+            id=user.id,
+            email=user.email,
+            last_sign_in_at=user.last_sign_in_at,
+            role=user.role,
+            updated_at=user.updated_at,
+            access_token=session.access_token,
+            refresh_token=session.refresh_token,
+            expires_at_epoch=session.expires_at,
+            token_type=session.token_type,
+            data=sb_client.table("user_settings").select("*").execute().model_dump()["data"][0]
+        )
+        return {"statusCode": 200,  # Status code not required by DO, required by convention.
+                "body": {  # Required key
+                    'text': auth_object.to_dict()
+                    }
                 }
-            }
+    except Exception as e:
+        logger.error(f"Error signing in user {email}: {e}")
+        return {"statusCode": 400,  # Status code not required by DO, required by convention.
+                "body": {  # Required key
+                    'text': 'Unable to sign in.'
+                    }
+                }
 
 # If doing any local testing, include this.
 if __name__ == "__main__":
