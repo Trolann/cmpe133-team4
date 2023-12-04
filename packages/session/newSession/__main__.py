@@ -7,6 +7,7 @@ from supabase import create_client, Client
 from attrs import define, field, asdict, validators
 from threading import Thread
 import queue
+from binge_log import Logger
 
 load_dotenv()  # .env file for local use, not remote testing (production env's in DO console)
 base_url = "https://ffaxepgzfbuyaccrtzqm.supabase.co/storage/v1/object/public/avatar/"
@@ -69,6 +70,7 @@ def fetch_photo(photo_ref, identifier, result_queue, gmaps, max_width=500):
 # Must return a JSON serializable object (dict, json.dumps, etc)
 # Additional functions can be added/imported, but must be called from main()
 def main(args: list = None) -> dict:
+    logger = Logger('newSession')
     # Get environment variables. Ensure they are added in DO console.
     url: str = environ.get("SUPABASE_URL")
     key: str = environ.get("SUPABASE_KEY")
@@ -79,12 +81,13 @@ def main(args: list = None) -> dict:
     lat = args['lat']
     long = args['long']
     filter_distance = args['filter_distance']
+    logger.debug("Extracted args from request", given_args=args)
 
     sb_client = supabase.create_client(url, key)
     sb_client.postgrest.auth(access_token)
     current_restaurants = sb_client.table("user_settings").select("*").eq("id", user_id).execute().model_dump()["data"][0]["settings"]["restaurants"]
+    logger.debug(f"Got {len(current_restaurants)} restaurants for user", given_args=current_restaurants)
 
-    print(f"Got {len(current_restaurants)} restaurants for user")
     gmaps = googlemaps.Client(key=gmaps_key)
     google_result = gmaps.places(
             "restaurant",
@@ -95,8 +98,7 @@ def main(args: list = None) -> dict:
             open_now=True,
         )["results"]
 
-    print(f"Got {len(google_result)} restaurants from Google")
-
+    logger.debug(f"Got {len(google_result)} restaurants from Google", given_args=google_result)
 
     photo_threads = []
     photo_queue = queue.Queue()
@@ -108,6 +110,7 @@ def main(args: list = None) -> dict:
         photo_threads.append(thread)
         thread.start()
 
+    logger.debug(f"Started {len(photo_threads)} threads to fetch photos", given_args=photo_threads)
     for thread in photo_threads:
         thread.join()
 
@@ -131,6 +134,8 @@ def main(args: list = None) -> dict:
 
     filenames = []
     photo_threads.clear()
+
+    logger.debug(f'Uploading {len(results)} photos', given_args=results)
     for restaurant in results:
         stripped_name = ''.join(e for e in restaurant['name'] if e.isalnum())
         stripped_addy = ''.join(e for e in restaurant['formatted_address'] if e.isalnum())
@@ -156,6 +161,7 @@ def main(args: list = None) -> dict:
     for filename in filenames:
         remove(filename)
 
+    logger.debug(f'Created session with {len(results)} for {user_id}', given_args=results)
     final_results_dict = {
                             "google_results": results,
                             "users": [user_id],
@@ -167,6 +173,7 @@ def main(args: list = None) -> dict:
     #print(final_results_dict)
     print(session_id)
 
+    logger.info(f'Created session with id {session_id}', given_args=final_results_dict)
     return {"statusCode": 200,  # Status code not required by DO, required by convention.
             "body": {  # Required key
                 'text': session_id
