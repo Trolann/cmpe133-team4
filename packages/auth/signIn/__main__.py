@@ -5,7 +5,44 @@ from supabase import create_client, Client
 from attrs import define, field, asdict, validators
 from datetime import datetime
 from json import dumps as json_dumps
-from binge_log import Logger
+import requests
+
+class Logger:
+    def __init__(self, function_name, default_log_level='DEBUG'):
+        self.secret_key = environ.get("SUPABASE_KEY")
+        self.default_log_level = default_log_level
+        base_url = environ.get("LOGGING_URL", "https://faas-sfo3-7872a1dd.doserverless.co/api/v1/web/fn-08e1e9bb-6c28-49dc-ab50-0b63fac3c390/")
+        self.url = f"{base_url}auth/log"
+        self.headers = {"Content-Type": "application/json"}
+        self.function_name = function_name
+
+    def error(self, message, function_name=None, given_args=None):
+        function_name = function_name if function_name else self.function_name
+        return self._log(function_name, message, given_args, 'ERROR')
+
+    def warning(self, message, function_name=None, given_args=None):
+        function_name = function_name if function_name else self.function_name
+        return self._log(function_name, message, given_args, 'WARNING')
+
+    def info(self, message, function_name=None, given_args=None):
+        function_name = function_name if function_name else self.function_name
+        return self._log(function_name, message, given_args, 'INFO')
+
+    def debug(self, message, function_name=None, given_args=None):
+        function_name = function_name if function_name else self.function_name
+        return self._log(function_name, message, given_args, 'DEBUG')
+
+    def _log(self, function_name, message, given_args=None, level=None):
+        log_level = level if level else self.default_log_level
+        args = {
+            'access_token': self.secret_key,
+            'function_name': function_name,
+            'given_args': given_args,
+            'message': message,
+            'level': log_level
+        }
+        response = requests.get(self.url, json=args, headers=self.headers)
+        return response.text
 
 
 load_dotenv()  # .env file for local use, not remote testing (production env's in DO console)
@@ -43,21 +80,22 @@ class BingeAuthResponse:
 # must have main() function with args: list = None.
 # Must return a JSON serializable object (dict, json.dumps, etc)
 # Additional functions can be added/imported, but must be called from main()
-def main(args: list = None) -> dict:
+def main(args) -> dict:
     logger = Logger('signIn')
     url: str = environ.get("SUPABASE_URL")
     key: str = environ.get("SUPABASE_KEY")
     sb_client: Client = create_client(url, key)
     logger.debug(f'Supabase client created with url: {url}', given_args=sb_client)
+    email = args.get('email', "No email provided")
 
     try:
-        logger.debug(f"Attempting to sign in with email: {args['email']}")
+        logger.debug(f"Attempting to sign in with email: {email}")
         response = sb_client.auth.sign_in_with_password({"email": args["email"], "password": args["password"]})
         logger.debug(f"Sign in response: {response}")
         sb_client.postgrest.auth(response.session.access_token)
-        logger.info(f"Authenticated for user {args['email']}")
+        logger.info(f"Authenticated for user {email}")
     except Exception as e:
-        logger.error(f"Error signing in user {args['email']}: {e}")
+        logger.error(f"Error signing in user {email}: {e}")
         return {"statusCode": 400,  # Status code not required by DO, required by convention.
                 "body": {  # Required key
                     'text': 'Unable to sign in.'
