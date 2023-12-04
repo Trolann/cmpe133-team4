@@ -6,6 +6,30 @@ from json import dumps as json_dumps
 # Load environment variables
 load_dotenv()
 
+class StreamToLogger:
+    """
+    Fake file-like stream object that redirects writes to a logger instance.
+    """
+    def __init__(self, logger, level="info"):
+        self.logger = logger
+        self.level = level
+
+    def write(self, message):
+        """
+        Write the message to the logger.
+        """
+        if self.level == "info":
+            self.logger.info(message)
+        elif self.level == "error":
+            self.logger.error(message)
+        # Add more levels if needed
+
+    def flush(self):
+        """
+        Flush the stream - for compatibility with file objects.
+        """
+        pass
+
 class Logger:
     def __init__(self, function_name, default_log_level='DEBUG'):
         self.secret_key = environ.get("SUPABASE_KEY")

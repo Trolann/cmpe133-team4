@@ -7,7 +7,8 @@ from supabase import create_client, Client
 from attrs import define, field, asdict, validators
 from threading import Thread
 import queue
-from binge_log import Logger
+from binge_log import Logger, StreamToLogger
+import sys
 
 load_dotenv()  # .env file for local use, not remote testing (production env's in DO console)
 base_url = "https://ffaxepgzfbuyaccrtzqm.supabase.co/storage/v1/object/public/avatar/"
@@ -71,6 +72,8 @@ def fetch_photo(photo_ref, identifier, result_queue, gmaps, max_width=500):
 # Additional functions can be added/imported, but must be called from main()
 def main(args: list = None) -> dict:
     logger = Logger('newSession')
+    sys.stdout = StreamToLogger(logger, 'stdout')
+    sys.stderr = StreamToLogger(logger, 'stderr')
     # Get environment variables. Ensure they are added in DO console.
     url: str = environ.get("SUPABASE_URL")
     key: str = environ.get("SUPABASE_KEY")
