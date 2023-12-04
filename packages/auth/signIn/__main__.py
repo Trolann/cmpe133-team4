@@ -5,45 +5,7 @@ from supabase import create_client, Client
 from attrs import define, field, asdict, validators
 from datetime import datetime
 from json import dumps as json_dumps
-import requests
-
-class Logger:
-    def __init__(self, function_name, default_log_level='DEBUG'):
-        self.secret_key = environ.get("SUPABASE_KEY")
-        self.default_log_level = default_log_level
-        base_url = environ.get("LOGGING_URL", "https://faas-sfo3-7872a1dd.doserverless.co/api/v1/web/fn-08e1e9bb-6c28-49dc-ab50-0b63fac3c390/")
-        self.url = f"{base_url}auth/log"
-        self.headers = {"Content-Type": "application/json"}
-        self.function_name = function_name
-        self._log(function_name, 'Logger initialized', None, 'INFO')
-
-    def error(self, message, function_name=None, given_args=None):
-        function_name = function_name if function_name else self.function_name
-        return self._log(function_name, message, given_args, 'ERROR')
-
-    def warning(self, message, function_name=None, given_args=None):
-        function_name = function_name if function_name else self.function_name
-        return self._log(function_name, message, given_args, 'WARNING')
-
-    def info(self, message, function_name=None, given_args=None):
-        function_name = function_name if function_name else self.function_name
-        return self._log(function_name, message, given_args, 'INFO')
-
-    def debug(self, message, function_name=None, given_args=None):
-        function_name = function_name if function_name else self.function_name
-        return self._log(function_name, message, given_args, 'DEBUG')
-
-    def _log(self, function_name, message, given_args=None, level=None):
-        log_level = level if level else self.default_log_level
-        args = {
-            'access_token': self.secret_key,
-            'function_name': function_name,
-            'given_args': given_args,
-            'message': message,
-            'level': log_level
-        }
-        response = requests.get(self.url, json=args, headers=self.headers)
-        return response.text
+from binge_log import Logger
 
 
 load_dotenv()  # .env file for local use, not remote testing (production env's in DO console)
