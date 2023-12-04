@@ -11,6 +11,8 @@ packages:
       parameters: {}
       annotations: {}
       functions:
+        - name: log
+          runtime: python:default
         - name: newUser
           runtime: python:default
         - name: signIn
