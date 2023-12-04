@@ -5,40 +5,40 @@
     "packageVersions": {},
     "actionVersions": {
       "auth/newUser": {
-        "digest": "8e0a1af192da0068ff6e0f7128fea4d3c2f071789fd83a3ecd5ca3f5026c6771",
-        "version": "0.0.18"
+        "digest": "0bdb7c3936f94dfcf01a06be58572393e3778ffb8ab6188e80f044793c6bfc44",
+        "version": "0.0.27"
       },
       "auth/signIn": {
-        "digest": "187c6f46cd823c27909ad2570d339fd93bfd9ecddb43ab9f408573c6ed678c6d",
-        "version": "0.0.16"
+        "digest": "ccd9a8f2b37208d9a73a115b5c24f3316a621045fcb579d6c1eca211572fa763",
+        "version": "0.0.25"
       },
       "recommendation/likeRestaurant": {
-        "digest": "c157ea01e728d04f78a5ce1851788496e8edcf9322c4522625c4be6eeda762e0",
-        "version": "0.0.12"
+        "digest": "0e59fd684e802b219d1059b986bd4ed26ec4c7cc72b3edafbd3e3aa5ff82db7d",
+        "version": "0.0.21"
       },
       "session/getSessionInfo": {
-        "digest": "90aaf5198b3608ea28ac77901a397bc5856cd34cc6cd0a73054cb73aa0e6fcf8",
-        "version": "0.0.12"
+        "digest": "bd2991d306e8a9167c069ac11bf1da5a4d85c89bedaa460b4596d444e6386975",
+        "version": "0.0.21"
       },
       "session/joinSession": {
-        "digest": "39e3f4c961b320b901483ece8e7fe3f356c7c4036d12aad2f2e73653af2ca6e9",
-        "version": "0.0.12"
+        "digest": "c75089d9053bcf0c45e824c57f021a97af29258ce9d91e3a82682ba9213021bb",
+        "version": "0.0.21"
       },
       "session/newSession": {
-        "digest": "bfe579ed8bf7c238f5ff80b8a344190ce07c1099a8c0cf07b6305ed8f69befc9",
-        "version": "0.0.12"
+        "digest": "971b13c50c717170e95c0967f059e2e0d85b46ff57b48217b4abc318410d6b6b",
+        "version": "0.0.22"
       },
       "user/getSettings": {
-        "digest": "863c82ef23e031b7558f438af3c4ba0c5f5fe7456009e67d7d85ff54f33fd9a0",
-        "version": "0.0.12"
+        "digest": "22c9103cece83258feda8586ba805a3b76eb92ff068b81e93016bc1203a3812f",
+        "version": "0.0.21"
       },
       "user/updateSettings": {
-        "digest": "4142317420c09ce0eb34b3dde3147ffc0af346cf60bba092b908f81bfee4f829",
-        "version": "0.0.12"
+        "digest": "62331e4d1bc82df5e04039e95e1391b182da620d4b5172208f0ef074057479a6",
+        "version": "0.0.21"
       },
       "user/uploadPicture": {
-        "digest": "aea7aa7bf81849dcfca6e4680c6c319a90edee62aa2708c27de370b884f3774e",
-        "version": "0.0.12"
+        "digest": "8cfe02297b7e57e763c9a0912224c0793c6b9aca3d55aacb0da1004e8db156fa",
+        "version": "0.0.21"
       }
     },
     "webHashes": {}
