@@ -61,11 +61,18 @@ export const newSession = async (user_id, access_token, lat, long, filter_distan
 
 export const joinSession = async (user_id, access_token, session_id) => {
   try {
+    console.log(
+        "Joining Data: \n",
+        "ID: ", user_id, "\n",
+        "AT: ", access_token, "\n",
+        "Session: ", session_id
+    )
     const response = await api.post('/session/joinSession', {
       user_id,
       access_token,
       session_id
     });
+    console.error(response)
     return response.data.text;
   } catch (error) {
     console.error('Failed to join session', error);
