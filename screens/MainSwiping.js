@@ -20,6 +20,7 @@ const MainSwiping = () => {
     const fetchUsers = async () => {
       try {
         var access_token = AccessToken;
+        console.log("ID at Swipe: ", user_id);
         const { data } = await getResults(user_id, access_token, session_id);
         setUsers(data.results);
       } catch (error) {

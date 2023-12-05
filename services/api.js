@@ -40,11 +40,11 @@ export const createAccount = async (email, password) => {
 export const newSession = async (user_id, access_token, lat, long, filter_distance) => {
   try {
     console.log(
-      "ID: " , user_id, "\n",
-      "AT: " , access_token,  "\n",
-      "Lat: " , lat,  "\n",
-      "Long: " , long, "\n",
-      "Dist: " , filter_distance);
+      "ID: ", user_id, "\n",
+      "AT: ", access_token, "\n",
+      "Lat: ", lat, "\n",
+      "Long: ", long, "\n",
+      "Dist: ", filter_distance);
     const response = await api.post('/session/newSession', {
       user_id,
       access_token,
@@ -72,9 +72,9 @@ export const joinSession = async (user_id, access_token, session_id) => {
     console.error(error.toString())
     throw error;
   }
- };
+};
 
- export const getResults = async (user_id, access_token, session_id) => {
+export const getResults = async (user_id, access_token, session_id) => {
   try {
     console.log(
       "Getting Data: \n",
@@ -82,11 +82,12 @@ export const joinSession = async (user_id, access_token, session_id) => {
       "AT: ", access_token, "\n",
       "Session: ", session_id
     )
-    const response = await api.get('/session/getSessionInfo', {
-      user_id,
-      access_token,
-      session_id
-    });
+    const response = await api.get('session/getSessionInfo');
+    // , {
+    //   user_id,
+    //   access_token,
+    //   session_id
+    // }
     console.log(response);
     return response;
   } catch (error) {
@@ -94,7 +95,7 @@ export const joinSession = async (user_id, access_token, session_id) => {
     throw error;
   }
 };
- 
+
 export const getSettings = async (user_id, access_token) => {
   try {
     const response = await api.post('/user/getSettings', {
@@ -128,7 +129,7 @@ export const uploadPicture = async (user_id, access_token, image) => {
     formData.append('image_encoded', image);
     formData.append('user_id', user_id);
     formData.append('access_token', access_token);
- 
+
     const response = await api.post('/user/uploadPicture', formData);
     console.log('Picture uploaded successfully in api:', response.data);
     return response;
@@ -136,8 +137,8 @@ export const uploadPicture = async (user_id, access_token, image) => {
     console.error('Failed to upload picture', error);
     throw error;
   }
- };
- 
+};
+
 
 
 export default api;

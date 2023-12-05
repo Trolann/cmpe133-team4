@@ -31,7 +31,8 @@ const SessionPage = ({ navigation }) => {
       global.sessionID = session;
       console.log('Global Session ID: ', session);
       if (session) {
-        navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: session })
+        console.log("PreNav ID: ", user_id);
+        navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: session, user_id: user_id })
         setSessionID(session);
       }
     }
@@ -49,7 +50,7 @@ const SessionPage = ({ navigation }) => {
       global.sessionID = session;
       
       if (session) {
-        navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: session })
+        navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: session, user_id: user_id })
         setSessionID(session);
       }
     }
