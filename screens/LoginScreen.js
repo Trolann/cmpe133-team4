@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { signIn } from '../services/api';
 import { Alert } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 //"email": "newemail@binge.app",
 //"password": "ExtraLongPassword"
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const handleSignIn = async() => {
     try {
@@ -53,13 +55,23 @@ const LoginScreen = ({ navigation }) => {
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          secureTextEntry
-        />
+        <View style={styles.passwordInputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+            secureTextEntry={!isPasswordVisible}
+          />
+          <FontAwesome
+            name={isPasswordVisible ? 'eye' : 'eye-slash'}
+            size={24}
+            padding ={5}
+            color="black"
+            onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+            style={{ paddingRight: 15 }}
+          />
+        </View>
         <TouchableOpacity
           style={styles.button}
           onPress={handleSignIn}
@@ -78,6 +90,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white', // Change the background color to match the home page
   },
+  passwordInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+   },
   card: {
     width: '80%',
     padding: 20,
@@ -96,6 +112,7 @@ const styles = StyleSheet.create({
     color: '#FF0000', // Match the theme color
   },
   input: {
+    width: '95%',
     borderWidth: 1,
     borderColor: '#ccc',
     padding: 16, // Increase padding

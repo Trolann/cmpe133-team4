@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     left: 20,
+    flexShrink: 1,
   },
   textRow: {
     flexDirection: 'row',
@@ -82,13 +83,16 @@ const styles = StyleSheet.create({
   },
   textPrimary: {
     color: 'white',
-    fontSize: 35,
+    fontSize: 30,
     fontWeight: 'bold',
+    flexShrink: 1,
   },
   textSecondary: {
     color: 'white',
     marginLeft: 10,
-    fontSize: 25,
+    marginRight: 20,
+    fontSize: 20,
+    flexShrink: 1,
   },
   textShadow: {
     textShadowColor: 'rgba(0, 0, 0, 0.80)',
