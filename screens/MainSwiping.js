@@ -9,7 +9,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { getResults } from '../services/api';
 
 const MainSwiping = () => {
-  const [users, setUsers] = useState([]);
+  const [places, setPlaces] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const swipesRef = useRef(null);
 
@@ -17,33 +17,33 @@ const MainSwiping = () => {
   const { AccessToken, Location, user_id, session_id } = route.params;
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchPlaces = async () => {
       try {
         var access_token = AccessToken;
-        console.log("ID at Swipe: ", user_id);
-        const { data } = await getResults(user_id, access_token, session_id);
-        setUsers(data.results);
+        const data = await getResults(user_id, access_token, session_id);
+        //console.log("Data Pulled: ", data)
+        setPlaces(data.google_results);
       } catch (error) {
         console.log(error);
-        Alert.alert('Error getting users', '', [{ text: 'Retry', onPress: fetchUsers }]);
+        Alert.alert('Error getting places', '', [{ text: 'Retry', onPress: fetchPlaces }]);
       }
     };
 
-    fetchUsers();
+    fetchPlaces();
   }, []);
 
   const handleLike = () => {
     console.log('like');
-    nextUser();
+    nextPlace();
   };
 
   const handlePass = () => {
     console.log('pass');
-    nextUser();
+    nextPlace();
   };
 
-  const nextUser = () => {
-    const nextIndex = currentIndex === users.length - 1 ? 0 : currentIndex + 1;
+  const nextPlace = () => {
+    const nextIndex = currentIndex === places.length - 1 ? 0 : currentIndex + 1;
     setCurrentIndex(nextIndex);
   };
 
@@ -60,11 +60,11 @@ const MainSwiping = () => {
       <View style={styles.container}>
         <TopBar />
         <View style={styles.swipes}>
-          {users.length > 0 && (
+          {places.length > 0 && (
             <Swipes
               ref={swipesRef}
               currentIndex={currentIndex}
-              users={users}
+              places={places}
               handleLike={handleLike}
               handlePass={handlePass}
             />

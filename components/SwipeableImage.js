@@ -3,7 +3,7 @@ import { View, Image, StyleSheet, Text } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
 import { useFonts, Montserrat_400Regular } from '@expo-google-fonts/montserrat';
 
-export default function SwipeableImage({ user, willLike, willPass }) {
+export default function SwipeableImage({ place, willLike, willPass }) {
   let [fontsLoaded] = useFonts({
     Montserrat_400Regular,
   });
@@ -11,9 +11,14 @@ export default function SwipeableImage({ user, willLike, willPass }) {
   if (!fontsLoaded) {
     return null; // You might want to render a loading indicator here
   }
+
   return (
     <View>
-      <Image source={{ uri: user.picture.large }} style={styles.photo} />
+      {/* uri: places.picture.large */}
+      <Image
+        style={styles.photo}
+        source={{ uri: place.photos[0] }}
+      />
       {willLike && (
         <View style={styles.likeBox}>
           <Text style={{ ...styles.textPrimary, color: '#64EDCC', fontFamily: 'Montserrat_400Regular' }}>LIKE</Text>
@@ -26,14 +31,14 @@ export default function SwipeableImage({ user, willLike, willPass }) {
       )}
       <View style={styles.textContainer}>
         <View style={styles.textRow}>
-        <Text style={[styles.textPrimary, styles.textShadow, { fontFamily: 'Montserrat_400Regular' }]}>
-            {user.name.first}
-        </Text>
-          <Text style={[styles.textSecondary, styles.textShadow]}>{user.dob.age}</Text>
+          <Text style={[styles.textPrimary, styles.textShadow, { fontFamily: 'Montserrat_400Regular' }]}>
+            {place.name}
+          </Text>
+          <Text style={[styles.textSecondary, styles.textShadow]}>Filler</Text>
         </View>
         <View style={styles.textRow}>
           <FontAwesome name="map-marker" size={20} color="white"></FontAwesome>
-          <Text style={[styles.textSecondary, styles.textShadow]}>{user.location.city}</Text>
+          <Text style={[styles.textSecondary, styles.textShadow]}>{place.formatted_address}</Text>
         </View>
       </View>
     </View>

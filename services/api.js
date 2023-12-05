@@ -62,10 +62,10 @@ export const newSession = async (user_id, access_token, lat, long, filter_distan
 export const joinSession = async (user_id, access_token, session_id) => {
   try {
     console.log(
-        "Joining Data: \n",
-        "ID: ", user_id, "\n",
-        "AT: ", access_token, "\n",
-        "Session: ", session_id
+      "Joining Data: \n",
+      "ID: ", user_id, "\n",
+      "AT: ", access_token, "\n",
+      "Session: ", session_id
     )
     const response = await api.post('/session/joinSession', {
       user_id,
@@ -89,14 +89,16 @@ export const getResults = async (user_id, access_token, session_id) => {
       "AT: ", access_token, "\n",
       "Session: ", session_id
     )
-    const response = await axios.get('https://sea-lion-app-s86sj.ondigitalocean.app/session/getSessionInfo');
-    // , {
-    //   user_id,
-    //   access_token,
-    //   session_id
-    // }
-    console.log("Test: ", response);
-    return response.body;
+    const response = await axios.get('https://sea-lion-app-s86sj.ondigitalocean.app/session/getSessionInfo', {
+    params: {
+      user_id,
+      access_token,
+      session_id
+    }
+    });
+    const results = response.data.text;
+    console.log("Results Log: ", results); 
+    return results;
   } catch (error) {
     console.error('Failed to get results', error);
     throw error;
