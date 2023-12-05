@@ -59,8 +59,6 @@ def main(args: list = None) -> dict:
 
     logger.info(f'Sorted restaurants for session {session_id}', given_args=session_data["data"])
 
-    return session_data["data"]
-
     return {"statusCode": 200,  # Status code not required by DO, required by convention.
             "body": {
                 'text': session_data["data"]

@@ -49,7 +49,7 @@ const ChooseLocationScreen = ({ navigation, route }) => {
       });
     }
     // Clear the selected location so that only one marker is displayed
-    setSelectedLocation(null);
+    //setSelectedLocation(null);
   };
 
   const handleSaveLocation = () => {
