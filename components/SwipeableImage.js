@@ -34,7 +34,6 @@ export default function SwipeableImage({ place, willLike, willPass }) {
           <Text style={[styles.textPrimary, styles.textShadow, { fontFamily: 'Montserrat_400Regular' }]}>
             {place.name}
           </Text>
-          <Text style={[styles.textSecondary, styles.textShadow]}>Filler</Text>
         </View>
         <View style={styles.textRow}>
           <FontAwesome name="map-marker" size={20} color="white"></FontAwesome>

@@ -46,12 +46,18 @@ const SessionPage = ({ navigation }) => {
   const handleJoinSession = async() => {
     try {
       global.access_token = AccessToken;
+      console.log("New Session: ", sessionID);
       const session = await joinSession(user_id, access_token, sessionID);
+      var prevSessionId = global.SessionId;
       global.sessionID = session;
       
-      if (session) {
+      if (session > -1) {
         navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: session, user_id: user_id })
         setSessionID(session);
+      }
+      else{
+        navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: prevSessionId, user_id: user_id })
+        setSessionID(prevSessionId);
       }
     }
     catch (error) {
@@ -116,6 +122,9 @@ const SessionPage = ({ navigation }) => {
     };
   }, [timerInterval]);
 
+  const handleSessionIDChange = (text) => {
+    setSessionID(text);
+  };
 
   return (
     <GestureHandlerRootView style={styles.container}>
@@ -151,13 +160,8 @@ const SessionPage = ({ navigation }) => {
             style={styles.input}
             placeholder="Session ID"
             defaultValue={String(sessionID) === 'undefined' ? 'Enter SessionID Number' : String(sessionID)}
-            
+            onChangeText={handleSessionIDChange}
           />
-
-          
-
-          
-          
 
           {/* Join Session Button */}
           <TouchableOpacity style={styles.joinButton} onPress={handleJoinSession}>

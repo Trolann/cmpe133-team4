@@ -73,7 +73,12 @@ export const joinSession = async (user_id, access_token, session_id) => {
       session_id
     });
     console.error(response)
-    return response.data.text;
+    if(response.data.text === 'User settings updated.'){
+      return session_id;
+    }
+    else{
+      return -1;
+    }
   } catch (error) {
     console.error('Failed to join session', error);
     console.error(error.toString())
@@ -96,9 +101,8 @@ export const getResults = async (user_id, access_token, session_id) => {
       session_id
     }
     });
-    //const results = response;
-    console.log("Results Log: ", response); 
-    return response;
+    console.log("Results Log: ", response.data.text); 
+    return response.data.text;
   } catch (error) {
     console.error('Failed to get results', error);
     throw error;
