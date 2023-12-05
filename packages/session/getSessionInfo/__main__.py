@@ -67,8 +67,8 @@ def main(args: list = None) -> dict:
 if __name__ == "__main__":
     from get_auth import get_access_token
     args = {
-        'user_id': '71f87b7c-55bf-488d-a562-7cd8e120495d',
-        "access_token": get_access_token(),
+        "user_id": "71f87b7c-55bf-488d-a562-7cd8e120495d",
+        "access_token": "eyJhbGciOiJIUzI1NiIsImtpZCI6IjMybjY0dTRXRnN2bytocG4iLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzAxNzQ4MDcyLCJpYXQiOjE3MDE3NDQ0NzIsImlzcyI6Imh0dHBzOi8vZmZheGVwZ3pmYnV5YWNjcnR6cW0uc3VwYWJhc2UuY28vYXV0aC92MSIsInN1YiI6IjcxZjg3YjdjLTU1YmYtNDg4ZC1hNTYyLTdjZDhlMTIwNDk1ZCIsImVtYWlsIjoibmV3ZW1haWxAYmluZ2UuYXBwIiwicGhvbmUiOiIiLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJlbWFpbCIsInByb3ZpZGVycyI6WyJlbWFpbCJdfSwidXNlcl9tZXRhZGF0YSI6e30sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3MDE3NDQ0NzJ9XSwic2Vzc2lvbl9pZCI6IjM1ZGQwOGFjLTg0YWEtNDY0NS05MWYwLWFiYTU5MWU1ZmY1MyJ9.70CYCt-sdD1Vh_plvIMK_0CU1adtRTjsFLNjYdXSTfA",
         "session_id": "88"
     }
     print(main(args))

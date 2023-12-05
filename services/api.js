@@ -69,6 +69,7 @@ export const joinSession = async (user_id, access_token, session_id) => {
     return response.data.text;
   } catch (error) {
     console.error('Failed to join session', error);
+    console.error(error.toString())
     throw error;
   }
  };
