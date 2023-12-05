@@ -2,6 +2,8 @@
 from dotenv import load_dotenv
 from os import environ
 from supabase import create_client, Client
+from binge_log import Logger
+
 load_dotenv()  # .env file for local use, not remote testing (production env's in DO console)
 
 def get_results(session_id, url):
@@ -34,6 +36,7 @@ def get_user(user_id, url, access_token):
 # Must return a JSON serializable object (dict, json.dumps, etc)
 # Additional functions can be added/imported, but must be called from main()
 def main(args: list = None) -> dict:
+    logger = Logger('getSessionInfo')
     # Get environment variables. Ensure they are added in DO console.
     url: str = environ.get("SUPABASE_URL")
     key: str = environ.get("SUPABASE_KEY")
@@ -41,12 +44,17 @@ def main(args: list = None) -> dict:
     user_id = args['user_id']
     access_token = args['access_token']
     session_id = int(args['session_id'])
+    logger.debug("Extracted args from request", given_args=args)
 
     session_data = get_results(session_id, url)
+    logger.debug(f'Got {len(session_data["data"]["google_results"])} restaurants for session {session_id}', given_args=session_data["data"])
     user_results = get_user(user_id, url, access_token)
+    logger.debug(f'Got {len(user_results)} restaurants for user {user_id}', given_args=user_results)
 
     print(session_data)
     session_data["data"]["google_results"].sort(key=lambda x: user_results.get(x["name"], float('inf')))
+
+    logger.info(f'Sorted restaurants for session {session_id}', given_args=session_data["data"])
 
     return {"statusCode": 200,  # Status code not required by DO, required by convention.
             "body": {
