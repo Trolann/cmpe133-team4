@@ -1,8 +1,8 @@
 
 import axios from 'axios';
 
-//const BASE_URL = 'https://sea-lion-app-s86sj.ondigitalocean.app';
-const BASE_URL = 'https://faas-sfo3-7872a1dd.doserverless.co/api/v1/web/fn-08e1e9bb-6c28-49dc-ab50-0b63fac3c390/';
+const BASE_URL = 'https://sea-lion-app-s86sj.ondigitalocean.app';
+//const BASE_URL = 'https://faas-sfo3-7872a1dd.doserverless.co/api/v1/web/fn-08e1e9bb-6c28-49dc-ab50-0b63fac3c390/';
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -45,7 +45,7 @@ export const newSession = async (user_id, access_token, lat, long, filter_distan
       "Lat: ", lat, "\n",
       "Long: ", long, "\n",
       "Dist: ", filter_distance);
-    const response = await api.post('/session/newSession', {
+    const response = await axios.post('https://faas-sfo3-7872a1dd.doserverless.co/api/v1/web/fn-08e1e9bb-6c28-49dc-ab50-0b63fac3c390/session/newSession', {
       user_id,
       access_token,
       lat,
@@ -118,6 +118,27 @@ export const getSettings = async (user_id, access_token) => {
     return response.data.text;
   } catch (error) {
     console.error('Failed to get user settings', error);
+    throw error;
+  }
+};
+
+export const likeRestaraunt = async (user_id, access_token, restaurant) => {
+  try {
+    console.log(
+      "Getting Data: \n",
+      "ID: ", user_id, "\n",
+      "AT: ", access_token, "\n",
+      "Restaraunt: ", restaurant
+    )
+    const response = await api.post('/recommendation/likeRestaurant', {
+      user_id,
+      access_token,
+      restaurant
+    });
+    console.log("Response: " ,response.data.text);
+    return response.data.text;
+  } catch (error) {
+    console.error('Failed to Update Session', error);
     throw error;
   }
 };

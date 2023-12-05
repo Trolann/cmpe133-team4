@@ -6,7 +6,7 @@ import BottomBar from '../components/BottomBar';
 import { useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { getResults } from '../services/api';
+import { getResults, likeRestaraunt } from '../services/api';
 
 const MainSwiping = () => {
   const [places, setPlaces] = useState([]);
@@ -31,9 +31,21 @@ const MainSwiping = () => {
     fetchPlaces();
   }, []);
 
-  const handleLike = () => {
-    console.log('like');
-    nextPlace();
+  const handleLike = async () => {
+    var restaurant = places[currentIndex].name;
+    console.log('Restaurant ', currentIndex, ': Restaurant Name: ', restaurant);
+    try {
+      const likeVerif = await likeRestaraunt(user_id, access_token, restaurant);
+      console.log("LikeVrif: ", likeVerif);
+      if (likeVerif) {
+        console.log("Like Successful: Session Updated");
+        nextPlace();
+      }
+    } catch(error){
+      console.log(error);
+        Alert.alert('Like Failed: Error Updating Session');
+    }
+    
   };
 
   const handlePass = () => {
