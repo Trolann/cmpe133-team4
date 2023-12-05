@@ -89,14 +89,14 @@ export const getResults = async (user_id, access_token, session_id) => {
       "AT: ", access_token, "\n",
       "Session: ", session_id
     )
-    const response = await api.get('session/getSessionInfo');
+    const response = await axios.get('https://sea-lion-app-s86sj.ondigitalocean.app/session/getSessionInfo');
     // , {
     //   user_id,
     //   access_token,
     //   session_id
     // }
-    console.log(response);
-    return response;
+    console.log("Test: ", response);
+    return response.body;
   } catch (error) {
     console.error('Failed to get results', error);
     throw error;
