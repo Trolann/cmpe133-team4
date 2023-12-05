@@ -41,12 +41,9 @@ def main(args: list = None) -> dict:
     # Get environment variables. Ensure they are added in DO console.
     url: str = environ.get("SUPABASE_URL")
     key: str = environ.get("SUPABASE_KEY")
-    # user_id = args['user_id']
-    # access_token = args['access_token']
-    # session_id = int(args['session_id'])
-    user_id = args.get('user_id')
-    access_token = args.get('access_token')
-    session_id = int(args.get('session_id'))
+    user_id = args['user_id']
+    access_token = args['access_token']
+    session_id = int(args['session_id'])
     logger.debug("Extracted args from request", given_args=args)
 
     session_data = get_results(session_id, url)

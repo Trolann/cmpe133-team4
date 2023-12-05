@@ -96,9 +96,9 @@ export const getResults = async (user_id, access_token, session_id) => {
       session_id
     }
     });
-    const results = response.data.text;
-    console.log("Results Log: ", results); 
-    return results;
+    //const results = response;
+    console.log("Results Log: ", response); 
+    return response;
   } catch (error) {
     console.error('Failed to get results', error);
     throw error;

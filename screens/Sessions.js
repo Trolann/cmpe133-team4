@@ -14,7 +14,7 @@ const SessionPage = ({ navigation }) => {
   const [sessionID, setSessionID] = useState(global.session);
   var lat = -48.876667;
   var long = -123.393333
-  var filter_distance = 10000;
+  var filter_distance = 1000000;
 
   if(Location){
     lat = Location.latitude;
