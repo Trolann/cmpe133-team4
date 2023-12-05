@@ -1,37 +1,47 @@
 import React, { useState, useEffect, useParams } from 'react';
 import { View, Text, TouchableOpacity, TextInput, ScrollView, StyleSheet, FlatList } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import Slider from '@react-native-community/slider';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useRoute } from '@react-navigation/native';
 import { newSession } from '../services/api';
 import { joinSession } from '../services/api';
 import { Alert } from 'react-native';
 
+<Slider
+  style={{ width: 200, height: 40 }}
+  minimumValue={0}
+  maximumValue={1}
+  minimumTrackTintColor="#FFFFFF"
+  maximumTrackTintColor="#000000"
+/>
+
 const SessionPage = ({ navigation }) => {
 
   const route = useRoute();
   const { AccessToken, Location, user_id } = route.params;
   const [sessionID, setSessionID] = useState(global.session);
+  const [distance, setDistance] = useState(50); // Initial distance value
   var lat = -48.876667;
   var long = -123.393333
   var filter_distance = 1000000;
 
-  if(Location){
+  if (Location) {
     lat = Location.latitude;
     long = Location.longitude;
   }
 
-  const handleCreateNewSession = async() => {
-    
-    
+  const handleCreateNewSession = async () => {
+
+
     try {
       global.access_token = AccessToken;
-      console.log('User Id: ', user_id);
+      if(distance){
+        filter_distance = (distance*1609.34);
+      }
       const session = await newSession(user_id, access_token, lat, long, filter_distance);
       global.sessionID = session;
-      console.log('Global Session ID: ', session);
       if (session) {
-        console.log("PreNav ID: ", user_id);
         navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: session, user_id: user_id })
         setSessionID(session);
       }
@@ -43,19 +53,19 @@ const SessionPage = ({ navigation }) => {
   }
   // Navigate to the desired screen after creating a new session
 
-  const handleJoinSession = async() => {
+  const handleJoinSession = async () => {
     try {
       global.access_token = AccessToken;
       console.log("New Session: ", sessionID);
       const session = await joinSession(user_id, access_token, sessionID);
       var prevSessionId = global.SessionId;
       global.sessionID = session;
-      
+
       if (session > -1) {
         navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: session, user_id: user_id })
         setSessionID(session);
       }
-      else{
+      else {
         navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: prevSessionId, user_id: user_id })
         setSessionID(prevSessionId);
       }
@@ -63,17 +73,17 @@ const SessionPage = ({ navigation }) => {
     catch (error) {
       console.error('Join session failed', error.message);
       Alert.alert(
-      "Join Session Failed",
-      error.message,
-      [
-        {
-          text: "OK",
-          onPress: () => console.log("OK Pressed"),
-        },
-      ]
+        "Join Session Failed",
+        error.message,
+        [
+          {
+            text: "OK",
+            onPress: () => console.log("OK Pressed"),
+          },
+        ]
       );
-     }
-   };
+    }
+  };
 
 
   const [sessionDetails, setSessionDetails] = useState({
@@ -113,7 +123,7 @@ const SessionPage = ({ navigation }) => {
 
 
 
-  
+
   useEffect(() => {
     return () => {
       if (timerInterval) {
@@ -154,8 +164,8 @@ const SessionPage = ({ navigation }) => {
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionHeader}>Join Session</Text>
           <Text style={styles.label}>Session ID</Text>
-          
-            
+
+
           <TextInput
             style={styles.input}
             placeholder="Session ID"
@@ -193,8 +203,24 @@ const SessionPage = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View>
-      </ScrollView>
-    </GestureHandlerRootView>
+
+        <View style={styles.separator} />
+        <View style={styles.sectionContainer}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionHeader}>Distance:</Text>
+            <Text style={styles.distanceText}>{distance} miles</Text>
+            <Slider
+              style={{ width: '100%' }}
+              minimumValue={0}
+              maximumValue={100}
+              step={1}
+              value={distance}
+              onValueChange={(value) => setDistance(value)}
+            />
+          </View>
+        </View>
+    </ScrollView>
+    </GestureHandlerRootView >
   );
 };
 
@@ -212,6 +238,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
     color: '#FF0000',
+  },
+  distanceText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#000000',
   },
   inputContainer: {
     marginBottom: 20,

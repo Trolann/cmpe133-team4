@@ -115,18 +115,6 @@ const SettingsScreen = ({ navigation }) => {
           <Text style={styles.settingText}>Enable Location</Text>
           <Switch value={location} onValueChange={toggleLocation} />
         </TouchableOpacity>
-
-        <View style={styles.setting}>
-          <Text style={styles.settingText}>Distance: {distance} miles</Text>
-          <Slider
-            style={{ width: '60%' }}
-            minimumValue={0}
-            maximumValue={100}
-            step={1}
-            value={distance}
-            onValueChange={(value) => setDistance(value)}
-          />
-        </View>
       </View>
 
       <TouchableOpacity

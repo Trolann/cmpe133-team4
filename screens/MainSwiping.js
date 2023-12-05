@@ -21,7 +21,6 @@ const MainSwiping = () => {
       try {
         var access_token = AccessToken;
         const data = await getResults(user_id, access_token, session_id);
-        //console.log("Data Pulled: ", data)
         setPlaces(data.google_results);
       } catch (error) {
         console.log(error);
