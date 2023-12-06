@@ -247,13 +247,14 @@ def get_all_google_pages(filter_distance, lat, long):
         try:
             print(f'filter_distance: {filter_distance}')
             raw_result = gmaps.places(
-                "restaurant",
+                #"restaurant",
                 location=(lat, long),
                 radius=filter_distance,
                 region='US',
                 language='en-US',
                 open_now=True,
-                page_token=next_page_token
+                page_token=next_page_token,
+                type='restaurant'
             )
             print('got another page')
             print(f'{raw_result.get("next_page_token", "next_page_token not found")}')
@@ -286,8 +287,8 @@ def get_all_google_pages(filter_distance, lat, long):
 if __name__ == "__main__":
     from get_auth import get_access_token
     args = {
-        'lat': 32.77375862654402,
-        'long': -117.07071418314115,
+        'lat': 34.77375862654402,
+        'long': -113.07071418314115,
         'filter_distance': 11000,
         'user_id': 'dcd12fdd-8887-4144-82ab-fca92e68ae8e',
         "access_token": get_access_token()
