@@ -12,6 +12,7 @@ import ChooseLocation from './screens/ChooseLocation';
 import ChangeProfilePicture from './screens/ChangeProfilePicture';
 import ChangeName from './screens/ChangeName';
 import ChangePassword from './screens/ChangePassword';
+import Results from './screens/Results';
 import Sessions from './screens/Sessions';
 import TopBar from './components/TopBar';
 
@@ -31,6 +32,7 @@ export default function App() {
           <Stack.Screen name="ChangeProfilePicture" component={ChangeProfilePicture} />
           <Stack.Screen name="ChangeName" component={ChangeName} />
           <Stack.Screen name="ChangePassword" component={ChangePassword} />
+          <Stack.Screen name="Results" component={Results} />
           <Stack.Screen name="Sessions" component={Sessions} />
         </Stack.Navigator>
       </NavigationContainer>

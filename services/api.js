@@ -73,10 +73,10 @@ export const joinSession = async (user_id, access_token, session_id) => {
       session_id
     });
     console.error(response)
-    if(response.data.text === 'User settings updated.'){
+    if (response.data.text === 'User settings updated.') {
       return session_id;
     }
-    else{
+    else {
       return -1;
     }
   } catch (error) {
@@ -95,13 +95,13 @@ export const getResults = async (user_id, access_token, session_id) => {
       "Session: ", session_id
     )
     const response = await axios.get('https://sea-lion-app-s86sj.ondigitalocean.app/session/getSessionInfo', {
-    params: {
-      user_id,
-      access_token,
-      session_id
-    }
+      params: {
+        user_id,
+        access_token,
+        session_id
+      }
     });
-    console.log("Results Log: ", response.data.text); 
+    console.log("Results Log: ", response.data.text);
     return response.data.text;
   } catch (error) {
     console.error('Failed to get results', error);
@@ -131,11 +131,11 @@ export const likeRestaraunt = async (user_id, access_token, restaurant) => {
       "Restaraunt: ", restaurant
     )
     const response = await api.post('/recommendation/likeRestaurant', {
-      user_id,
-      access_token,
-      restaurant
+        user_id,
+        access_token,
+        restaurant
     });
-    console.log("Response: " ,response.data.text);
+    console.log("Response: ", response.data.text);
     return response.data.text;
   } catch (error) {
     console.error('Failed to Update Session', error);

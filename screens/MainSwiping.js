@@ -1,20 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, View, Alert, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, Alert, ImageBackground } from 'react-native';
 import TopBar from '../components/TopBar';
 import Swipes from '../components/Swipes';
 import BottomBar from '../components/BottomBar';
+import Results from './Results';
 import { useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { getResults, likeRestaraunt } from '../services/api';
 
-const MainSwiping = () => {
+const MainSwiping = ({ navigation }) => {
   const [places, setPlaces] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const swipesRef = useRef(null);
 
   const route = useRoute();
-  const { AccessToken, Location, user_id, session_id } = route.params;
+  const { AccessToken, Location, user_id, session_id, sessionTime } = route.params;
+  const [sessionData, setSessionData] = useState([]);
+  const [endTime, setEndTime] = useState(9999);
+  if(sessionTime > 0 ){
+    var sessionLength = sessionTime;
+  }
 
   useEffect(() => {
     const fetchPlaces = async () => {
@@ -22,6 +28,9 @@ const MainSwiping = () => {
         var access_token = AccessToken;
         const data = await getResults(user_id, access_token, session_id);
         setPlaces(data.google_results);
+        setSessionData(data);
+        checkTime();
+        console.log(sessionTime);
       } catch (error) {
         console.log(error);
         Alert.alert('Error getting places', '', [{ text: 'Retry', onPress: fetchPlaces }]);
@@ -31,25 +40,44 @@ const MainSwiping = () => {
     fetchPlaces();
   }, []);
 
+  const checkTime = () => {
+    if((new Date().getTime()/1000) > (sessionData.timer + sessionLength)){
+    
+      console.log("Current Time: " , new Date().getTime()/1000);
+      console.log("Start Time: ", sessionData.timer);
+      console.log("Session Length: ", sessionLength)
+      console.log('stop');
+      navigation.navigate ("Results", {AccessToken: AccessToken, session_id: session_id, user_id: user_id,});
+      // Get final results 
+    }
+  }
+
   const handleLike = async () => {
     var restaurant = places[currentIndex].name;
     console.log('Restaurant ', currentIndex, ': Restaurant Name: ', restaurant);
     try {
-      const likeVerif = await likeRestaraunt(user_id, access_token, restaurant);
-      console.log("LikeVrif: ", likeVerif);
+      const likeVerif = await 
+      likeRestaraunt(user_id, access_token, restaurant);
+      console.log("LikeVerif: ", likeVerif);
       if (likeVerif) {
-        console.log("Like Successful: Session Updated");
-        nextPlace();
+        //Loader?
+        //const updated = await getResults(user_id, access_token, session_id);
+        if (updated) {
+          console.log("Like Successful: Session Updated");
+          //checkTime();
+          nextPlace();
+        }
       }
-    } catch(error){
+    } catch (error) {
       console.log(error);
-        Alert.alert('Like Failed: Error Updating Session');
+      //Alert.alert('Like Failed: Error Updating Session');
     }
-    
+
   };
 
   const handlePass = () => {
     console.log('pass');
+    checkTime();
     nextPlace();
   };
 
@@ -67,6 +95,7 @@ const MainSwiping = () => {
   };
 
   return (
+    
     <GestureHandlerRootView style={styles.container}>
       <View style={styles.container}>
         <TopBar />
@@ -88,6 +117,9 @@ const MainSwiping = () => {
 };
 
 const styles = StyleSheet.create({
+  timer:{
+    flex: 1,
+  },
   container: {
     flex: 1,
     backgroundColor: 'white',
