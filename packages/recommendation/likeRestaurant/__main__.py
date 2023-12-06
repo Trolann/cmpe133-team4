@@ -2,6 +2,7 @@
 from dotenv import load_dotenv
 from os import environ
 import supabase
+from binge_log import Logger
 load_dotenv()  # .env file for local use, not remote testing (production env's in DO console)
 
 def update_user_settings(user_id, new_settings):
@@ -33,9 +34,11 @@ def update_session_info(session_id, new_session_data):
 # Must return a JSON serializable object (dict, json.dumps, etc)
 # Additional functions can be added/imported, but must be called from main()
 def main(args: list = None) -> dict:
+    logger = Logger('likeRestaurant')
     # Get environment variables. Ensure they are added in DO console.
     url: str = environ.get("SUPABASE_URL")
     key: str = environ.get("SUPABASE_KEY")
+    logger.debug(f'Attempting to extract args from request', given_args=args)
 
     user_id = args['user_id']
     access_token = args['access_token']
@@ -58,6 +61,8 @@ def main(args: list = None) -> dict:
     print(session_ids)
 
     current_settings = sb_client.table("user_settings").select("*").eq("id", user_id).execute().model_dump()["data"][0]
+
+    logger.debug(f'Got user settings for user {user_id}', given_args=current_settings["settings"])
 
 
     if restaurant in current_settings["settings"]['restaurants']:
@@ -121,9 +126,10 @@ def main(args: list = None) -> dict:
 if __name__ == "__main__":
     from get_auth import get_access_token
     args = {
-        'user_id': '71f87b7c-55bf-488d-a562-7cd8e120495d',
-        "access_token": get_access_token(),
-        "restaurant": "Palermo Italian Restaurant"
+        #'user_id': '71f87b7c-55bf-488d-a562-7cd8e120495d',
+        "user_id": "5ffd0c40-b021-4d5e-ac33-09b1bb228088",
+        "access_token": "eyJhbGciOiJIUzI1NiIsImtpZCI6IjMybjY0dTRXRnN2bytocG4iLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzAxODM4Nzg2LCJpYXQiOjE3MDE4MzUxODYsImlzcyI6Imh0dHBzOi8vZmZheGVwZ3pmYnV5YWNjcnR6cW0uc3VwYWJhc2UuY28vYXV0aC92MSIsInN1YiI6IjVmZmQwYzQwLWIwMjEtNGQ1ZS1hYzMzLTA5YjFiYjIyODA4OCIsImVtYWlsIjoiamFpbWVlbGVwYW5vMjM1N0BnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7fSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTcwMTgzNTE4Nn1dLCJzZXNzaW9uX2lkIjoiNDM4NjUwNjUtMTY5MC00MTYzLWFmMjgtMzE4ZWRiMmExMjE1In0.SVYlBt07GX9P1CuxTvfg1yfnFIFpYtC1-PHe3DMlyj4",
+        "restaurant": "Alice's Restaraunt"
 
     }
     print(main(args))

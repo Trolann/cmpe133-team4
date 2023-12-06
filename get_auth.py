@@ -4,8 +4,10 @@ from json import loads
 def get_access_token():
     url = "https://sea-lion-app-s86sj.ondigitalocean.app/auth/signIn"
     payload = {
-        "email": "newemail@binge.app",
-        "password": "ExtraLongPassword"
+        #"email": "newemail@binge.app",
+        #"password": "ExtraLongPassword"
+        "email": "jaimeelepano2357@gmail.com",
+        "password": "Testpassword"
     }
     headers = {
         "Content-Type": "application/json"
