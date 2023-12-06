@@ -40,14 +40,22 @@ def main(args: list = None) -> dict:
     key: str = environ.get("SUPABASE_KEY")
     logger.debug(f'Attempting to extract args from request', given_args=args)
 
-    user_id = args['user_id']
-    access_token = args['access_token']
-    restaurant = args['restaurant']
-    sb_client = supabase.create_client(url, key)
-    sb_client.postgrest.auth(access_token)
-    secret_key: str = environ.get("SUPABASE_SECRET_KEY")
-    supa_backend: supabase.Client = supabase.create_client(url, secret_key)
-    current_session_info = supa_backend.table("sessions").select("*").execute().model_dump()["data"]
+    try:
+        user_id = args['user_id']
+        access_token = args['access_token']
+        restaurant = args['restaurant']
+    except Exception as e:
+        logger.error(f'Got an error with args: {e}', given_args=args)
+        return
+    try:
+        sb_client = supabase.create_client(url, key)
+        sb_client.postgrest.auth(access_token)
+        secret_key: str = environ.get("SUPABASE_SECRET_KEY")
+        supa_backend: supabase.Client = supabase.create_client(url, secret_key)
+        current_session_info = supa_backend.table("sessions").select("*").execute().model_dump()["data"]
+    except Exception as e:
+        logger.error(f'Got an error with supabase: {e}', given_args=args)
+        return
     #print(current_session_info)
     session_ids = list()
     for session in current_session_info:
