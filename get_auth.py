@@ -18,6 +18,7 @@ def get_access_token():
     args = loads(response.text)
     while(1):
         try:
+            print(args['text']['id'])
             return args['text']['access_token']
         except:
             print(f'Error in get_access_token(): {args}')

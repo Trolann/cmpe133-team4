@@ -93,35 +93,56 @@ def main(args: list = None) -> dict:
 
     logger.debug(f"Got {len(google_result)} restaurants from Google", given_args=google_result)
 
-    try:
-        results = download_all_photos(google_result, logger)
-    except Exception as e:
-        logger.error(f'Got an error with downloading photos: {e}', given_args=google_result)
-        return
+    for restaurant in google_result:
+        stripped_name = ''.join(e for e in restaurant['name'] if e.isalnum())
+        stripped_addy = ''.join(e for e in restaurant['formatted_address'] if e.isalnum())
+        filename = f"{stripped_name}{stripped_addy[:16]}.png"
+        restaurant['photos'] = [f'{base_url}{filename}']
 
-    logger.debug(f'Created session with {len(results)} for {user_id}', given_args=results)
     final_results_dict = {
-                            "google_results": results,
+                            "google_results": google_result,
                             "users": [user_id],
                             "final_results": [],
                             "timer": 0
                           }
-    try:
-        session_id = enter_restaraunt_list(final_results_dict, url).data[0]["id"]
-        from pprint import pprint
-        #print(final_results_dict)
-        print(session_id)
-    except Exception as e:
-        logger.error(f'Got an error with entering session: {e}', given_args=final_results_dict)
-        return
+    session_id = enter_restaraunt_list(final_results_dict, url).data[0]["id"]
 
-    logger.info(f'Created session with id {session_id}', given_args=final_results_dict)
+    call_serverless_function(google_result, logger)
+
     return {"statusCode": 200,  # Status code not required by DO, required by convention.
             "body": {  # Required key
                 'text': session_id
                 }
             }
 
+def call_serverless_function(google_result, logger):
+    from json import loads
+    import requests
+    url = "https://sea-lion-app-s86sj.ondigitalocean.app/session/uploadPhotos"
+    payload = {
+        "google_result": google_result
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+    #response = requests.get(url, json=payload, headers=headers)
+    # Call in a non-blocking way and return
+    Thread(target=requests.get, args=(url,), kwargs={"json": payload, "headers": headers}).start()
+    logger.info(f'Called serverless function with {len(google_result)} restaurants', given_args=google_result)
+    return
+
+
+def update_session_info(session_id, new_session_data):
+    url: str = environ.get("SUPABASE_URL")
+    secret_key: str = environ.get("SUPABASE_SECRET_KEY")
+    supa_backend: supabase.Client = supabase.create_client(url, secret_key)
+    try:
+        return (supa_backend.table("sessions")
+                .update({"data": new_session_data})
+                .eq("id", session_id).execute())
+    except Exception as e:
+        print(f'todo: handle other errors: {e}')
+        return
 
 def download_all_photos(google_result, logger):
     gmaps_key: str = environ.get("GOOGLE_MAPS_KEY")
@@ -268,7 +289,7 @@ if __name__ == "__main__":
         'lat': 32.77375862654402,
         'long': -117.07071418314115,
         'filter_distance': 11000,
-        'user_id': '71f87b7c-55bf-488d-a562-7cd8e120495d',
+        'user_id': 'dcd12fdd-8887-4144-82ab-fca92e68ae8e',
         "access_token": get_access_token()
 
     }
