@@ -15,6 +15,13 @@ import Results from './screens/Results';
 import ChangePassword from './screens/ChangePassword';
 import Sessions from './screens/Sessions';
 import TopBar from './components/TopBar';
+import {LogBox} from "react-native";
+
+LogBox.ignoreLogs([
+"ViewPropTypes will be removed",
+"ColorPropType will be removed",
+])
+
 
 const Stack = createNativeStackNavigator();
 

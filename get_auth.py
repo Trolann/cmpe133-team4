@@ -6,15 +6,22 @@ def get_access_token():
     payload = {
         #"email": "newemail@binge.app",
         #"password": "ExtraLongPassword"
-        "email": "jaimeelepano2357@gmail.com",
-        "password": "Testpassword"
+        #"email": "jaimeelepano2357@gmail.com",
+        "email": "trevor2@binge.app",
+        #"password": "Testpassword"
+        "password": "Extralongpassword"
     }
     headers = {
         "Content-Type": "application/json"
     }
     response = requests.get(url, json=payload, headers=headers)
     args = loads(response.text)
-    return args['text']['access_token']
+    while(1):
+        try:
+            return args['text']['access_token']
+        except:
+            print(f'Error in get_access_token(): {args}')
+            continue
     #return response.text
 
 if __name__ == '__main__':
