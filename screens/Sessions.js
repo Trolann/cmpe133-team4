@@ -23,6 +23,7 @@ const SessionPage = ({ navigation }) => {
   const [sessionID, setSessionID] = useState(global.session);
   const [distance, setDistance] = useState(50); // Initial distance value
   const [isLoading, setIsLoading] = useState(false); // Add isLoading state
+  const [isLoadingJoin, setIsLoadingJoin] = useState(false);
   const [sessionDetails, setSessionDetails] = useState({
     timer: 60,
     previousSessions: [
@@ -64,6 +65,7 @@ const SessionPage = ({ navigation }) => {
 
   const handleJoinSession = async () => {
     try {
+      setIsLoadingJoin(true);//join loading UI
       global.access_token = AccessToken;
       console.log("New Session: ", sessionID);
       const session = await joinSession(user_id, access_token, sessionID);
@@ -150,8 +152,16 @@ const SessionPage = ({ navigation }) => {
           />
 
           {/* Join Session Button */}
-          <TouchableOpacity style={styles.joinButton} onPress={handleJoinSession}>
-            <Text style={styles.buttonText}>Join Session</Text>
+          <TouchableOpacity
+            style={styles.joinButton}
+            onPress={handleJoinSession}
+            disabled={isLoadingJoin}
+          >
+            {isLoadingJoin ? (
+              <ActivityIndicator size="small" color="white" />
+            ) : (
+              <Text style={styles.buttonText}>Join Session</Text>
+            )}
           </TouchableOpacity>
         </View>
 
