@@ -17,7 +17,7 @@ export default function SwipeableImage({ place, willLike, willPass }) {
       {/* uri: places.picture.large */}
       <Image
         style={styles.photo}
-        source={{ uri: place.photos[0] }}
+        source={place.photos[0] ? { uri: place.photos[0] } : require('../UpdatedBingeLogo.png')}
       />
       {willLike && (
         <View style={styles.likeBox}>

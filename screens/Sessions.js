@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useParams } from 'react';
-import { View, Text, TouchableOpacity, TextInput, ScrollView, StyleSheet, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, ActivityIndicator, ScrollView, StyleSheet, FlatList } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Slider from '@react-native-community/slider';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -22,6 +22,7 @@ const SessionPage = ({ navigation }) => {
   const { AccessToken, Location, user_id } = route.params;
   const [sessionID, setSessionID] = useState(global.session);
   const [distance, setDistance] = useState(50); // Initial distance value
+  const [isLoading, setIsLoading] = useState(false); // Add isLoading state
   const [sessionDetails, setSessionDetails] = useState({
     timer: 60,
     previousSessions: [
@@ -42,6 +43,7 @@ const SessionPage = ({ navigation }) => {
 
 
     try {
+      setIsLoading(true);
       global.access_token = AccessToken;
       if(distance){
         filter_distance = (distance*1609.34);
@@ -121,9 +123,14 @@ const SessionPage = ({ navigation }) => {
           </TouchableOpacity>
 
           {/* Create Session Button */}
-          <TouchableOpacity style={styles.createButton} onPress={handleCreateNewSession}>
+          
+          <TouchableOpacity style={styles.createButton} onPress={handleCreateNewSession} disabled={isLoading}>
+          {isLoading ? (
+            <ActivityIndicator size="small" color="white" />
+          ) : (
             <Text style={styles.buttonText}>Create Session</Text>
-          </TouchableOpacity>
+          )}
+        </TouchableOpacity>
         </View>
 
         {/* OR Separator */}

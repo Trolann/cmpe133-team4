@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, ActivityIndicator, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { createAccount } from '../services/api';
 
 const CreateAccountScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
+  const [isLoading, setIsLoading] = useState(false); // Add isLoading state
+  
   const handleCreateAccount = async () => {
     if (email && password && password === confirmPassword) {
       if (password.length < 10) {
@@ -16,12 +17,14 @@ const CreateAccountScreen = ({ navigation }) => {
       }
 
       try {
+        setIsLoading(true);
         const result = await createAccount(email, password);
-        console.log('Login successful', result);
+        console.log('Create account successful', result);
         console.log('Access token', AccessToken);
         navigation.navigate('Sessions', {AccessToken: result.AccessToken});
       } catch (error) {
-        console.error('Login failed', error.message);
+        console.error('Create account failed', error.message);
+        console.log('Access token', AccessToken);
         Alert.alert(
          "Account Creation Failed",
          error.message,
@@ -62,11 +65,12 @@ const CreateAccountScreen = ({ navigation }) => {
         value={confirmPassword}
         onChangeText={setConfirmPassword}
       />
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleCreateAccount}
-      >
-        <Text style={styles.buttonText}>Create Account</Text>
+      <TouchableOpacity style={styles.button} onPress={handleCreateAccount} disabled={isLoading}>
+        {isLoading ? (
+          <ActivityIndicator size="small" color="white" />
+        ) : (
+          <Text style={styles.buttonText}>Create Account</Text>
+        )}
       </TouchableOpacity>
     </View>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { View, Text, ActivityIndicator, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { signIn } from '../services/api';
 import { Alert } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
@@ -10,9 +10,12 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // Add isLoading state
+
 
   const handleSignIn = async() => {
     try {
+      setIsLoading(true);
       const result = await signIn(email, password);
       global.globalUserID = result.text.data.id; //global User ID
       global.globalAccessToken = result.text.access_token;
@@ -72,11 +75,12 @@ const LoginScreen = ({ navigation }) => {
             style={{ paddingRight: 15 }}
           />
         </View>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleSignIn}
-        >
-          <Text style={styles.buttonText}>Let's Binge!</Text>
+        <TouchableOpacity style={styles.button} onPress={handleSignIn} disabled={isLoading}>
+          {isLoading ? (
+            <ActivityIndicator size="small" color="white" />
+          ) : (
+            <Text style={styles.buttonText}>Let's Binge!</Text>
+          )}
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
