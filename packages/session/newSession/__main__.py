@@ -131,7 +131,11 @@ def download_all_photos(google_result, logger):
     photo_results = {}
     for index, result in enumerate(google_result):
         try:
-            photo_ref = result["photos"][0]["photo_reference"]
+            try:
+                photo_ref = result["photos"][0]["photo_reference"]
+            except KeyError:
+                logger.error(f'No photo found for {result["name"]}', given_args=result)
+                continue
             thread = Thread(target=fetch_photo, args=(photo_ref, index, photo_queue, gmaps))
             photo_threads.append(thread)
             thread.start()
