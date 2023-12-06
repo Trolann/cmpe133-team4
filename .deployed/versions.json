@@ -4,41 +4,45 @@
     "namespace": "fn-08e1e9bb-6c28-49dc-ab50-0b63fac3c390",
     "packageVersions": {},
     "actionVersions": {
-      "auth/newUser": {
-        "digest": "0bdb7c3936f94dfcf01a06be58572393e3778ffb8ab6188e80f044793c6bfc44",
-        "version": "0.0.27"
-      },
-      "auth/signIn": {
-        "digest": "ccd9a8f2b37208d9a73a115b5c24f3316a621045fcb579d6c1eca211572fa763",
+      "auth/log": {
+        "digest": "c60496dd0438100acfcfe0de08a5c03caa1519add4b5533b3562f43e7cc93d72",
         "version": "0.0.25"
       },
+      "auth/newUser": {
+        "digest": "e39d09d6450412f87ac4da1093234b33cc027f8aa04ee1a23ba34d5944a72880",
+        "version": "0.0.53"
+      },
+      "auth/signIn": {
+        "digest": "2c5ef6cd8af0af100366ad6219fb66e18780c6d562627e54bb24d250443022f3",
+        "version": "0.0.51"
+      },
       "recommendation/likeRestaurant": {
-        "digest": "0e59fd684e802b219d1059b986bd4ed26ec4c7cc72b3edafbd3e3aa5ff82db7d",
-        "version": "0.0.21"
+        "digest": "027c5dcff8feaf5ae6594e0f8234251bc45b1e1ecc67fc857123e452183a1d78",
+        "version": "0.0.47"
       },
       "session/getSessionInfo": {
-        "digest": "bd2991d306e8a9167c069ac11bf1da5a4d85c89bedaa460b4596d444e6386975",
-        "version": "0.0.21"
+        "digest": "a07ec4715e2f3ec2d8e07f1eaf2e26116dd34e7bccea21f8b9d75e1c08451b46",
+        "version": "0.0.47"
       },
       "session/joinSession": {
-        "digest": "c75089d9053bcf0c45e824c57f021a97af29258ce9d91e3a82682ba9213021bb",
-        "version": "0.0.21"
+        "digest": "cf74b3392f213a7b6c086f41d634aabb2888a26a2a3f4e20b355643acea1b973",
+        "version": "0.0.47"
       },
       "session/newSession": {
-        "digest": "971b13c50c717170e95c0967f059e2e0d85b46ff57b48217b4abc318410d6b6b",
-        "version": "0.0.22"
+        "digest": "a807f9cdaf5ff3318b7d1dbe2c4fa10382f242b7314ce1ac3061a716c9152c46",
+        "version": "0.0.47"
       },
       "user/getSettings": {
-        "digest": "22c9103cece83258feda8586ba805a3b76eb92ff068b81e93016bc1203a3812f",
-        "version": "0.0.21"
+        "digest": "ff1ec561cfec9b91ce7ddba59e3619190b3b0f91d44fac429979b3627b8e80d5",
+        "version": "0.0.46"
       },
       "user/updateSettings": {
-        "digest": "62331e4d1bc82df5e04039e95e1391b182da620d4b5172208f0ef074057479a6",
-        "version": "0.0.21"
+        "digest": "35bfa54ba2675edf6d4dc97a1b3a554a34b1124b8131a97f40f2c077e55f5113",
+        "version": "0.0.47"
       },
       "user/uploadPicture": {
-        "digest": "8cfe02297b7e57e763c9a0912224c0793c6b9aca3d55aacb0da1004e8db156fa",
-        "version": "0.0.21"
+        "digest": "4b7dc997fbce0fce43104b09853aee9b53b202ab94dc196058f3aded51634a9c",
+        "version": "0.0.47"
       }
     },
     "webHashes": {}
