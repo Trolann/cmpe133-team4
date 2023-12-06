@@ -22,6 +22,13 @@ const SessionPage = ({ navigation }) => {
   const { AccessToken, Location, user_id } = route.params;
   const [sessionID, setSessionID] = useState(global.session);
   const [distance, setDistance] = useState(50); // Initial distance value
+  const [sessionDetails, setSessionDetails] = useState({
+    timer: 60,
+    previousSessions: [
+      { id: 1, name: 'Session 1', restaurants: [] },
+      // Add more previous sessions as needed
+    ],
+  });
   var lat = -48.876667;
   var long = -123.393333
   var filter_distance = 1000000;
@@ -42,7 +49,7 @@ const SessionPage = ({ navigation }) => {
       const session = await newSession(user_id, access_token, lat, long, filter_distance);
       global.sessionID = session;
       if (session) {
-        navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: session, user_id: user_id })
+        navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: session, user_id: user_id, sessionTime: -2 })
         setSessionID(session);
       }
     }
@@ -62,11 +69,11 @@ const SessionPage = ({ navigation }) => {
       global.sessionID = session;
 
       if (session > -1) {
-        navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: session, user_id: user_id })
+        navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: session, user_id: user_id, sessionTime: sessionDetails.timer  })
         setSessionID(session);
       }
       else {
-        navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: prevSessionId, user_id: user_id })
+        navigation.navigate('Swiping', { AccessToken: AccessToken, session_id: prevSessionId, user_id: user_id, sessionTime: sessionDetails.timer })
         setSessionID(prevSessionId);
       }
     }
@@ -85,18 +92,7 @@ const SessionPage = ({ navigation }) => {
     }
   };
 
-
-  const [sessionDetails, setSessionDetails] = useState({
-    timer: 60,
-    previousSessions: [
-      { id: 1, name: 'Session 1', restaurants: [] },
-      // Add more previous sessions as needed
-    ],
-  });
-
   const [selectedSessions, setSelectedSessions] = useState([]); // Track selected sessions
-
-  const [timerInterval, setTimerInterval] = useState(null);
 
   const updateTimer = (increment) => {
     setSessionDetails((prevDetails) => ({
@@ -104,33 +100,6 @@ const SessionPage = ({ navigation }) => {
       timer: prevDetails.timer + increment,
     }));
   };
-
-  const startTimer = () => {
-    setTimerInterval(
-      setInterval(() => {
-        setSessionDetails((prevDetails) => ({
-          ...prevDetails,
-          timer: prevDetails.timer - 1,
-        }));
-      }, 1000)
-    );
-  };
-
-  const stopTimer = () => {
-    clearInterval(timerInterval);
-    setTimerInterval(null);
-  };
-
-
-
-
-  useEffect(() => {
-    return () => {
-      if (timerInterval) {
-        clearInterval(timerInterval);
-      }
-    };
-  }, [timerInterval]);
 
   const handleSessionIDChange = (text) => {
     setSessionID(text);
@@ -169,7 +138,7 @@ const SessionPage = ({ navigation }) => {
           <TextInput
             style={styles.input}
             placeholder="Session ID"
-            defaultValue={String(sessionID) === 'undefined' ? 'Enter SessionID Number' : String(sessionID)}
+            //defaultValue={String(sessionID) === 'undefined' ? 'Enter SessionID Number' : String(sessionID)}
             onChangeText={handleSessionIDChange}
           />
 
@@ -186,20 +155,14 @@ const SessionPage = ({ navigation }) => {
           <Text style={styles.timerText}>
             {`${Math.floor(sessionDetails.timer / 60)}:${(sessionDetails.timer % 60)
               .toString()
-              .padStart(2, '0')}`}
+              .padStart(2, '0')} minutes`}
           </Text>
           <View style={styles.timerButtons}>
-            <TouchableOpacity style={styles.touchableButton} onPress={() => updateTimer(30)}>
-              <Text style={styles.buttonText}>+</Text>
-            </TouchableOpacity>
             <TouchableOpacity style={styles.touchableButton} onPress={() => updateTimer(-30)}>
               <Text style={styles.buttonText}>-</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.touchableButton} onPress={startTimer}>
-              <Text style={styles.buttonText}>Start</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.touchableButton} onPress={stopTimer}>
-              <Text style={styles.buttonText}>Stop</Text>
+            <TouchableOpacity style={styles.touchableButton} onPress={() => updateTimer(30)}>
+              <Text style={styles.buttonText}>+</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -11,6 +11,7 @@ import MainSwiping from './screens/MainSwiping';
 import ChooseLocation from './screens/ChooseLocation';
 import ChangeProfilePicture from './screens/ChangeProfilePicture';
 import ChangeName from './screens/ChangeName';
+import Results from './screens/Results';
 import ChangePassword from './screens/ChangePassword';
 import Sessions from './screens/Sessions';
 import TopBar from './components/TopBar';
@@ -30,6 +31,7 @@ export default function App() {
           <Stack.Screen name="ChooseLocation" component={ChooseLocation} />
           <Stack.Screen name="ChangeProfilePicture" component={ChangeProfilePicture} />
           <Stack.Screen name="ChangeName" component={ChangeName} />
+          <Stack.Screen name="Results" component={Results} />
           <Stack.Screen name="ChangePassword" component={ChangePassword} />
           <Stack.Screen name="Sessions" component={Sessions} />
         </Stack.Navigator>
