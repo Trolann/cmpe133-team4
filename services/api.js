@@ -130,19 +130,24 @@ export const likeRestaraunt = async (user_id, access_token, restaurant) => {
       "AT: ", access_token, "\n",
       "Restaraunt: ", restaurant
     )
-    const response = await api.post('/recommendation/likeRestaurant', {
+    // Initiating a non-blocking API call
+    api.post('/recommendation/likeRestaurant', {
       user_id,
       access_token,
       restaurant
+    }).then(response => {
+      console.log("Response: ", response.data.text);
+    }).catch(error => {
+      console.error('Failed to Update Session', error);
     });
-    console.log("Response: " ,response.data.text);
-    return response.data.text;
-  } catch (error) {
+
+    // Immediately return control to the calling function
+    return 'Request sent';
+    } catch (error) {
     console.error('Failed to Update Session', error);
     throw error;
   }
 };
-
 export const updateSettings = async (user_id, access_token, new_settings) => {
   try {
     const response = await api.post('/user/updateSettings', {
