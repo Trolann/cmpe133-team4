@@ -44,9 +44,17 @@ def main(args: list = None) -> dict:
         user_id = args['user_id']
         access_token = args['access_token']
         restaurant = args['restaurant']
+        logger.info(f'Extracted with args', given_args=args)
     except Exception as e:
-        logger.error(f'Got an error with args: {e}', given_args=args)
-        return
+        try:
+            args = args['params']
+            user_id = args['user_id']
+            access_token = args['access_token']
+            restaurant = args['restaurant']
+            logger.info(f'Extracted with params', given_args=args)
+        except Exception as e:
+            logger.error(f'Got an error with args: {e}', given_args=args)
+            return
     try:
         sb_client = supabase.create_client(url, key)
         sb_client.postgrest.auth(access_token)
