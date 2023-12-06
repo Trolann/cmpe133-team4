@@ -93,7 +93,11 @@ def main(args: list = None) -> dict:
 
     logger.debug(f"Got {len(google_result)} restaurants from Google", given_args=google_result)
 
-    results = download_all_photos(google_result, logger)
+    try:
+        results = download_all_photos(google_result, logger)
+    except Exception as e:
+        logger.error(f'Got an error with downloading photos: {e}', given_args=google_result)
+        return
 
     logger.debug(f'Created session with {len(results)} for {user_id}', given_args=results)
     final_results_dict = {
@@ -102,10 +106,14 @@ def main(args: list = None) -> dict:
                             "final_results": [],
                             "timer": 0
                           }
-    session_id = enter_restaraunt_list(final_results_dict, url).data[0]["id"]
-    from pprint import pprint
-    #print(final_results_dict)
-    print(session_id)
+    try:
+        session_id = enter_restaraunt_list(final_results_dict, url).data[0]["id"]
+        from pprint import pprint
+        #print(final_results_dict)
+        print(session_id)
+    except Exception as e:
+        logger.error(f'Got an error with entering session: {e}', given_args=final_results_dict)
+        return
 
     logger.info(f'Created session with id {session_id}', given_args=final_results_dict)
     return {"statusCode": 200,  # Status code not required by DO, required by convention.
