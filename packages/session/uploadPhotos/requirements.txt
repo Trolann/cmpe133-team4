@@ -1,0 +1,7 @@
+python-dotenv==1.0.0
+supabase==1.0.4
+supafunc==0.2.3
+googlemaps==4.10.0
+attrs==23.1.0
+# Add additional optional dependencies here
+## ExtraLongPassword
