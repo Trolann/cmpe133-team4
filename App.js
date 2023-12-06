@@ -18,9 +18,10 @@ import TopBar from './components/TopBar';
 import {LogBox} from "react-native";
 
 LogBox.ignoreLogs([
-  "ViewPropTypes will be removed",
-  "ColorPropType will be removed",
-  "user_id",
+    "ViewPropTypes will be removed",
+    "ColorPropType will be removed",
+    "user_id",
+    "AxiosError",
 ])
 
 
