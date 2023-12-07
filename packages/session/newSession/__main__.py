@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from os import environ, remove
 import supabase
 import googlemaps
-from supabase import create_client, Client
+import requests
 from attrs import define, field, asdict, validators
 from threading import Thread
 import queue
@@ -115,9 +115,8 @@ def main(args: list = None) -> dict:
                 }
             }
 
+
 def call_serverless_function(google_result, logger):
-    from json import loads
-    import requests
     url = "https://sea-lion-app-s86sj.ondigitalocean.app/session/uploadPhotos"
     payload = {
         "google_result": google_result
@@ -125,13 +124,13 @@ def call_serverless_function(google_result, logger):
     headers = {
         "Content-Type": "application/json"
     }
-    #response = requests.get(url, json=payload, headers=headers)
-    # Call in a non-blocking way and return
-    Thread(target=requests.get, args=(url,), kwargs={"json": payload, "headers": headers}).start()
+    # Function to send the request
+    def send_request():
+        requests.post(url, json=payload, headers=headers)
+
+    # Create and start a thread for the request
+    Thread(target=send_request).start()
     logger.info(f'Called serverless function with {len(google_result)} restaurants', given_args=google_result)
-    return
-
-
 def update_session_info(session_id, new_session_data):
     url: str = environ.get("SUPABASE_URL")
     secret_key: str = environ.get("SUPABASE_SECRET_KEY")
