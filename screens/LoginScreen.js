@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, ActivityIndicator, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { signIn } from '../services/api';
 import { Alert } from 'react-native';
@@ -37,7 +37,9 @@ const LoginScreen = ({ navigation }) => {
           },
         ]
       );
-     }
+     }finally {
+      setIsLoading(false);
+    }
     
     if (email && password) {
       
@@ -47,6 +49,13 @@ const LoginScreen = ({ navigation }) => {
       
     }
   };
+
+  useEffect(() => {
+    return () => {
+      // Reset loading state when the component unmounts
+      setIsLoading(false);
+    };
+  }, []);
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, ActivityIndicator, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { createAccount } from '../services/api';
 
@@ -36,12 +36,22 @@ const CreateAccountScreen = ({ navigation }) => {
          ]
         );
        }
+       finally {
+        setIsLoading(false);
+      }
     } else {
       // Handle invalid input or password mismatch
       console.log('Invalid input or password mismatch');
     }
   };
 
+  useEffect(() => {
+    return () => {
+      // Reset loading state when the component unmounts
+      setIsLoading(false);
+    };
+  }, []);
+  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Create an Account</Text>

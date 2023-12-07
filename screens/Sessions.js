@@ -59,6 +59,8 @@ const SessionPage = ({ navigation }) => {
     catch (error) {
       console.error('Create new session failed', error.message);
       // handling errors
+    } finally{
+      setIsLoading(false);
     }
   }
   // Navigate to the desired screen after creating a new session
@@ -93,6 +95,8 @@ const SessionPage = ({ navigation }) => {
           },
         ]
       );
+    } finally {
+      setIsLoadingJoin(false);
     }
   };
 
@@ -108,6 +112,14 @@ const SessionPage = ({ navigation }) => {
   const handleSessionIDChange = (text) => {
     setSessionID(text);
   };
+
+  useEffect(() => {
+    return () => {
+      // Reset loading state when the component unmounts
+      setIsLoading(false);
+      setIsLoadingJoin(false);
+    };
+  }, []);
 
   return (
     <GestureHandlerRootView style={styles.container}>
