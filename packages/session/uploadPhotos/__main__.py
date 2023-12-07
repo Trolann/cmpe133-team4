@@ -39,7 +39,7 @@ def fetch_photo(photo_ref, identifier, result_queue, gmaps, max_width=500):
 # Must return a JSON serializable object (dict, json.dumps, etc)
 # Additional functions can be added/imported, but must be called from main()
 def main(args: list = None) -> dict:
-    logger = Logger('newSession')
+    logger = Logger('uploadPhotos')
     # Get environment variables. Ensure they are added in DO console.
     url: str = environ.get("SUPABASE_URL")
     key: str = environ.get("SUPABASE_KEY")
@@ -82,6 +82,7 @@ def download_all_photos(google_result, logger):
         try:
             try:
                 photo_ref = result["photos"][0]["photo_reference"]
+                logger.debug(f'Found photo ref for {result["name"]}', given_args=result)
             except KeyError:
                 logger.error(f'No photo found for {result["name"]}', given_args=result)
                 continue
