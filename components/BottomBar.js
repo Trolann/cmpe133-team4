@@ -1,14 +1,19 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
-export default function BottomBar({ handleLikePress, handlePassPress }) {
+export default function BottomBar({ handleLikePress, handlePassPress, session_id }) {
+  console.log("Session: ", session_id);
   return (
     <View style={styles.container}>
       <View />
       <TouchableOpacity style={styles.passButton} onPress={handlePassPress}>
         <FontAwesome name="times" size={27} color="#FF69B4"></FontAwesome>
       </TouchableOpacity>
+      <View style={styles.sessionContainer}>
+        <Text style={styles.sessionText}>Session ID</Text>
+        <Text style={styles.sessionText}>{session_id}</Text>
+      </View>
       <TouchableOpacity style={styles.heartButton} onPress={handleLikePress}>
         <FontAwesome name="heart" size={27} color="white"></FontAwesome>
       </TouchableOpacity>
@@ -39,6 +44,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 6.46,
     elevation: 9,
+  },
+  sessionContainer: {
+    alignItems: 'center',
+  },
+  sessionText: {
+    fontWeight: 'bold',
+    marginBottom: 5,
   },
   heartButton: {
     width: 50,

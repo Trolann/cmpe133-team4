@@ -17,7 +17,7 @@ const MainSwiping = ({ navigation }) => {
   const { AccessToken, Location, user_id, session_id, sessionTime } = route.params;
   const [sessionData, setSessionData] = useState([]);
   const [endTime, setEndTime] = useState(9999);
-  if(sessionTime > 0 ){
+  if (sessionTime > 0) {
     var sessionLength = sessionTime;
   }
 
@@ -40,13 +40,13 @@ const MainSwiping = ({ navigation }) => {
   }, []);
 
   const checkTime = () => {
-    if((new Date().getTime()/1000) > (sessionData.timer + sessionLength)){
-    
-      console.log("Current Time: " , new Date().getTime()/1000);
+    if ((new Date().getTime() / 1000) > (sessionData.timer + sessionLength)) {
+
+      console.log("Current Time: ", new Date().getTime() / 1000);
       console.log("Start Time: ", sessionData.timer);
       console.log("Session Length: ", sessionLength)
       console.log('stop');
-      navigation.navigate ("Results", {AccessToken: AccessToken, session_id: session_id, user_id: user_id,});
+      navigation.navigate("Results", { AccessToken: AccessToken, session_id: session_id, user_id: user_id, });
       // Get final results 
     }
   }
@@ -55,21 +55,22 @@ const MainSwiping = ({ navigation }) => {
     var restaurant = places[currentIndex].name;
     console.log('Restaurant ', currentIndex, ': Restaurant Name: ', restaurant);
     try {
-      const likeVerif = await likeRestaraunt(user_id, access_token, restaurant);
-      console.log("LikeVerif: ", likeVerif);
-      if (likeVerif) {
-        //Loader?
-        //if (updated) {
-          console.log("Like Successful: Session Updated");
-          checkTime();
-          nextPlace();
-        //}
-      }
-    } catch(error){
+      //const likeVerif = 
+      likeRestaraunt(user_id, access_token, restaurant);
+      //console.log("LikeVerif: ", likeVerif);
+      //if (likeVerif) {
+      //Loader?
+      //if (updated) {
+      console.log("Like Successful: Session Updated");
+      checkTime();
+      nextPlace();
+      //}
+      //}
+    } catch (error) {
       console.log(error);
-        Alert.alert('Like Failed: Error Updating Session');
+      Alert.alert('Like Failed: Error Updating Session');
     }
-    
+
   };
 
   const handlePass = () => {
@@ -79,8 +80,12 @@ const MainSwiping = ({ navigation }) => {
   };
 
   const nextPlace = () => {
+    console.log("Ran: ", currentIndex);
+    const tmp = currentIndex;
     const nextIndex = currentIndex === places.length - 1 ? 0 : currentIndex + 1;
+    console.log("Next: ", nextIndex);
     setCurrentIndex(nextIndex);
+    console.log("On Deck: ", currentIndex);
   };
 
   const handleLikePress = () => {
@@ -103,10 +108,11 @@ const MainSwiping = ({ navigation }) => {
               places={places}
               handleLike={handleLike}
               handlePass={handlePass}
+              swipesRef={swipesRef}
             />
           )}
         </View>
-        <BottomBar handleLikePress={handleLikePress} handlePassPress={handlePassPress} />
+        <BottomBar handleLikePress={handleLikePress} handlePassPress={handlePassPress} session_id={session_id} />
       </View>
     </GestureHandlerRootView>
   );
