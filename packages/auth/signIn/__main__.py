@@ -6,12 +6,14 @@ from attrs import define, field, asdict, validators
 from datetime import datetime
 from json import dumps as json_dumps
 from binge_log import Logger
-
+from logging import Logger as Log
+log = Log('signIn', level='DEBUG')
 
 load_dotenv()  # .env file for local use, not remote testing (production env's in DO console)
 
 
 def is_json_serializable(instance, attribute, value):
+    log.debug(f'Checking if {attribute.name} is JSON serializable')
     try:
         json_dumps(value)
     except TypeError:
@@ -38,6 +40,7 @@ class BingeAuthResponse:
         d['last_sign_in_at'] = self.last_sign_in_at.isoformat()
         d['updated_at'] = self.updated_at.isoformat()
         d['status_code'] = 200
+        log.debug(f'Converted to dict: {d}')
         return d
 
 # must have main() function with args: list = None.
@@ -45,20 +48,27 @@ class BingeAuthResponse:
 # Additional functions can be added/imported, but must be called from main()
 def main(args) -> dict:
     logger = Logger('signIn')
+    log.info(f'Starting with args: {args}')
     url: str = environ.get("SUPABASE_URL")
     key: str = environ.get("SUPABASE_KEY")
     sb_client: Client = create_client(url, key)
+    log.debug(f'Supabase client created with url: {url}', given_args=str(sb_client))
     logger.debug(f'Supabase client created with url: {url}', given_args=str(sb_client))
     email = args.get('email', "No email provided")
+    log.debug('Extracted args successfully')
 
     try:
         logger.debug(f"Attempting to sign in with email: {email}")
+        log.debug(f'Attempting to sign in with email: {email}')
         response = sb_client.auth.sign_in_with_password({"email": args["email"], "password": args["password"]})
         logger.debug(f"Sign in response: {response}")
+        log.debug(f'Sign in response: {response}')
         sb_client.postgrest.auth(response.session.access_token)
         logger.info(f"Authenticated for user {email}")
+        log.info(f'Authenticated for user {email}')
     except Exception as e:
         logger.error(f"Error signing in user {email}: {e}")
+        log.error(f'Error signing in user {email}: {e}')
         return {"statusCode": 400,  # Status code not required by DO, required by convention.
                 "body": {  # Required key
                     'text': 'Unable to sign in.'
@@ -66,6 +76,7 @@ def main(args) -> dict:
                 }
 
     try:
+        log.debug(f'Attempting to get user and session info for user {email}')
         user, session = response
         user = user[1]
         session = session[1]
@@ -82,6 +93,7 @@ def main(args) -> dict:
             token_type=session.token_type,
             data=sb_client.table("user_settings").select("*").execute().model_dump()["data"][0]
         )
+        logger.info(f'Returning 200 for user {email}')
         return {"statusCode": 200,  # Status code not required by DO, required by convention.
                 "body": {  # Required key
                     'text': auth_object.to_dict()
