@@ -4,6 +4,7 @@ environment:
   SUPABASE_KEY: "${SUPABASE_KEY}"
   SUPABASE_SECRET_KEY: "${SUPABASE_SECRET_KEY}"
   GOOGLE_MAPS_KEY: "${GOOGLE_MAPS_KEY}"
+  LOG_DESTINATIONS: '[{"logtail":{"token":"NRsBvVg2Q4tY6HBZ46DECKf8"}}]'
 packages:
     - name: auth
       shared: false
