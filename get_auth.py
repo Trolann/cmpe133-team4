@@ -14,10 +14,10 @@ def get_access_token():
     headers = {
         "Content-Type": "application/json"
     }
-    response = requests.get(url, json=payload, headers=headers)
-    args = loads(response.text)
     while(1):
         try:
+            response = requests.get(url, json=payload, headers=headers)
+            args = loads(response.text)
             print(args['text']['id'])
             return args['text']['access_token']
         except:

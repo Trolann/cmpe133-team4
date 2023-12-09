@@ -47,6 +47,7 @@ class BingeAuthResponse:
 # Must return a JSON serializable object (dict, json.dumps, etc)
 # Additional functions can be added/imported, but must be called from main()
 def main(args) -> dict:
+    print(f'Testing args: {args}')
     logger = Logger('signIn')
     log.info(f'Starting with args: {args}')
     url: str = environ.get("SUPABASE_URL")
