@@ -52,7 +52,7 @@ def main(args) -> dict:
     url: str = environ.get("SUPABASE_URL")
     key: str = environ.get("SUPABASE_KEY")
     sb_client: Client = create_client(url, key)
-    log.debug(f'Supabase client created with url: {url}', given_args=str(sb_client))
+    log.debug(f'Supabase client created with url: {url}')
     logger.debug(f'Supabase client created with url: {url}', given_args=str(sb_client))
     email = args.get('email', "No email provided")
     log.debug('Extracted args successfully')
