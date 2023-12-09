@@ -4,6 +4,11 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
 
 >**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
 
+## Deploying the backend
+1) The backend is already deployed as configured. To deploy your own:
+2) https://docs.digitalocean.com/reference/doctl/reference/serverless/deploy/
+3) Update all instances of the URL to your own namespace.
+
 ## Step 1: Start the Metro Server
 
 First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
